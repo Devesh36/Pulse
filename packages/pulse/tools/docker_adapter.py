@@ -1,7 +1,9 @@
 import asyncio
 import time
+from datetime import datetime
 
 import httpx
+import requests
 
 from pulse.core.config import Config
 
@@ -41,6 +43,14 @@ class DockerAdapter:
     async def metrics(self, cid):
         return await self.request("GET", f"/containers/{cid}/metrics")
 
+    async def events(self, cid, since=1800, limit=100):
+        return await self.request(
+            "GET", f"/containers/{cid}/events", params={"since": since, "limit": limit}
+        )
+
+    async def lab_control(self, cid, command, body=None):
+        return await self.request("POST", f"/lab/{cid}/{command}", json=body or {})
+
     async def mutate(self, cid, kind, action_id):
         return await self.request(
             "POST", f"/containers/{cid}/{kind}", json={"action_id": action_id}
@@ -53,14 +63,20 @@ class DockerAdapter:
 class SDKAdapter:
     """Used only in the isolated gateway. Docker metadata never includes environment or mounts."""
 
-    def __init__(self, client):
+    def __init__(self, client, project=None, lab_token=""):
         self.client = client
+        self.project = project
+        self.lab_token = lab_token
 
     def container(self, cid):
         container = self.client.containers.get(cid)
         container.reload()
         if container.labels.get("pulse.monitor") != "true":
             raise PermissionError("Container is outside the gateway monitoring allowlist")
+        if not self.project and container.labels.get("pulse.lab"):
+            raise PermissionError("Lab resources require an explicitly scoped lab gateway")
+        if self.project and container.labels.get("com.docker.compose.project") != self.project:
+            raise PermissionError("Container is outside the gateway project allowlist")
         return container
 
     def snapshot(self, container):
@@ -75,6 +91,7 @@ class SDKAdapter:
                 "pulse.remediate",
                 "pulse.environment",
                 "pulse.dependencies",
+                "pulse.lab",
                 "com.docker.compose.service",
                 "com.docker.compose.project",
                 "com.docker.compose.config-hash",
@@ -103,9 +120,13 @@ class SDKAdapter:
         }
 
     def discover(self):
+        labels = ["pulse.monitor=true"]
+        if self.project:
+            labels.append(f"com.docker.compose.project={self.project}")
         return [
             self.snapshot(c)
-            for c in self.client.containers.list(all=True, filters={"label": "pulse.monitor=true"})
+            for c in self.client.containers.list(all=True, filters={"label": labels})
+            if self.project or not c.labels.get("pulse.lab")
         ]
 
     def inspect(self, cid):
@@ -147,14 +168,95 @@ class SDKAdapter:
         mem = s.get("memory_stats", {})
         used = max(0, mem.get("usage", 0) - mem.get("stats", {}).get("inactive_file", 0))
         limit = mem.get("limit", 0)
+        try:
+            measured_at = datetime.fromisoformat(s["read"].replace("Z", "+00:00")).timestamp()
+        except (KeyError, TypeError, ValueError, AttributeError):
+            measured_at = None
         return {
-            "available": True,
-            "cpu_percent": max(0, delta / system * cores * 100) if system > 0 else 0,
+            "available": measured_at is not None and system > 0 and limit > 0,
+            "cpu_percent": max(0, delta / system * cores * 100) if system > 0 else None,
             "memory_bytes": used,
             "memory_limit_bytes": limit,
-            "memory_percent": used / limit * 100 if limit else 0,
-            "at": time.time(),
+            "memory_percent": used / limit * 100 if limit else None,
+            "at": measured_at,
+            "observed_at": time.time(),
+            "reason": "missing_docker_sample_timestamp"
+            if measured_at is None
+            else "incomplete_docker_metrics"
+            if system <= 0 or limit <= 0
+            else None,
+            "source": "docker",
+            "container_id": cid,
         }
+
+    def events(self, cid, since=1800, limit=100):
+        self.container(cid)
+        stream = self.client.events(
+            since=int(time.time() - since),
+            until=int(time.time()),
+            filters={"container": cid, "type": "container"},
+            decode=True,
+        )
+        result = []
+        try:
+            for event in stream:
+                result.append(
+                    {
+                        "container_id": cid,
+                        "action": event.get("Action"),
+                        "at": event.get("time"),
+                        "source": "docker_events",
+                    }
+                )
+                if len(result) >= limit:
+                    break
+        finally:
+            stream.close()
+        return {
+            "events": result,
+            "source": "docker_events",
+            "observed_at": time.time(),
+            "truncated": len(result) >= limit,
+        }
+
+    def lab_control(self, cid, command, body=None):
+        c = self.container(cid)
+        labels = c.labels
+        name = labels.get("com.docker.compose.service")
+        if (
+            labels.get("pulse.lab") != "pulse-lab"
+            or labels.get("com.docker.compose.project") != (self.project or "pulse-lab")
+            or labels.get("pulse.environment") != "development"
+            or name not in ("demo-api", "demo-worker")
+            or len(self.lab_token) < 16
+        ):
+            raise PermissionError("Fault controls require an explicitly allowlisted lab service")
+        if command not in {
+            "crash",
+            "memory",
+            "errors",
+            "latency",
+            "sticky",
+            "reset",
+            "reset_memory",
+            "reset_errors",
+            "reset_latency",
+            "status",
+            "telemetry_off",
+            "telemetry_on",
+        }:
+            raise ValueError("Unknown lab control")
+        with requests.Session() as session:
+            session.trust_env = False
+            response = session.post(
+                f"http://{name}:8080/control/{command}",
+                headers={"X-Lab-Token": self.lab_token},
+                json=body or {},
+                timeout=5,
+                allow_redirects=False,
+            )
+            response.raise_for_status()
+            return response.json()
 
     def mutate(self, cid, kind):
         c = self.container(cid)
@@ -165,12 +267,14 @@ class SDKAdapter:
             raise PermissionError("Only explicitly approved development containers may be changed")
         if kind == "start" and c.status not in ("exited", "created"):
             raise ValueError("Start requires a stopped container")
-        if kind == "restart" and c.status != "running":
+        if kind != "start" and c.status != "running":
             raise ValueError("Restart requires a running container")
         if kind == "start":
             c.start()
         elif kind == "restart":
             c.restart(timeout=10)
+        elif kind in ("reset_memory", "reset_errors", "reset_latency"):
+            self.lab_control(cid, kind)
         else:
             raise ValueError("Unsupported mutation")
         return self.inspect(cid)

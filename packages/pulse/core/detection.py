@@ -11,6 +11,13 @@ TERMINAL = {"RESOLVED", "DISMISSED"}
 
 def evaluate(samples: list[dict], settings: Settings) -> list[tuple[str, str]]:
     """CPU is Docker percent: one fully used core = 100%, may exceed 100%."""
+    now = time.time()
+    samples = [
+        s
+        for s in samples
+        if "observed_at" not in s
+        or -5 <= now - s["observed_at"] <= settings.telemetry_max_age_seconds
+    ]
     if not samples:
         return []
     latest = samples[-1]
@@ -46,7 +53,11 @@ def evaluate(samples: list[dict], settings: Settings) -> list[tuple[str, str]]:
     ]:
         observed = samples[-settings.min_samples :]
         if len(observed) >= settings.min_samples and all(
-            isinstance(s.get(key), (float, int)) and s[key] >= threshold for s in observed
+            isinstance(s.get(key), (float, int))
+            and s[key] >= threshold
+            and (s.get("request_count", settings.http_min_requests) or 0)
+            >= settings.http_min_requests
+            for s in observed
         ):
             result.append((kind, title))
     return result

@@ -17,9 +17,13 @@ class Config(BaseSettings):
     llm_api_key: str | None = Field(default=None, repr=False)
     llm_timeout: float = 30
     tool_timeout: float = 12
+    tool_max_output_bytes: int = Field(default=65536, ge=1024, le=1048576)
     probe_urls: dict[str, str] = {}
     probe_allowed_hosts: list[str] = ["faulty-app", "localhost", "127.0.0.1"]
     monitor_enabled: bool = True
+    lab_enabled: bool = False
+    lab_project: str = "pulse-lab"
+    lab_test_token: str = Field(default="", repr=False)
 
     @field_validator("llm_api_base", "llm_api_key", mode="before")
     @classmethod

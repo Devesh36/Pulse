@@ -1,0 +1,14 @@
+{
+  "scenario_id": "slow-response",
+  "expected_service": "demo-api",
+  "failure_type": "slow-response",
+  "expected_signal": "latency",
+  "expected_category": "slow_response",
+  "expected_remediation": "reset_latency",
+  "expected_verification": "RECOVERED",
+  "detection_deadline_seconds": 60,
+  "required_tools": [
+    "query_prometheus",
+    "get_container_metrics"
+  ]
+}

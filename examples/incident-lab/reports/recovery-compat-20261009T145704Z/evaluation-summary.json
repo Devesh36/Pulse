@@ -1,0 +1,775 @@
+{
+  "generated_at": 1791558059.696541,
+  "mode": "mock-model",
+  "configured_targets": {
+    "detection_rate": 1.0,
+    "false_positive_count": 0,
+    "root_cause_accuracy": 1.0,
+    "approval_enforcement": 1.0,
+    "verification_accuracy": 1.0
+  },
+  "healthy_baselines": [
+    {
+      "started_at": 1791557824.6638775,
+      "duration_seconds": 14.035429239273071,
+      "unexpected_incidents": [],
+      "false_positive_count": 0
+    },
+    {
+      "started_at": 1791557863.7861683,
+      "duration_seconds": 14.05427098274231,
+      "unexpected_incidents": [],
+      "false_positive_count": 0
+    },
+    {
+      "started_at": 1791557905.056909,
+      "duration_seconds": 14.174352407455444,
+      "unexpected_incidents": [],
+      "false_positive_count": 0
+    },
+    {
+      "started_at": 1791557948.2168634,
+      "duration_seconds": 14.05936861038208,
+      "unexpected_incidents": [],
+      "false_positive_count": 0
+    },
+    {
+      "started_at": 1791557993.3134208,
+      "duration_seconds": 14.05847978591919,
+      "unexpected_incidents": [],
+      "false_positive_count": 0
+    }
+  ],
+  "incident_persistence_after_api_restart": true,
+  "measurements": {
+    "scenario_count": 5,
+    "passed": 5,
+    "detection_rate": 1.0,
+    "root_cause_accuracy": 1.0,
+    "false_positive_count": 0,
+    "remediation_recovery_rate": 1.0,
+    "verification_accuracy": 1.0
+  },
+  "scenarios": [
+    {
+      "scenario": "container-crash",
+      "status": "PASS",
+      "started_at": 1791557838.6995277,
+      "mode": "mock-model",
+      "configured_targets": {
+        "detection_deadline_seconds": 30,
+        "expected_verification": "RECOVERED"
+      },
+      "incident_id": "3acead39-01cf-47b6-aa04-2ca46fcb3d0e",
+      "detection_latency_seconds": 4.4927637577056885,
+      "incident_created_at": 1791557843.1922925,
+      "diagnosis": {
+        "category": "container_crash",
+        "category_correct": true,
+        "validated_citations": 2,
+        "tool_calls": 5,
+        "successful_tool_calls": 5,
+        "required_tools_present": true,
+        "manual_review_required": "References and numeric observations are checked; truth of every free-text statement is not mechanically proven."
+      },
+      "time_to_diagnosis_seconds": 0.3867669105529785,
+      "actual_investigation_mode": "mock-model",
+      "investigation_cost": {
+        "tokens_used": 0,
+        "tool_calls": 5,
+        "estimated_provider_cost_usd": 0,
+        "cost_note": "No provider calls in deterministic/mock mode; live pricing estimate unavailable."
+      },
+      "remediation": {
+        "id": "3e3dcc6a-14e1-4849-ace2-58aa4fc68995",
+        "incident_id": "3acead39-01cf-47b6-aa04-2ca46fcb3d0e",
+        "service_id": "a3a0ab02-6765-4110-94ba-ab2a910e2ef2",
+        "container_id": "30816493e9ed5f514414ad059a2da5f88ac3c83dcadd30e5f9c064d6159d9b8b",
+        "kind": "start",
+        "reason": "Start the stopped development container, then observe health and restart stability. The underlying cause may recur.",
+        "digest": "9af54503fc585b3e5122f1d817e9aaca72be3c828d4a01298226e8fb9bdaf60e",
+        "status": "executed",
+        "created_at": 1791557843.5801773,
+        "expires_at": 1791558743.5801775,
+        "outcome": {
+          "snapshot": {
+            "container_id": "30816493e9ed5f514414ad059a2da5f88ac3c83dcadd30e5f9c064d6159d9b8b",
+            "name": "pulse-lab-demo-worker-1",
+            "status": "running",
+            "health": "starting",
+            "health_log": [
+              {
+                "Start": "2026-10-09T14:57:12.666038187Z",
+                "End": "2026-10-09T14:57:13.180264189Z",
+                "ExitCode": 0,
+                "Output": ""
+              },
+              {
+                "Start": "2026-10-09T14:57:15.181017624Z",
+                "End": "2026-10-09T14:57:15.662695853Z",
+                "ExitCode": 0,
+                "Output": ""
+              },
+              {
+                "Start": "2026-10-09T14:57:17.664173039Z",
+                "End": "2026-10-09T14:57:18.171178973Z",
+                "ExitCode": 0,
+                "Output": ""
+              }
+            ],
+            "restart_count": 0,
+            "exit_code": 0,
+            "oom_killed": false,
+            "error": "",
+            "started_at": "2026-10-09T14:57:25.033911553Z",
+            "finished_at": "2026-10-09T14:57:19.022236697Z",
+            "created_at": "2026-10-09T14:18:14.237035545Z",
+            "image": "pulse-lab-demo",
+            "labels": {
+              "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+              "com.docker.compose.project": "pulse-lab",
+              "com.docker.compose.service": "demo-worker",
+              "pulse.environment": "development",
+              "pulse.lab": "pulse-lab",
+              "pulse.monitor": "true",
+              "pulse.remediate": "true"
+            },
+            "observed_at": 1791557845.151079,
+            "action_completed_at": 1791557845.1618314
+          },
+          "pre_action": {
+            "snapshot": {
+              "container_id": "30816493e9ed5f514414ad059a2da5f88ac3c83dcadd30e5f9c064d6159d9b8b",
+              "name": "pulse-lab-demo-worker-1",
+              "status": "exited",
+              "health": "unhealthy",
+              "health_log": [
+                {
+                  "Start": "2026-10-09T14:57:12.666038187Z",
+                  "End": "2026-10-09T14:57:13.180264189Z",
+                  "ExitCode": 0,
+                  "Output": ""
+                },
+                {
+                  "Start": "2026-10-09T14:57:15.181017624Z",
+                  "End": "2026-10-09T14:57:15.662695853Z",
+                  "ExitCode": 0,
+                  "Output": ""
+                },
+                {
+                  "Start": "2026-10-09T14:57:17.664173039Z",
+                  "End": "2026-10-09T14:57:18.171178973Z",
+                  "ExitCode": 0,
+                  "Output": ""
+                }
+              ],
+              "restart_count": 0,
+              "exit_code": 42,
+              "oom_killed": false,
+              "error": "",
+              "started_at": "2026-10-09T14:54:16.046503349Z",
+              "finished_at": "2026-10-09T14:57:19.022236697Z",
+              "created_at": "2026-10-09T14:18:14.237035545Z",
+              "image": "pulse-lab-demo",
+              "labels": {
+                "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+                "com.docker.compose.project": "pulse-lab",
+                "com.docker.compose.service": "demo-worker",
+                "pulse.environment": "development",
+                "pulse.lab": "pulse-lab",
+                "pulse.monitor": "true",
+                "pulse.remediate": "true"
+              },
+              "observed_at": 1791557845.0011299
+            },
+            "at": 1791557845.0104012
+          }
+        }
+      },
+      "final_state": "RESOLVED",
+      "approval_enforced": true,
+      "duplicate_rejected": true,
+      "verification_correct": true,
+      "remediation_recovered": true,
+      "completed_at": 1791557863.2418883,
+      "reset_succeeded": true
+    },
+    {
+      "scenario": "memory-pressure",
+      "status": "PASS",
+      "started_at": 1791557877.8406754,
+      "mode": "mock-model",
+      "configured_targets": {
+        "detection_deadline_seconds": 60,
+        "expected_verification": "RECOVERED"
+      },
+      "incident_id": "b0f3b823-305b-45cb-8ede-64a5f0d66121",
+      "detection_latency_seconds": 12.58182406425476,
+      "incident_created_at": 1791557890.422501,
+      "diagnosis": {
+        "category": "memory_pressure",
+        "category_correct": true,
+        "validated_citations": 3,
+        "tool_calls": 5,
+        "successful_tool_calls": 5,
+        "required_tools_present": true,
+        "manual_review_required": "References and numeric observations are checked; truth of every free-text statement is not mechanically proven."
+      },
+      "time_to_diagnosis_seconds": 2.106853485107422,
+      "actual_investigation_mode": "mock-model",
+      "investigation_cost": {
+        "tokens_used": 0,
+        "tool_calls": 5,
+        "estimated_provider_cost_usd": 0,
+        "cost_note": "No provider calls in deterministic/mock mode; live pricing estimate unavailable."
+      },
+      "remediation": {
+        "id": "31441211-8a74-499b-a649-62d3192f6d00",
+        "incident_id": "b0f3b823-305b-45cb-8ede-64a5f0d66121",
+        "service_id": "015c722a-50b2-4c26-bd77-7ebc5660c490",
+        "container_id": "890bfc2952e376377bba74f2cc7f4847467313feaa288a7a3e170afc305cc93c",
+        "kind": "reset_memory",
+        "reason": "Disable the bounded lab workload, then verify fresh telemetry and sustained recovery.",
+        "digest": "3722e2bd0197955eae720160655dbecdbd718fd7e15ddec40daf2bbf44f119b6",
+        "status": "executed",
+        "created_at": 1791557892.5312018,
+        "expires_at": 1791558792.531202,
+        "outcome": {
+          "snapshot": {
+            "container_id": "890bfc2952e376377bba74f2cc7f4847467313feaa288a7a3e170afc305cc93c",
+            "name": "pulse-lab-demo-api-1",
+            "status": "running",
+            "health": "healthy",
+            "health_log": [
+              {
+                "Start": "2026-10-09T14:58:06.366154834Z",
+                "End": "2026-10-09T14:58:06.981563241Z",
+                "ExitCode": 0,
+                "Output": ""
+              },
+              {
+                "Start": "2026-10-09T14:58:08.983093975Z",
+                "End": "2026-10-09T14:58:09.488891488Z",
+                "ExitCode": 0,
+                "Output": ""
+              },
+              {
+                "Start": "2026-10-09T14:58:11.490014257Z",
+                "End": "2026-10-09T14:58:12.080650966Z",
+                "ExitCode": 0,
+                "Output": ""
+              }
+            ],
+            "restart_count": 0,
+            "exit_code": 0,
+            "oom_killed": false,
+            "error": "",
+            "started_at": "2026-10-09T14:18:22.821800263Z",
+            "finished_at": "0001-01-01T00:00:00Z",
+            "created_at": "2026-10-09T14:18:14.23659197Z",
+            "image": "pulse-lab-demo",
+            "labels": {
+              "com.docker.compose.config-hash": "19824925269cdb04655c753cd2a3c467136656f1145aa94728b7c92d690d8f2d",
+              "com.docker.compose.project": "pulse-lab",
+              "com.docker.compose.service": "demo-api",
+              "pulse.environment": "development",
+              "pulse.lab": "pulse-lab",
+              "pulse.monitor": "true",
+              "pulse.remediate": "true"
+            },
+            "observed_at": 1791557894.562212,
+            "action_completed_at": 1791557894.5659976
+          },
+          "pre_action": {
+            "snapshot": {
+              "container_id": "890bfc2952e376377bba74f2cc7f4847467313feaa288a7a3e170afc305cc93c",
+              "name": "pulse-lab-demo-api-1",
+              "status": "running",
+              "health": "healthy",
+              "health_log": [
+                {
+                  "Start": "2026-10-09T14:58:06.366154834Z",
+                  "End": "2026-10-09T14:58:06.981563241Z",
+                  "ExitCode": 0,
+                  "Output": ""
+                },
+                {
+                  "Start": "2026-10-09T14:58:08.983093975Z",
+                  "End": "2026-10-09T14:58:09.488891488Z",
+                  "ExitCode": 0,
+                  "Output": ""
+                },
+                {
+                  "Start": "2026-10-09T14:58:11.490014257Z",
+                  "End": "2026-10-09T14:58:12.080650966Z",
+                  "ExitCode": 0,
+                  "Output": ""
+                }
+              ],
+              "restart_count": 0,
+              "exit_code": 0,
+              "oom_killed": false,
+              "error": "",
+              "started_at": "2026-10-09T14:18:22.821800263Z",
+              "finished_at": "0001-01-01T00:00:00Z",
+              "created_at": "2026-10-09T14:18:14.23659197Z",
+              "image": "pulse-lab-demo",
+              "labels": {
+                "com.docker.compose.config-hash": "19824925269cdb04655c753cd2a3c467136656f1145aa94728b7c92d690d8f2d",
+                "com.docker.compose.project": "pulse-lab",
+                "com.docker.compose.service": "demo-api",
+                "pulse.environment": "development",
+                "pulse.lab": "pulse-lab",
+                "pulse.monitor": "true",
+                "pulse.remediate": "true"
+              },
+              "observed_at": 1791557894.3313253
+            },
+            "at": 1791557894.3433225
+          }
+        }
+      },
+      "final_state": "RESOLVED",
+      "approval_enforced": true,
+      "duplicate_rejected": true,
+      "verification_correct": true,
+      "remediation_recovered": true,
+      "completed_at": 1791557904.5185862,
+      "reset_succeeded": true
+    },
+    {
+      "scenario": "api-failure",
+      "status": "PASS",
+      "started_at": 1791557919.2314553,
+      "mode": "mock-model",
+      "configured_targets": {
+        "detection_deadline_seconds": 60,
+        "expected_verification": "RECOVERED"
+      },
+      "incident_id": "25a85514-1d1d-4e56-8ed6-1484f5cbfc81",
+      "detection_latency_seconds": 11.41930365562439,
+      "incident_created_at": 1791557930.6507602,
+      "diagnosis": {
+        "category": "api_failure",
+        "category_correct": true,
+        "validated_citations": 4,
+        "tool_calls": 6,
+        "successful_tool_calls": 6,
+        "required_tools_present": true,
+        "manual_review_required": "References and numeric observations are checked; truth of every free-text statement is not mechanically proven."
+      },
+      "time_to_diagnosis_seconds": 2.1343891620635986,
+      "actual_investigation_mode": "mock-model",
+      "investigation_cost": {
+        "tokens_used": 0,
+        "tool_calls": 6,
+        "estimated_provider_cost_usd": 0,
+        "cost_note": "No provider calls in deterministic/mock mode; live pricing estimate unavailable."
+      },
+      "remediation": {
+        "id": "deca6a39-7afc-4576-a1db-949a12d71486",
+        "incident_id": "25a85514-1d1d-4e56-8ed6-1484f5cbfc81",
+        "service_id": "015c722a-50b2-4c26-bd77-7ebc5660c490",
+        "container_id": "890bfc2952e376377bba74f2cc7f4847467313feaa288a7a3e170afc305cc93c",
+        "kind": "reset_errors",
+        "reason": "Disable the bounded lab workload, then verify fresh telemetry and sustained recovery.",
+        "digest": "d0c7604181439c15792889b6f8aa7776dff1b7f8c49ffde87bc1e9d366ecc689",
+        "status": "executed",
+        "created_at": 1791557932.7863424,
+        "expires_at": 1791558832.7863424,
+        "outcome": {
+          "snapshot": {
+            "container_id": "890bfc2952e376377bba74f2cc7f4847467313feaa288a7a3e170afc305cc93c",
+            "name": "pulse-lab-demo-api-1",
+            "status": "running",
+            "health": "healthy",
+            "health_log": [
+              {
+                "Start": "2026-10-09T14:58:48.064151771Z",
+                "End": "2026-10-09T14:58:48.582839074Z",
+                "ExitCode": 0,
+                "Output": ""
+              },
+              {
+                "Start": "2026-10-09T14:58:50.583958628Z",
+                "End": "2026-10-09T14:58:51.066914632Z",
+                "ExitCode": 0,
+                "Output": ""
+              },
+              {
+                "Start": "2026-10-09T14:58:53.068392206Z",
+                "End": "2026-10-09T14:58:53.572997465Z",
+                "ExitCode": 0,
+                "Output": ""
+              }
+            ],
+            "restart_count": 0,
+            "exit_code": 0,
+            "oom_killed": false,
+            "error": "",
+            "started_at": "2026-10-09T14:18:22.821800263Z",
+            "finished_at": "0001-01-01T00:00:00Z",
+            "created_at": "2026-10-09T14:18:14.23659197Z",
+            "image": "pulse-lab-demo",
+            "labels": {
+              "com.docker.compose.config-hash": "19824925269cdb04655c753cd2a3c467136656f1145aa94728b7c92d690d8f2d",
+              "com.docker.compose.project": "pulse-lab",
+              "com.docker.compose.service": "demo-api",
+              "pulse.environment": "development",
+              "pulse.lab": "pulse-lab",
+              "pulse.monitor": "true",
+              "pulse.remediate": "true"
+            },
+            "observed_at": 1791557933.644487,
+            "action_completed_at": 1791557933.6505597
+          },
+          "pre_action": {
+            "snapshot": {
+              "container_id": "890bfc2952e376377bba74f2cc7f4847467313feaa288a7a3e170afc305cc93c",
+              "name": "pulse-lab-demo-api-1",
+              "status": "running",
+              "health": "healthy",
+              "health_log": [
+                {
+                  "Start": "2026-10-09T14:58:48.064151771Z",
+                  "End": "2026-10-09T14:58:48.582839074Z",
+                  "ExitCode": 0,
+                  "Output": ""
+                },
+                {
+                  "Start": "2026-10-09T14:58:50.583958628Z",
+                  "End": "2026-10-09T14:58:51.066914632Z",
+                  "ExitCode": 0,
+                  "Output": ""
+                },
+                {
+                  "Start": "2026-10-09T14:58:53.068392206Z",
+                  "End": "2026-10-09T14:58:53.572997465Z",
+                  "ExitCode": 0,
+                  "Output": ""
+                }
+              ],
+              "restart_count": 0,
+              "exit_code": 0,
+              "oom_killed": false,
+              "error": "",
+              "started_at": "2026-10-09T14:18:22.821800263Z",
+              "finished_at": "0001-01-01T00:00:00Z",
+              "created_at": "2026-10-09T14:18:14.23659197Z",
+              "image": "pulse-lab-demo",
+              "labels": {
+                "com.docker.compose.config-hash": "19824925269cdb04655c753cd2a3c467136656f1145aa94728b7c92d690d8f2d",
+                "com.docker.compose.project": "pulse-lab",
+                "com.docker.compose.service": "demo-api",
+                "pulse.environment": "development",
+                "pulse.lab": "pulse-lab",
+                "pulse.monitor": "true",
+                "pulse.remediate": "true"
+              },
+              "observed_at": 1791557933.6219082
+            },
+            "at": 1791557933.6301618
+          }
+        }
+      },
+      "final_state": "RESOLVED",
+      "approval_enforced": true,
+      "duplicate_rejected": true,
+      "verification_correct": true,
+      "remediation_recovered": true,
+      "completed_at": 1791557947.903238,
+      "reset_succeeded": true
+    },
+    {
+      "scenario": "slow-response",
+      "status": "PASS",
+      "started_at": 1791557962.2765458,
+      "mode": "mock-model",
+      "configured_targets": {
+        "detection_deadline_seconds": 60,
+        "expected_verification": "RECOVERED"
+      },
+      "incident_id": "257a829b-30c1-4b25-a7df-c4f86c012cd5",
+      "detection_latency_seconds": 13.656659841537476,
+      "incident_created_at": 1791557975.9332066,
+      "diagnosis": {
+        "category": "slow_response",
+        "category_correct": true,
+        "validated_citations": 4,
+        "tool_calls": 6,
+        "successful_tool_calls": 6,
+        "required_tools_present": true,
+        "manual_review_required": "References and numeric observations are checked; truth of every free-text statement is not mechanically proven."
+      },
+      "time_to_diagnosis_seconds": 2.1180617809295654,
+      "actual_investigation_mode": "mock-model",
+      "investigation_cost": {
+        "tokens_used": 0,
+        "tool_calls": 6,
+        "estimated_provider_cost_usd": 0,
+        "cost_note": "No provider calls in deterministic/mock mode; live pricing estimate unavailable."
+      },
+      "remediation": {
+        "id": "fb1719b3-10a2-42fe-99fb-5f626b0c3df2",
+        "incident_id": "257a829b-30c1-4b25-a7df-c4f86c012cd5",
+        "service_id": "015c722a-50b2-4c26-bd77-7ebc5660c490",
+        "container_id": "890bfc2952e376377bba74f2cc7f4847467313feaa288a7a3e170afc305cc93c",
+        "kind": "reset_latency",
+        "reason": "Disable the bounded lab workload, then verify fresh telemetry and sustained recovery.",
+        "digest": "826e70f38e415afaee310fb4f1ecdf9a0866009717ccb339e737db12588bfa43",
+        "status": "executed",
+        "created_at": 1791557978.0525558,
+        "expires_at": 1791558878.052556,
+        "outcome": {
+          "snapshot": {
+            "container_id": "890bfc2952e376377bba74f2cc7f4847467313feaa288a7a3e170afc305cc93c",
+            "name": "pulse-lab-demo-api-1",
+            "status": "running",
+            "health": "healthy",
+            "health_log": [
+              {
+                "Start": "2026-10-09T14:59:31.190563688Z",
+                "End": "2026-10-09T14:59:31.692459366Z",
+                "ExitCode": 0,
+                "Output": ""
+              },
+              {
+                "Start": "2026-10-09T14:59:33.69351409Z",
+                "End": "2026-10-09T14:59:34.194071438Z",
+                "ExitCode": 0,
+                "Output": ""
+              },
+              {
+                "Start": "2026-10-09T14:59:36.195149062Z",
+                "End": "2026-10-09T14:59:36.765407751Z",
+                "ExitCode": 0,
+                "Output": ""
+              }
+            ],
+            "restart_count": 0,
+            "exit_code": 0,
+            "oom_killed": false,
+            "error": "",
+            "started_at": "2026-10-09T14:18:22.821800263Z",
+            "finished_at": "0001-01-01T00:00:00Z",
+            "created_at": "2026-10-09T14:18:14.23659197Z",
+            "image": "pulse-lab-demo",
+            "labels": {
+              "com.docker.compose.config-hash": "19824925269cdb04655c753cd2a3c467136656f1145aa94728b7c92d690d8f2d",
+              "com.docker.compose.project": "pulse-lab",
+              "com.docker.compose.service": "demo-api",
+              "pulse.environment": "development",
+              "pulse.lab": "pulse-lab",
+              "pulse.monitor": "true",
+              "pulse.remediate": "true"
+            },
+            "observed_at": 1791557978.8397148,
+            "action_completed_at": 1791557978.844631
+          },
+          "pre_action": {
+            "snapshot": {
+              "container_id": "890bfc2952e376377bba74f2cc7f4847467313feaa288a7a3e170afc305cc93c",
+              "name": "pulse-lab-demo-api-1",
+              "status": "running",
+              "health": "healthy",
+              "health_log": [
+                {
+                  "Start": "2026-10-09T14:59:31.190563688Z",
+                  "End": "2026-10-09T14:59:31.692459366Z",
+                  "ExitCode": 0,
+                  "Output": ""
+                },
+                {
+                  "Start": "2026-10-09T14:59:33.69351409Z",
+                  "End": "2026-10-09T14:59:34.194071438Z",
+                  "ExitCode": 0,
+                  "Output": ""
+                },
+                {
+                  "Start": "2026-10-09T14:59:36.195149062Z",
+                  "End": "2026-10-09T14:59:36.765407751Z",
+                  "ExitCode": 0,
+                  "Output": ""
+                }
+              ],
+              "restart_count": 0,
+              "exit_code": 0,
+              "oom_killed": false,
+              "error": "",
+              "started_at": "2026-10-09T14:18:22.821800263Z",
+              "finished_at": "0001-01-01T00:00:00Z",
+              "created_at": "2026-10-09T14:18:14.23659197Z",
+              "image": "pulse-lab-demo",
+              "labels": {
+                "com.docker.compose.config-hash": "19824925269cdb04655c753cd2a3c467136656f1145aa94728b7c92d690d8f2d",
+                "com.docker.compose.project": "pulse-lab",
+                "com.docker.compose.service": "demo-api",
+                "pulse.environment": "development",
+                "pulse.lab": "pulse-lab",
+                "pulse.monitor": "true",
+                "pulse.remediate": "true"
+              },
+              "observed_at": 1791557978.7903569
+            },
+            "at": 1791557978.8125596
+          }
+        }
+      },
+      "final_state": "RESOLVED",
+      "approval_enforced": true,
+      "duplicate_rejected": true,
+      "verification_correct": true,
+      "remediation_recovered": true,
+      "completed_at": 1791557993.0648053,
+      "reset_succeeded": true
+    },
+    {
+      "scenario": "recovery-verification",
+      "status": "PASS",
+      "started_at": 1791558007.3721912,
+      "mode": "mock-model",
+      "configured_targets": {
+        "detection_deadline_seconds": 60,
+        "expected_verification": "NOT_RECOVERED"
+      },
+      "incident_id": "f0bd1822-1e37-4365-adc2-cd7da6082444",
+      "detection_latency_seconds": 11.815187692642212,
+      "incident_created_at": 1791558019.1873803,
+      "diagnosis": {
+        "category": "unknown",
+        "category_correct": true,
+        "validated_citations": 2,
+        "tool_calls": 5,
+        "successful_tool_calls": 5,
+        "required_tools_present": true,
+        "manual_review_required": "References and numeric observations are checked; truth of every free-text statement is not mechanically proven."
+      },
+      "time_to_diagnosis_seconds": 2.123138666152954,
+      "actual_investigation_mode": "mock-model",
+      "investigation_cost": {
+        "tokens_used": 0,
+        "tool_calls": 5,
+        "estimated_provider_cost_usd": 0,
+        "cost_note": "No provider calls in deterministic/mock mode; live pricing estimate unavailable."
+      },
+      "remediation": {
+        "id": "354ddf64-d970-493d-8b35-e9a1feb24f3c",
+        "incident_id": "f0bd1822-1e37-4365-adc2-cd7da6082444",
+        "service_id": "a3a0ab02-6765-4110-94ba-ab2a910e2ef2",
+        "container_id": "30816493e9ed5f514414ad059a2da5f88ac3c83dcadd30e5f9c064d6159d9b8b",
+        "kind": "restart",
+        "reason": "Attempt a controlled development-container restart, followed by sustained recovery checks. This may only temporarily relieve the symptom.",
+        "digest": "1c96f4845fe7685d61140b03a1cc27d0af914181c9719de51d3bd282580de6db",
+        "status": "executed",
+        "created_at": 1791558021.3134525,
+        "expires_at": 1791558921.3134525,
+        "outcome": {
+          "snapshot": {
+            "container_id": "30816493e9ed5f514414ad059a2da5f88ac3c83dcadd30e5f9c064d6159d9b8b",
+            "name": "pulse-lab-demo-worker-1",
+            "status": "running",
+            "health": "starting",
+            "health_log": [
+              {
+                "Start": "2026-10-09T15:00:14.641000702Z",
+                "End": "2026-10-09T15:00:15.220387473Z",
+                "ExitCode": 1,
+                "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+              },
+              {
+                "Start": "2026-10-09T15:00:17.221783327Z",
+                "End": "2026-10-09T15:00:17.756962814Z",
+                "ExitCode": 1,
+                "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+              },
+              {
+                "Start": "2026-10-09T15:00:19.758119066Z",
+                "End": "2026-10-09T15:00:20.360249965Z",
+                "ExitCode": 1,
+                "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+              }
+            ],
+            "restart_count": 0,
+            "exit_code": 0,
+            "oom_killed": false,
+            "error": "",
+            "started_at": "2026-10-09T15:00:22.469579119Z",
+            "finished_at": "2026-10-09T15:00:22.388589403Z",
+            "created_at": "2026-10-09T14:18:14.237035545Z",
+            "image": "pulse-lab-demo",
+            "labels": {
+              "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+              "com.docker.compose.project": "pulse-lab",
+              "com.docker.compose.service": "demo-worker",
+              "pulse.environment": "development",
+              "pulse.lab": "pulse-lab",
+              "pulse.monitor": "true",
+              "pulse.remediate": "true"
+            },
+            "observed_at": 1791558022.6005328,
+            "action_completed_at": 1791558022.604456
+          },
+          "pre_action": {
+            "snapshot": {
+              "container_id": "30816493e9ed5f514414ad059a2da5f88ac3c83dcadd30e5f9c064d6159d9b8b",
+              "name": "pulse-lab-demo-worker-1",
+              "status": "running",
+              "health": "unhealthy",
+              "health_log": [
+                {
+                  "Start": "2026-10-09T15:00:14.641000702Z",
+                  "End": "2026-10-09T15:00:15.220387473Z",
+                  "ExitCode": 1,
+                  "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+                },
+                {
+                  "Start": "2026-10-09T15:00:17.221783327Z",
+                  "End": "2026-10-09T15:00:17.756962814Z",
+                  "ExitCode": 1,
+                  "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+                },
+                {
+                  "Start": "2026-10-09T15:00:19.758119066Z",
+                  "End": "2026-10-09T15:00:20.360249965Z",
+                  "ExitCode": 1,
+                  "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+                }
+              ],
+              "restart_count": 0,
+              "exit_code": 0,
+              "oom_killed": false,
+              "error": "",
+              "started_at": "2026-10-09T14:57:25.033911553Z",
+              "finished_at": "2026-10-09T14:57:19.022236697Z",
+              "created_at": "2026-10-09T14:18:14.237035545Z",
+              "image": "pulse-lab-demo",
+              "labels": {
+                "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+                "com.docker.compose.project": "pulse-lab",
+                "com.docker.compose.service": "demo-worker",
+                "pulse.environment": "development",
+                "pulse.lab": "pulse-lab",
+                "pulse.monitor": "true",
+                "pulse.remediate": "true"
+              },
+              "observed_at": 1791558021.9967494
+            },
+            "at": 1791558022.009051
+          }
+        }
+      },
+      "final_state": "FAILED",
+      "approval_enforced": true,
+      "duplicate_rejected": true,
+      "verification_correct": true,
+      "remediation_recovered": false,
+      "completed_at": 1791558044.3541596,
+      "reset_succeeded": true
+    }
+  ],
+  "limitations": [
+    "Deterministic evidence analysis is not live-model reasoning accuracy.",
+    "False-positive exposure is limited to the measured healthy baseline durations.",
+    "Resource removal is verified by pulse lab down, independently of scenario reset."
+  ]
+}

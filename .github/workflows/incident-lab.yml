@@ -1,0 +1,45 @@
+name: Full incident lab evaluation
+on:
+  workflow_dispatch:
+    inputs:
+      live_model:
+        description: 'Use a configured external provider instead of mocked reasoning'
+        type: boolean
+        default: false
+      model:
+        description: 'LiteLLM model identifier for an optional live run'
+        type: string
+        default: ''
+  schedule:
+    - cron: '20 3 * * 1'
+permissions:
+  contents: read
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      PULSE_LLM_MODEL: ${{ inputs.live_model && inputs.model || 'mock/evidence' }}
+      PULSE_LLM_API_KEY: ${{ inputs.live_model && secrets.LAB_LLM_API_KEY || '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: '3.12'
+      - run: uv sync --frozen
+      - run: uv run --no-sync pulse lab up
+      - name: Evaluate real faults and approved recovery
+        run: |
+          if [ '${{ inputs.live_model }}' = 'true' ]; then
+            uv run --no-sync pulse lab evaluate --all --approve --live-model
+          else
+            uv run --no-sync pulse lab evaluate --all --approve
+          fi
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: incident-lab-evaluation
+          path: examples/incident-lab/reports/
+          if-no-files-found: ignore
+      - if: always()
+        run: uv run --no-sync pulse lab down

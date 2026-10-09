@@ -6,7 +6,7 @@ import secrets
 import time
 from collections import defaultdict, deque
 from contextlib import asynccontextmanager
-from typing import Annotated
+from typing import Annotated, cast
 
 from fastapi import Depends, FastAPI, Header, HTTPException, Query, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
@@ -21,6 +21,7 @@ from pulse.db.models import (
     Audit,
     Event,
     Incident,
+    LabEvaluation,
     Remediation,
     Sample,
     Service,
@@ -28,8 +29,10 @@ from pulse.db.models import (
     ToolExecution,
 )
 from pulse.db.store import Store, serialize
-from pydantic import BaseModel
+from pulse.lab.catalog import SCENARIOS
+from pydantic import BaseModel, Field
 from sqlalchemy import func, select, update
+from sqlalchemy.engine import CursorResult
 
 
 class JsonLog(logging.Formatter):
@@ -158,6 +161,50 @@ def create_app(config: Config | None = None, store=None, runtime=None):
         bearer = authorization and secrets.compare_digest(
             authorization, f"Bearer {config.admin_token}"
         )
+        test_principal = (
+            config.lab_enabled
+            and len(config.lab_test_token) >= 16
+            and authorization
+            and secrets.compare_digest(authorization, f"Bearer {config.lab_test_token}")
+        )
+        if test_principal:
+            parts = request.url.path.strip("/").split("/")
+            allowed = {
+                "lab",
+                "services",
+                "incidents",
+                "remediations",
+                "settings",
+                "health",
+                "audit",
+            }
+            if len(parts) < 3 or parts[2] not in allowed:
+                raise HTTPException(403, "Lab test principal cannot access this endpoint")
+            if len(parts) >= 4 and parts[2] in {"services", "incidents", "remediations"}:
+                with store.session() as db:
+                    model = {
+                        "services": Service,
+                        "incidents": Incident,
+                        "remediations": Remediation,
+                    }[parts[2]]
+                    resource = db.get(model, parts[3])
+                    scoped = (
+                        resource
+                        if parts[2] == "services"
+                        else db.get(Service, resource.service_id)
+                        if resource
+                        else None
+                    )
+                    labels = scoped.snapshot.get("labels", {}) if scoped else {}
+                    if (
+                        labels.get("pulse.lab") != "pulse-lab"
+                        or labels.get("com.docker.compose.project") != config.lab_project
+                    ):
+                        raise HTTPException(
+                            403, "Lab test principal is restricted to lab resources"
+                        )
+            bearer = True
+        request.state.actor = "lab-test" if test_principal else "operator"
         session = request.cookies.get("pulse_session", "")
         cookie_ok = False
         try:
@@ -202,7 +249,7 @@ def create_app(config: Config | None = None, store=None, runtime=None):
             "status": "ok",
             "docker": runtime.adapter_status,
             "last_poll": runtime.last_poll,
-            "llm_configured": bool(config.llm_model),
+            "llm_configured": bool(config.llm_model) and config.llm_model != "mock/evidence",
         }
 
     @app.post("/api/v1/session")
@@ -233,6 +280,178 @@ def create_app(config: Config | None = None, store=None, runtime=None):
         return {"authenticated": False}
 
     auth = [Depends(authorized)]
+
+    def lab_service(name):
+        if not config.lab_enabled:
+            raise HTTPException(403, "Incident lab is disabled; start the isolated lab stack")
+        with store.session() as db:
+            rows = db.scalars(select(Service)).all()
+        for row in rows:
+            labels = row.snapshot.get("labels", {})
+            if (
+                labels.get("pulse.lab") == "pulse-lab"
+                and labels.get("com.docker.compose.project") == config.lab_project
+                and labels.get("com.docker.compose.service") == name
+                and time.time() - row.last_seen < 30
+            ):
+                return row
+        raise HTTPException(503, "Lab service has not been freshly discovered")
+
+    @app.get("/api/v1/lab/status", dependencies=auth)
+    async def lab_status():
+        with store.session() as db:
+            rows = [
+                serialize(s)
+                for s in db.scalars(select(Service))
+                if s.snapshot.get("labels", {}).get("pulse.lab") == "pulse-lab"
+                and s.snapshot.get("labels", {}).get("com.docker.compose.project")
+                == config.lab_project
+                and time.time() - s.last_seen < 30
+            ]
+        return {
+            "enabled": config.lab_enabled,
+            "project": config.lab_project,
+            "services": rows,
+            "scenarios": [{"id": k, **v} for k, v in SCENARIOS.items()],
+            "docker": runtime.adapter_status,
+            "at": time.time(),
+        }
+
+    from apps.api.gateway import LabFault
+
+    @app.post("/api/v1/lab/faults/{scenario}", dependencies=auth)
+    async def lab_fault(scenario: str, body: LabFault):
+        if scenario not in SCENARIOS:
+            raise HTTPException(404, "Unknown lab scenario")
+        spec = SCENARIOS[scenario]
+        row = lab_service(spec["service"])
+        try:
+            result = await runtime.adapter.lab_control(
+                row.container_id, spec["control"], body.model_dump()
+            )
+        except Exception as error:
+            raise HTTPException(
+                503, "Lab control failed; inspect the isolated lab service"
+            ) from error
+        store.audit(
+            "lab.fault_injected", row.id, {"scenario": scenario, "parameters": body.model_dump()}
+        )
+        store.event("lab.fault_injected", {"scenario": scenario, "service_id": row.id})
+        return {**result, "service_id": row.id, "injected_at": time.time()}
+
+    @app.post("/api/v1/lab/reset", dependencies=auth)
+    async def lab_reset():
+        if not config.lab_enabled:
+            raise HTTPException(403, "Incident lab is disabled")
+        with store.session() as db:
+            active = db.scalar(
+                select(Incident.id).where(
+                    Incident.kind != "question",
+                    Incident.state.in_(
+                        [
+                            "DETECTED",
+                            "INVESTIGATING",
+                            "DIAGNOSED",
+                            "AWAITING_APPROVAL",
+                            "REMEDIATING",
+                            "VERIFYING",
+                        ]
+                    ),
+                )
+            )
+        if active:
+            raise HTTPException(
+                409,
+                "Review, cancel, or dismiss active lab incidents before an explicit cleanup reset",
+            )
+        for name in ("demo-api", "demo-worker"):
+            row = lab_service(name)
+            try:
+                await runtime.adapter.lab_control(row.container_id, "reset")
+            except Exception as error:
+                raise HTTPException(
+                    503, "Reset requires running lab services; use pulse lab reset"
+                ) from error
+            store.audit("lab.reset", row.id, {})
+        return {"reset": True}
+
+    class EvaluationInput(BaseModel):
+        scenario: str = Field(max_length=80)
+        report: dict = Field(max_length=100)
+
+    class TelemetryControl(BaseModel):
+        model_config = {"extra": "forbid"}
+        enabled: bool
+
+    @app.post("/api/v1/lab/telemetry/{sid}", dependencies=auth)
+    async def lab_telemetry(sid: str, body: TelemetryControl, request: Request):
+        row = require_service(sid, monitored=True)
+        labels = row.snapshot.get("labels", {})
+        if (
+            not config.lab_enabled
+            or labels.get("pulse.lab") != "pulse-lab"
+            or labels.get("com.docker.compose.project") != config.lab_project
+            or labels.get("com.docker.compose.service") not in ("demo-api", "demo-worker")
+        ):
+            raise HTTPException(
+                403, "Telemetry controls require the selected authorized lab resource"
+            )
+        command = "telemetry_on" if body.enabled else "telemetry_off"
+        try:
+            result = await runtime.adapter.lab_control(row.container_id, command)
+        except Exception as error:
+            raise HTTPException(503, "Selected lab metrics control failed") from error
+        store.audit(
+            "lab.telemetry_restored" if body.enabled else "lab.telemetry_interrupted",
+            row.id,
+            {"path": "/metrics", "enabled": body.enabled},
+            actor=request.state.actor,
+        )
+        store.event(
+            "lab.telemetry_changed",
+            {"service_id": sid, "enabled": body.enabled, "path": "/metrics"},
+        )
+        return {**result, "service_id": sid, "enabled": body.enabled}
+
+    @app.get("/api/v1/lab/evaluations", dependencies=auth)
+    async def lab_evaluations():
+        with store.session() as db:
+            return [
+                serialize(r)
+                for r in db.scalars(
+                    select(LabEvaluation).order_by(LabEvaluation.at.desc()).limit(50)
+                )
+            ]
+
+    @app.post("/api/v1/lab/evaluations", dependencies=auth)
+    async def lab_evaluation(body: EvaluationInput):
+        if not config.lab_enabled or body.scenario not in SCENARIOS:
+            raise HTTPException(403, "Evaluation records require a known lab scenario")
+        if len(json.dumps(body.report)) > 500000:
+            raise HTTPException(413, "Evaluation report is too large")
+        with store.session.begin() as db:
+            row = LabEvaluation(scenario=body.scenario, report=redact(body.report))
+            db.add(row)
+            db.flush()
+        store.audit("lab.evaluation_recorded", row.id, {"scenario": body.scenario})
+        return serialize(row)
+
+    @app.post("/api/v1/incidents/{iid}/cancel", dependencies=auth)
+    async def cancel_investigation(iid: str):
+        row = require_incident(iid)
+        if row.state != "INVESTIGATING":
+            raise HTTPException(409, "No running investigation to cancel")
+        task = runtime.tasks.get(f"investigate:{iid}")
+        if task:
+            task.cancel()
+            import asyncio
+
+            await asyncio.gather(task, return_exceptions=True)
+        from pulse.core.schemas import State
+
+        store.transition(iid, State.FAILED, {"reason": "Operator cancelled investigation"})
+        store.audit("investigation.cancelled", iid, {})
+        return {"cancelled": True}
 
     @app.get("/api/v1/overview", dependencies=auth, response_model=OverviewView)
     async def overview():
@@ -278,7 +497,16 @@ def create_app(config: Config | None = None, store=None, runtime=None):
                     .order_by(Sample.at.desc())
                     .limit(1)
                 )
-                result.append({**serialize(service), "metrics": latest.data if latest else None})
+                fresh = (
+                    latest is not None
+                    and time.time() - latest.at <= store.settings().telemetry_max_age_seconds
+                )
+                result.append(
+                    {
+                        **serialize(service),
+                        "metrics": latest.data if latest is not None and fresh else None,
+                    }
+                )
             return result
 
     @app.get("/api/v1/services/{sid}", dependencies=auth, response_model=ServiceView)
@@ -290,6 +518,8 @@ def create_app(config: Config | None = None, store=None, runtime=None):
         require_service(sid)
         with store.session.begin() as db:
             row = db.get(Service, sid)
+            if row is None:
+                raise HTTPException(404, "Service no longer exists")
             row.monitored, row.remediation_allowed = body.monitored, body.remediation_allowed
             db.add(
                 Audit(
@@ -422,9 +652,9 @@ def create_app(config: Config | None = None, store=None, runtime=None):
         return {"dismissed": True}
 
     @app.post("/api/v1/remediations/{aid}/approve", dependencies=auth, status_code=202)
-    async def approve(aid: str, body: Approval):
+    async def approve(aid: str, body: Approval, request: Request):
         try:
-            await runtime.remediator.claim(aid, body.action_digest)
+            await runtime.remediator.claim(aid, body.action_digest, actor=request.state.actor)
         except PolicyError as e:
             store.audit("remediation.approval_denied", aid, {"reason": str(e)})
             raise HTTPException(409, str(e)) from e
@@ -434,6 +664,16 @@ def create_app(config: Config | None = None, store=None, runtime=None):
             ) from e
         runtime.spawn(f"execute:{aid}", runtime.remediator.execute(aid))
         return {"accepted": True, "action_id": aid}
+
+    @app.post("/api/v1/incidents/{iid}/verification/recheck", dependencies=auth, status_code=202)
+    async def recheck_verification(iid: str, request: Request):
+        require_incident(iid)
+        try:
+            service, baseline = runtime.remediator.recheck(iid, actor=request.state.actor)
+        except PolicyError as error:
+            raise HTTPException(409, str(error)) from error
+        runtime.spawn(f"verify:{iid}", runtime.remediator.verify(iid, service, baseline))
+        return {"accepted": True, "incident_id": iid, "read_only": True}
 
     @app.post("/api/v1/remediations/{aid}/reject", dependencies=auth)
     async def reject(aid: str):
@@ -446,7 +686,7 @@ def create_app(config: Config | None = None, store=None, runtime=None):
                 .where(Remediation.id == aid, Remediation.status == "proposed")
                 .values(status="rejected")
             )
-            if changed.rowcount != 1:
+            if cast(CursorResult, changed).rowcount != 1:
                 raise HTTPException(409, "Action is no longer pending")
             db.add(
                 Audit(
@@ -488,7 +728,7 @@ def create_app(config: Config | None = None, store=None, runtime=None):
         return {
             "runtime": store.settings(),
             "model": config.llm_model,
-            "provider_configured": bool(config.llm_model),
+            "provider_configured": bool(config.llm_model) and config.llm_model != "mock/evidence",
             "api_base": redact(config.llm_api_base),
             "provider_note": "Configure PULSE_LLM_MODEL, PULSE_LLM_API_KEY and PULSE_LLM_API_BASE in .env and restart the API. Provider secrets are never returned.",
         }

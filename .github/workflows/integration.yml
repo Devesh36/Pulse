@@ -1,0 +1,42 @@
+name: Integration CI
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  integrations:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: pulse_test
+          POSTGRES_PASSWORD: disposable_ci_only
+          POSTGRES_DB: pulse_test
+        ports: ['5432:5432']
+        options: --health-cmd "pg_isready -U pulse_test -d pulse_test" --health-interval 2s --health-timeout 3s --health-retries 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: '3.12'
+      - run: uv sync --frozen
+      - run: uv run --no-sync pytest tests/test_integrations.py tests/test_detection.py tests/test_remediation.py tests/test_api.py tests/test_phase2.py -q --tb=short
+        env:
+          PULSE_TEST_POSTGRES_URL: postgresql+psycopg://pulse_test:disposable_ci_only@localhost:5432/pulse_test
+          PULSE_TEST_DOCKER: '1'
+      - name: Real lab smoke test with mock model
+        run: |
+          uv run --no-sync pulse lab up
+          uv run --no-sync pulse lab run container-crash --approve
+          PULSE_TEST_PROMETHEUS_URL=http://127.0.0.1:8109 uv run --no-sync pytest tests/test_integrations.py -k prometheus -q --tb=short
+        env:
+          PULSE_LLM_MODEL: mock/evidence
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lab-smoke-reports
+          path: examples/incident-lab/reports/
+          if-no-files-found: ignore
+      - if: always()
+        run: uv run --no-sync pulse lab down

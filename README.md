@@ -22,6 +22,25 @@ Open **http://localhost:3000**. Sign in with `PULSE_ADMIN_TOKEN` from your local
 
 To run without the fault demo, omit `--profile demo`. To stop, run `docker compose --profile demo down`. Named volumes preserve PostgreSQL, Prometheus, and the gateway's one-time execution journal. **`down -v` destroys that history.**
 
+## Phase 2 incident laboratory
+
+Run the five real fault scenarios in a separate disposable `pulse-lab` project:
+
+```bash
+uv sync --frozen
+uv run --no-sync pulse lab up --dashboard
+uv run --no-sync pulse lab evaluate --all --approve
+uv run --no-sync pulse lab report --format markdown
+uv run --no-sync pulse lab down
+```
+
+`--approve` explicitly authorizes only the evaluator's scoped lab actions through the real
+approval API. For manual approvals, use the **Incident Lab** dashboard on loopback port 3100.
+Fault endpoints stay internal; the lab creates distinct local credentials and bounded
+workloads. Teardown deletes the disposable lab history while retaining host reports.
+See [run instructions](examples/incident-lab/README.md), [evaluation methodology](docs/evaluation-methodology.md),
+and [actual Phase 2 results](docs/phase2-results.md). Deterministic/mock results are not live-model accuracy.
+
 ## What is implemented
 
 - Label-scoped Docker discovery; container state, health-check output, exit/OOM metadata, restart counts, deployment labels, bounded logs, real CPU and memory measurements.

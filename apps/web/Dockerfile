@@ -1,7 +1,8 @@
 FROM node:22-alpine AS build
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci
+RUN --mount=type=secret,id=cloud_ca \
+    set -eu; if [ -s /run/secrets/cloud_ca ]; then cp /run/secrets/cloud_ca /tmp/cloud-ca.pem; chmod 644 /tmp/cloud-ca.pem; export NODE_EXTRA_CA_CERTS=/tmp/cloud-ca.pem; fi; npm ci
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build

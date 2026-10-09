@@ -50,6 +50,7 @@ import {
   YAxis,
 } from "recharts";
 import { Button } from "@/components/ui/button";
+import { IncidentLab } from "@/components/incident-lab";
 import {
   active,
   api,
@@ -73,8 +74,15 @@ import {
 import { cn } from "@/lib/utils";
 
 type View =
-  "overview" | "services" | "incidents" | "detail" | "assistant" | "settings";
+  | "overview"
+  | "services"
+  | "incidents"
+  | "detail"
+  | "assistant"
+  | "settings"
+  | "lab";
 const navigation = [
+  { href: "/lab", label: "Incident Lab", icon: Workflow, view: "lab" },
   { href: "/", label: "Overview", icon: LayoutDashboard, view: "overview" },
   { href: "/services", label: "Services", icon: Container, view: "services" },
   {
@@ -400,6 +408,7 @@ export function Dashboard({
                   <p>
                     {
                       {
+                        lab: "Real failures, cited evidence, deliberate recovery.",
                         overview:
                           "A live view of your services. An investigator for every incident.",
                         services:
@@ -473,6 +482,9 @@ export function Dashboard({
               )}
               {view === "detail" && incidentId && (
                 <IncidentDetail id={incidentId} services={rows} />
+              )}
+              {view === "lab" && (
+                <IncidentLab services={rows} incidents={incidentRows} />
               )}
               {view === "assistant" && <Assistant services={rows} />}
               {view === "settings" && <SettingsPage services={rows} />}
@@ -1667,22 +1679,54 @@ function IncidentDetail({ id, services }: { id: string; services: Service[] }) {
           {incident.verification && (
             <Panel
               title="Recovery verification"
-              aside={<Status value={incident.verification.outcome} />}
+              aside={
+                <Status
+                  value={
+                    incident.verification.result ||
+                    incident.verification.outcome
+                  }
+                />
+              }
             >
               <div className="padded">
                 <p>
-                  {incident.verification.outcome === "confirmed"
-                    ? "Recovery confirmed across the observation window."
-                    : incident.verification.reason ||
-                      "Recovery conditions were not confirmed. Review the samples before investigating again."}
+                  {incident.verification.reason ||
+                    "Recovery conditions were not confirmed. Review the samples before investigating again."}
                 </p>
                 {incident.verification.observation_seconds != null && (
                   <p className="muted small">
-                    {incident.verification.samples?.length} observations over{" "}
+                    {incident.verification.sample_count ??
+                      incident.verification.samples?.length}{" "}
+                    observations over{" "}
                     {incident.verification.observation_seconds.toFixed(1)}{" "}
                     seconds
                   </p>
                 )}
+                {incident.verification.required_evidence && (
+                  <p className="muted small">
+                    Required evidence:{" "}
+                    {incident.verification.required_evidence.join(", ")}
+                  </p>
+                )}
+                {incident.verification.deadline_at && (
+                  <p className="muted small">
+                    Observation deadline:{" "}
+                    {date(incident.verification.deadline_at)}
+                  </p>
+                )}
+                {incident.state === "FAILED" &&
+                  incident.verification.result === "INCONCLUSIVE" && (
+                    <Button
+                      disabled={command.isPending}
+                      onClick={() =>
+                        command.mutate({
+                          path: `/incidents/${id}/verification/recheck`,
+                        })
+                      }
+                    >
+                      Recheck recovery without replaying the action
+                    </Button>
+                  )}
                 <details className="raw-details">
                   <summary>Verification evidence</summary>
                   <pre>{JSON.stringify(incident.verification, null, 2)}</pre>
@@ -1782,7 +1826,13 @@ function ActionCard({
   const command = useCommand();
   const pending = action.status === "proposed";
   const expired = action.expires_at < Date.now() / 1000;
-  const mutation = ["start", "restart"].includes(action.kind);
+  const mutation = [
+    "start",
+    "restart",
+    "reset_memory",
+    "reset_errors",
+    "reset_latency",
+  ].includes(action.kind);
   return (
     <div className="action-card">
       <div className="action-header">

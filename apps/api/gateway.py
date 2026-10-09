@@ -9,6 +9,7 @@ from contextlib import asynccontextmanager
 from typing import Annotated, Literal
 
 import docker
+from docker.errors import DockerException, NotFound
 from fastapi import Depends, FastAPI, Header, HTTPException, Path, Query
 from pulse.core.redaction import redact
 from pulse.tools.docker_adapter import SDKAdapter, run_sdk
@@ -16,7 +17,7 @@ from pydantic import BaseModel, Field
 
 TOKEN = os.getenv("PULSE_ADAPTER_TOKEN", "")
 JOURNAL = os.getenv("PULSE_GATEWAY_JOURNAL", "/data/gateway.db")
-adapter = None
+adapter: SDKAdapter | None = None
 mutation_lock = asyncio.Lock()
 
 
@@ -32,7 +33,9 @@ async def lifespan(app):
         )
     client = docker.from_env(timeout=10)
     await asyncio.to_thread(client.ping)
-    adapter = SDKAdapter(client)
+    adapter = SDKAdapter(
+        client, os.getenv("PULSE_RESOURCE_PROJECT"), os.getenv("PULSE_LAB_TOKEN", "")
+    )
     yield
     client.close()
 
@@ -48,6 +51,12 @@ app = FastAPI(
 CID = Annotated[str, Path(pattern=r"^[a-f0-9]{12,64}$")]
 
 
+def get_adapter() -> SDKAdapter:
+    if adapter is None:
+        raise HTTPException(503, "Gateway is not initialized")
+    return adapter
+
+
 async def call(fn, *args):
     try:
         return redact(await asyncio.wait_for(run_sdk(fn, *args), timeout=12))
@@ -55,32 +64,70 @@ async def call(fn, *args):
         raise HTTPException(403, str(e)) from e
     except ValueError as e:
         raise HTTPException(409, str(e)) from e
-    except docker.errors.NotFound as e:
+    except NotFound as e:
         raise HTTPException(404, "Container no longer exists") from e
-    except (docker.errors.DockerException, TimeoutError) as e:
+    except (DockerException, TimeoutError) as e:
         raise HTTPException(503, "Docker operation failed or timed out") from e
 
 
 @app.get("/containers")
 async def containers():
-    return await call(adapter.discover)
+    return await call(get_adapter().discover)
 
 
 @app.get("/containers/{cid}")
 async def inspect(cid: CID):
-    return await call(adapter.inspect, cid)
+    return await call(get_adapter().inspect, cid)
 
 
 @app.get("/containers/{cid}/logs")
 async def logs(
     cid: CID, since: int = Query(1800, ge=1, le=86400), limit: int = Query(100, ge=1, le=300)
 ):
-    return await call(adapter.logs, cid, since, limit)
+    return await call(get_adapter().logs, cid, since, limit)
 
 
 @app.get("/containers/{cid}/metrics")
 async def metrics(cid: CID):
-    return await call(adapter.metrics, cid)
+    return await call(get_adapter().metrics, cid)
+
+
+@app.get("/containers/{cid}/events")
+async def events(
+    cid: CID, since: int = Query(1800, ge=1, le=86400), limit: int = Query(100, ge=1, le=300)
+):
+    return await call(get_adapter().events, cid, since, limit)
+
+
+class LabFault(BaseModel):
+    model_config = {"extra": "forbid"}
+    mib: int = Field(default=160, ge=1, le=176)
+    delay_seconds: float = Field(default=2, ge=0.1, le=3)
+    error_ratio: float = Field(default=1, ge=0, le=1)
+
+
+@app.post("/lab/{cid}/{command}")
+async def lab_control(
+    cid: CID,
+    command: Literal[
+        "crash",
+        "memory",
+        "errors",
+        "latency",
+        "sticky",
+        "reset",
+        "status",
+        "telemetry_off",
+        "telemetry_on",
+    ],
+    body: LabFault,
+):
+    if (
+        os.getenv("PULSE_LAB_ENABLED") != "true"
+        or os.getenv("PULSE_GATEWAY_DISABLED", "false").lower() == "true"
+    ):
+        raise HTTPException(403, "Lab controls disabled")
+    return await call(get_adapter().lab_control, cid, command, body.model_dump())
 
 
 class Mutation(BaseModel):
@@ -88,7 +135,11 @@ class Mutation(BaseModel):
 
 
 @app.post("/containers/{cid}/{kind}")
-async def mutate(cid: CID, kind: Literal["start", "restart"], body: Mutation):
+async def mutate(
+    cid: CID,
+    kind: Literal["start", "restart", "reset_memory", "reset_errors", "reset_latency"],
+    body: Mutation,
+):
     if os.getenv("PULSE_GATEWAY_DISABLED", "false").lower() == "true":
         raise HTTPException(403, "Gateway emergency disable is active")
     async with mutation_lock:
@@ -103,7 +154,7 @@ async def mutate(cid: CID, kind: Literal["start", "restart"], body: Mutation):
                     409, "Action was already claimed; inspect outcome before proposing a new action"
                 ) from e
         # Claim persists before execution. Timeout/crash has an uncertain outcome and is never retried.
-        result = await call(adapter.mutate, cid, kind)
+        result = await call(get_adapter().mutate, cid, kind)
         with sqlite3.connect(JOURNAL) as db:
             db.execute("UPDATE actions SET status='executed' WHERE id=?", (body.action_id,))
         return result

@@ -1,0 +1,15 @@
+{
+  "scenario_id": "container-crash",
+  "expected_service": "demo-worker",
+  "failure_type": "container-crash",
+  "expected_signal": "stopped",
+  "expected_category": "container_crash",
+  "expected_remediation": "start",
+  "expected_verification": "RECOVERED",
+  "detection_deadline_seconds": 30,
+  "required_tools": [
+    "inspect_container",
+    "get_container_logs",
+    "get_recent_service_events"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "scenario_id": "api-failure",
+  "expected_service": "demo-api",
+  "failure_type": "api-failure",
+  "expected_signal": "errors",
+  "expected_category": "api_failure",
+  "expected_remediation": "reset_errors",
+  "expected_verification": "RECOVERED",
+  "detection_deadline_seconds": 60,
+  "required_tools": [
+    "query_prometheus",
+    "get_container_logs"
+  ]
+}

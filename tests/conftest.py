@@ -1,3 +1,4 @@
+import time
 from copy import deepcopy
 
 import pytest
@@ -43,12 +44,19 @@ class FakeAdapter:
         self.calls.append(("inspect", cid))
         if self.fail:
             raise RuntimeError("offline")
-        return deepcopy(self.snapshot)
+        value = deepcopy(self.snapshot)
+        value.setdefault("observed_at", time.time())
+        return value
 
     async def metrics(self, cid):
         if self.fail:
             raise RuntimeError("offline")
-        return deepcopy(self.measurement)
+        if self.snapshot["status"] != "running":
+            return {"available": False, "reason": "container is not running"}
+        value = deepcopy(self.measurement)
+        value.setdefault("at", time.time())
+        value.setdefault("container_id", cid)
+        return value
 
     async def logs(self, cid, since=1800, limit=100):
         self.calls.append(("logs", cid))
@@ -140,7 +148,7 @@ def runtime(store, config, adapter):
         settings = store.settings().model_copy(
             update={
                 "verification_seconds": 2,
-                "recovery_grace_seconds": 0,
+                "recovery_grace_seconds": 2,
                 "interval_seconds": 2,
                 "min_samples": 1,
             }

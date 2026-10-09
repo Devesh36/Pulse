@@ -1,4 +1,5 @@
 import asyncio
+import json
 import time
 
 from sqlalchemy import select
@@ -15,15 +16,30 @@ class ToolRegistry:
 
     async def execute(self, call: ToolCall, service_id: str, incident_id: str | None):
         began = time.monotonic()
+        cancelled = False
         try:
             result = await asyncio.wait_for(
                 self.dispatch(call, service_id), self.config.tool_timeout
             )
             success = True
+        except asyncio.CancelledError:
+            result, success, cancelled = {"error": "CancelledError"}, False, True
         except Exception as e:
             result = {"error": f"{type(e).__name__}: {str(e)[:300]}"}
             success = False
         result = redact(result)
+        output_bytes = len(json.dumps(result, ensure_ascii=False).encode("utf-8"))
+        if output_bytes > self.config.tool_max_output_bytes:
+            result, success = (
+                {
+                    "error": "ToolOutputLimitExceeded",
+                    "available": False,
+                    "truncated": True,
+                    "original_bytes": output_bytes,
+                    "limit_bytes": self.config.tool_max_output_bytes,
+                },
+                False,
+            )
         with self.store.session.begin() as db:
             row = ToolExecution(
                 incident_id=incident_id,
@@ -44,6 +60,8 @@ class ToolRegistry:
                 "at": row.at,
             }
             db.add(Event(incident_id=incident_id, kind="tool.completed", payload=evidence))
+        if cancelled:
+            raise asyncio.CancelledError
         return evidence
 
     async def dispatch(self, call, service_id):
@@ -75,6 +93,10 @@ class ToolRegistry:
                     ]
                 }
             if call.name == "get_recent_service_events":
+                if service.snapshot.get("labels", {}).get("pulse.lab") == "pulse-lab":
+                    return await self.adapter.events(
+                        service.container_id, call.args.since, call.args.limit
+                    )
                 ids = select(Incident.id).where(Incident.service_id == service_id)
                 return {
                     "events": [
@@ -124,7 +146,29 @@ class ToolRegistry:
         if call.name == "get_container_logs":
             return await self.adapter.logs(cid, call.args.since, call.args.limit)
         if call.name == "get_container_metrics":
-            return await self.adapter.metrics(cid)
+            current = await self.adapter.metrics(cid)
+            with self.store.session() as db:
+                rows = db.scalars(
+                    select(Sample)
+                    .where(
+                        Sample.service_id == service_id, Sample.at >= time.time() - call.args.since
+                    )
+                    .order_by(Sample.at.desc())
+                    .limit(call.args.limit)
+                ).all()
+            return {
+                **current,
+                "history": [
+                    {
+                        "at": s.at,
+                        "available": s.data.get("available"),
+                        "memory_percent": s.data.get("memory_percent"),
+                        "cpu_percent": s.data.get("cpu_percent"),
+                        "source": "persisted_docker_sample",
+                    }
+                    for s in reversed(rows)
+                ],
+            }
         if call.name in ("inspect_container", "get_container_health"):
             return await self.adapter.inspect(cid)
         if call.name == "query_prometheus":
