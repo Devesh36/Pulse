@@ -1,0 +1,13 @@
+global:
+  scrape_interval: 5s
+  evaluation_interval: 5s
+scrape_configs:
+  - job_name: pulse
+    static_configs:
+      - targets: [api:8000]
+    authorization:
+      type: Bearer
+      credentials_file: /tmp/pulse-token
+  - job_name: faulty-app
+    static_configs:
+      - targets: [faulty-app:8080]

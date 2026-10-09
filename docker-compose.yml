@@ -1,0 +1,105 @@
+name: pulse
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: pulse
+      POSTGRES_USER: pulse
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run scripts/setup-env.py first}
+    volumes: [postgres-data:/var/lib/postgresql/data]
+    ports: ["127.0.0.1:5432:5432"]
+    networks: [control]
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U pulse -d pulse"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+  gateway:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    user: "0:0" # Docker socket requires daemon privileges; isolate this component.
+    command: ["uv", "run", "--no-sync", "uvicorn", "apps.api.gateway:app", "--host", "0.0.0.0", "--port", "8001", "--workers", "1"]
+    environment:
+      PULSE_ADAPTER_TOKEN: ${PULSE_ADAPTER_TOKEN:?Run scripts/setup-env.py first}
+      PULSE_GATEWAY_JOURNAL: /data/gateway.db
+      PULSE_GATEWAY_DISABLED: ${PULSE_GATEWAY_DISABLED:-false}
+    volumes: ["${DOCKER_SOCKET_PATH:-/var/run/docker.sock}:/var/run/docker.sock", gateway-data:/data]
+    networks: [control]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    restart: unless-stopped
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    environment:
+      PULSE_DATABASE_URL: postgresql+psycopg://pulse:${POSTGRES_PASSWORD}@postgres:5432/pulse
+      PULSE_ADMIN_TOKEN: ${PULSE_ADMIN_TOKEN:?Run scripts/setup-env.py first}
+      PULSE_ADAPTER_TOKEN: ${PULSE_ADAPTER_TOKEN:?Run scripts/setup-env.py first}
+      PULSE_ADAPTER_URL: http://gateway:8001
+      PULSE_PROMETHEUS_URL: http://prometheus:9090
+      PULSE_WEB_ORIGIN: ${PULSE_WEB_ORIGIN:-http://localhost:3000}
+      PULSE_LLM_MODEL: ${PULSE_LLM_MODEL:-}
+      PULSE_LLM_API_KEY: ${PULSE_LLM_API_KEY:-}
+      PULSE_LLM_API_BASE: ${PULSE_LLM_API_BASE:-}
+      PULSE_PROBE_URLS: '${PULSE_PROBE_URLS:-{"faulty-app":"http://faulty-app:8080/health"}}'
+      PULSE_PROBE_ALLOWED_HOSTS: '${PULSE_PROBE_ALLOWED_HOSTS:-["faulty-app","localhost","127.0.0.1"]}'
+    ports: ["127.0.0.1:8000:8000"]
+    networks: [control, egress]
+    depends_on:
+      postgres: {condition: service_healthy}
+      gateway: {condition: service_started}
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    restart: unless-stopped
+  web:
+    build: apps/web
+    environment:
+      PULSE_API_URL: http://api:8000
+    ports: ["127.0.0.1:3000:3000"]
+    networks: [egress]
+    depends_on: [api]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    restart: unless-stopped
+  prometheus:
+    image: prom/prometheus:v3.5.0
+    environment:
+      PULSE_ADMIN_TOKEN: ${PULSE_ADMIN_TOKEN:?Run scripts/setup-env.py first}
+    entrypoint: [/bin/sh, -c]
+    command: ['printf "%s" "$$PULSE_ADMIN_TOKEN" > /tmp/pulse-token; exec /bin/prometheus --config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus']
+    volumes: ["./infrastructure/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro", prometheus-data:/prometheus]
+    ports: ["127.0.0.1:9090:9090"]
+    networks: [control]
+    restart: unless-stopped
+  faulty-app:
+    profiles: [demo]
+    build: examples/faulty-app
+    environment:
+      PULSE_DEMO_TOKEN: ${PULSE_DEMO_TOKEN:?Run scripts/setup-env.py first}
+      PULSE_DEMO_ENABLED: "true"
+    labels:
+      pulse.monitor: "true"
+      pulse.remediate: "true"
+      pulse.environment: development
+    ports: ["127.0.0.1:8030:8080"]
+    networks: [control]
+    mem_limit: 256m
+    restart: "no"
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      start_period: 5s
+      retries: 3
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+volumes:
+  postgres-data:
+  gateway-data:
+  prometheus-data:
+networks:
+  control: {internal: true}
+  egress:

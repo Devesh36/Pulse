@@ -1,0 +1,48 @@
+name: CI
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: pulse_test
+          POSTGRES_PASSWORD: disposable_ci_only
+          POSTGRES_DB: pulse_test
+        ports: ["5432:5432"]
+        options: --health-cmd "pg_isready -U pulse_test -d pulse_test" --health-interval 5s --health-timeout 3s --health-retries 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: apps/web/package-lock.json
+      - run: uv sync --frozen
+      - run: uv run ruff check . && uv run ruff format --check .
+      - run: uv run pytest -q
+        env:
+          PULSE_TEST_POSTGRES_URL: postgresql+psycopg://pulse_test:disposable_ci_only@localhost:5432/pulse_test
+          PULSE_TEST_DOCKER: '1'
+      - run: npm ci --prefix apps/web && npm run format:check --prefix apps/web && npm run typecheck --prefix apps/web && npm run build --prefix apps/web
+  acceptance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: '3.12'
+      - run: uv sync --frozen && uv run python scripts/setup-env.py
+      - run: docker compose --profile demo config --quiet && docker compose --profile demo up --build -d
+      - run: uv run python scripts/e2e.py
+      - if: always()
+        run: docker compose --profile demo logs --no-color api gateway faulty-app
+      - if: always()
+        run: docker compose --profile demo down -v
