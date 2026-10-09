@@ -35,11 +35,12 @@ class CustomBuildHook(BuildHookInterface):
             "packages/pulse",
             "apps/api",
             "apps/web/src",
+            "apps/web/public",
             "examples/incident-lab/fixtures",
             "examples/incident-lab/services",
             "examples/incident-lab/telemetry",
         ]
-        suffixes = {".py", ".tsx", ".ts", ".css", ".json", ".yml", ".mako", ".in", ".lock"}
+        suffixes = {".py", ".tsx", ".ts", ".css", ".json", ".yml", ".mako", ".in", ".lock", ".png"}
         files = {root / name for name in singles if (root / name).is_file()}
         for tree in trees:
             files.update(

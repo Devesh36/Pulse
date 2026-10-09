@@ -113,5 +113,12 @@ clipboard copying, mobile layout and the missing-evidence example are interactiv
 The real workspace at `/dashboard` needs the Pulse API. The REPL's lab startup builds
 the frontend in Docker, so Node is not needed on users' hosts for the lab.
 
+Choose **Docs** in the product navigation, or open http://localhost:3000/docs for
+the dedicated first-run guide, runtime explanation, command reference, verification
+outcomes, data storage and troubleshooting. The page includes actual recorded product
+screenshots and works without the API. **About** on the landing page explains the
+product and its approval model. In the REPL lab, the same guide is on port 3100.
+The API schema reference is separate at http://localhost:8000/docs (8100 in the lab).
+
 No PyPI release, official Homebrew core listing, public website deployment or live
 LLM evaluation is claimed by this preview.

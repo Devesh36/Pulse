@@ -11,7 +11,7 @@ import {
   Copy,
   Database,
   FileSearch,
-  GitBranch,
+  BookOpen,
   Play,
   ShieldCheck,
   Terminal,
@@ -19,6 +19,8 @@ import {
   Waypoints,
 } from "lucide-react";
 import styles from "./landing.module.css";
+import { ProductNav } from "./product-nav";
+import { ProductScreenshots } from "./product-screenshots";
 
 const repository = "https://github.com/Devesh36/Pulse/tree/work";
 const installs = {
@@ -55,7 +57,7 @@ const steps = [
   },
 ];
 
-function Install() {
+export function Install() {
   const [method, setMethod] = useState<"uv" | "brew">("uv");
   const [copied, setCopied] = useState(false);
   const [copyError, setCopyError] = useState(false);
@@ -218,22 +220,7 @@ export function Landing() {
   return (
     <main className={styles.page}>
       <div className={styles.gridGlow} aria-hidden="true" />
-      <nav className={styles.nav} aria-label="Product navigation">
-        <Link href="/" className={styles.brand}>
-          <Activity size={27} strokeWidth={2.2} />
-          pulse<span>.</span>
-        </Link>
-        <div className={styles.navLinks}>
-          <a href="#how-it-works">How it works</a>
-          <a href="#demo">Demo</a>
-          <a href={repository}>
-            GitHub <GitBranch size={13} />
-          </a>
-        </div>
-        <Link href="/dashboard" className={styles.workspaceLink}>
-          Open workspace <ArrowRight size={15} />
-        </Link>
-      </nav>
+      <ProductNav />
       <section className={styles.hero}>
         <div className={styles.heroCopy}>
           <div className={styles.eyebrow}>
@@ -394,6 +381,18 @@ export function Landing() {
         </div>
         <Walkthrough />
       </section>
+      <section className={styles.section} id="product">
+        <div className={styles.sectionHeading}>
+          <div className={styles.eyebrow}>THE PRODUCT, AS IT RUNS</div>
+          <h2>A look at the workspace.</h2>
+          <p>
+            Actual screens captured from a local Docker demonstration. These are
+            recorded measurements, not a live feed. The demo diagnosis uses
+            deterministic reasoning; no live LLM was evaluated.
+          </p>
+        </div>
+        <ProductScreenshots />
+      </section>
       <section className={`${styles.section} ${styles.verificationSection}`}>
         <div className={styles.sectionHeading}>
           <div className={styles.eyebrow}>HONEST ABOUT WHAT IT KNOWS</div>
@@ -448,6 +447,67 @@ export function Landing() {
         </div>
         <Install />
       </section>
+      <section className={`${styles.section} ${styles.docsSection}`} id="docs">
+        <div className={styles.sectionHeading}>
+          <div className={styles.eyebrow}>DOCUMENTATION</div>
+          <h2>Your first run, explained.</h2>
+          <p>
+            Learn what Pulse observes, how an approval becomes an action, and
+            how to run the demo, open the dashboard and keep your results.
+          </p>
+          <Link href="/docs" className={styles.primary}>
+            <BookOpen size={17} /> Read the docs <ArrowRight size={17} />
+          </Link>
+        </div>
+        <div className={styles.docsLinks}>
+          <Link href="/docs#first-run">
+            <strong>Run your first demo</strong>
+            <span>Docker, REPL commands and dashboard login</span>
+            <ArrowRight size={18} />
+          </Link>
+          <Link href="/docs#how-it-runs">
+            <strong>Understand the workflow</strong>
+            <span>Discovery, investigation, approval and verification</span>
+            <ArrowRight size={18} />
+          </Link>
+          <Link href="/docs#screenshots">
+            <strong>Explore the product screens</strong>
+            <span>Overview, diagnosis and recovery evidence</span>
+            <ArrowRight size={18} />
+          </Link>
+        </div>
+      </section>
+      <section
+        className={`${styles.section} ${styles.aboutSection}`}
+        id="about"
+      >
+        <div className={styles.sectionHeading}>
+          <div className={styles.eyebrow}>ABOUT PULSE</div>
+          <h2>
+            Understand the incident.
+            <br />
+            Own the decision.
+          </h2>
+        </div>
+        <div className={styles.aboutCopy}>
+          <p>
+            Pulse is an open-source AI SRE for trusted local Docker
+            environments. It brings monitoring, evidence-backed investigation
+            and controlled recovery into one workspace, with a guided incident
+            lab to try the complete workflow on your own machine.
+          </p>
+          <p>
+            The Next.js dashboard sits alongside a Python API, PostgreSQL
+            history and Prometheus telemetry. Only opted-in resources can be
+            monitored; recovery actions require separate permission and your
+            explicit, expiring approval. Every verdict stays connected to its
+            evidence.
+          </p>
+          <a href={repository} className={styles.secondary}>
+            Explore the MIT-licensed source <ArrowRight size={15} />
+          </a>
+        </div>
+      </section>
       <footer className={styles.footer}>
         <Link href="/" className={styles.brand}>
           <Activity size={23} />
@@ -455,9 +515,8 @@ export function Landing() {
         </Link>
         <p>Evidence before action.</p>
         <div>
-          <a href="https://github.com/Devesh36/Pulse/blob/work/docs/getting-started.md">
-            Getting started
-          </a>
+          <Link href="/docs">Documentation</Link>
+          <a href="#about">About</a>
           <a href={repository}>
             Source code <ArrowRight size={13} />
           </a>

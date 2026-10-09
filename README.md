@@ -4,6 +4,42 @@
 
 Pulse discovers opted-in containers, detects operational incidents, investigates with audited read-only tools, proposes a recovery action, requires your approval, and observes the service before declaring recovery. The dashboard contains live backend data; it does not seed fabricated incidents or metrics.
 
+## About Pulse
+
+Pulse connects monitoring, investigation, human-approved recovery and verification
+in one local workspace. It is built for trusted Docker development environments,
+with a Next.js dashboard, Python API, PostgreSQL incident history and Prometheus
+telemetry. The guided incident lab lets you try the full workflow on selected demo
+resources using real measurements and deterministic reasoning, without a model API key.
+
+Recovery is reported as **RECOVERED**, **NOT_RECOVERED** or **INCONCLUSIVE**. Missing
+telemetry never counts as healthy; a read-only recheck after restoration observes
+the service without replaying the action. Monitoring and remediation permissions
+are separate, and each Start/Restart still needs an exact, expiring, one-time approval.
+
+### See the product
+
+These are actual captures of the existing local development overview and a retained
+incident-lab investigation. They show recorded backend measurements, not a live feed.
+The lab diagnosis uses deterministic mock reasoning; no live LLM was evaluated.
+
+![Pulse overview with discovered Docker services and measured resource charts](apps/web/public/screenshots/overview.png)
+
+![Pulse investigation with its recorded lifecycle and evidence-backed diagnosis](apps/web/public/screenshots/investigation.png)
+
+## Documentation
+
+The Next.js website includes a dedicated **Docs** page at `/docs`, linked from the
+landing page and available without an API connection. It explains what Pulse does,
+how it runs, the first demo, REPL commands, dashboard login, verdicts, data storage
+and troubleshooting, with full-size product screenshots. **About** on the landing
+page describes the product, architecture and approval model.
+
+- [Install and use Pulse](docs/getting-started.md)
+- [Architecture](docs/architecture.md) and [API reference](docs/api.md)
+- [Recovery verification](docs/recovery-verification.md) and [real telemetry-loss results](docs/verification-telemetry-results.md)
+- [Security and approvals](docs/security.md) and [troubleshooting](docs/troubleshooting.md)
+
 ## Quick start
 
 Install the preview and open its guided demo:
@@ -19,6 +55,12 @@ run. `Pulse Repl` is also supported. Type `telemetry` for missing-evidence verif
 Compose is required for demos; no LLM API key is needed. Homebrew users can install
 the included preview formula: [installation and menu guide](docs/getting-started.md).
 
+After installation, start Docker Desktop/Engine, run `pulse repl`, type `demo` and
+confirm `y`. Then type `dashboard` to open http://localhost:3100/lab; sign in with
+`PULSE_ADMIN_TOKEN` from the credential file path printed by the REPL. Type `reports`
+for measured outcomes, `stop` and confirm `y` to preserve the database and reports,
+then `exit` to leave the menu. The first build can take several minutes.
+
 ### Development checkout
 
 Requirements: Docker Engine with a working daemon, Docker Compose v2, and `uv` with Python 3.12+. Node 22+ is needed only for frontend development outside Compose.
@@ -33,6 +75,9 @@ docker compose --profile demo up --build -d
 
 Open **http://localhost:3000** for the product landing page, then **Open workspace**
 (http://localhost:3000/dashboard). Sign in with `PULSE_ADMIN_TOKEN` from your local `.env` (do not share it). API health: http://localhost:8000/api/v1/health; interactive API docs: http://localhost:8000/docs. Prometheus is bound to http://localhost:9090. All published ports bind to localhost; the Docker gateway has **no published port**.
+
+The website's product guide is **http://localhost:3000/docs**. The separate API
+schema reference remains on port 8000 at `/docs`.
 
 `setup-env.py` generates distinct administrator, Docker adapter, demo, and database secrets without printing them, preserves existing settings, and writes `.env` with mode `0600`. Compose rejects empty required secrets. Do not commit `.env`.
 
