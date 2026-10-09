@@ -19,5 +19,6 @@ if [ -n "$(git -C "$pulse_tap_root" status --porcelain)" ]; then
 fi
 git -C "$pulse_tap_root" fetch origin work:refs/remotes/origin/work
 git -C "$pulse_tap_root" switch --detach refs/remotes/origin/work
-brew install --HEAD devesh36/pulse/pulse
+# Keep auto-update from replacing this explicit preview checkout with main mid-install.
+HOMEBREW_NO_AUTO_UPDATE=1 brew install --HEAD devesh36/pulse/pulse
 echo "Pulse installed. Run: pulse repl"

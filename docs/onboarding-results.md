@@ -108,3 +108,18 @@ No PyPI upload, tagged release, public site deployment, production-stack change 
 infrastructure-permission expansion was performed. The preview install methods use
 the existing GitHub `work` branch. CI now includes installed-wheel CLI smoke checks;
 remote CI results are separate from these local measurements.
+
+After pushing implementation commit `d00a6d1`, the actual advertised GitHub uv
+installation also passed from `/tmp` using isolated tool/bin/data directories:
+
+```bash
+uv tool install --from git+https://github.com/Devesh36/Pulse.git@work pulse-sre
+pulse --version
+Pulse Repl
+pulse lab --help
+```
+
+Both executables were installed; version reported 0.2.0. Help/status/reports/exit
+and empty stdin passed outside a checkout without starting Docker or creating
+credentials. The Homebrew bootstrap disables auto-update only for its install
+command so the selected preview tap cannot be replaced with `main` mid-install.
