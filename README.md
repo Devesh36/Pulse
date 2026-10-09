@@ -6,6 +6,21 @@ Pulse discovers opted-in containers, detects operational incidents, investigates
 
 ## Quick start
 
+Install the preview and open its guided demo:
+
+```bash
+uv tool install --from git+https://github.com/Devesh36/Pulse.git@work pulse-sre
+pulse repl
+```
+
+Choose **1 / Demo**, confirm the scoped lab action, and follow the real crash/recovery
+run. `Pulse Repl` is also supported. Type `telemetry` for missing-evidence verification,
+`reports` for results, or `stop` to preserve history and stop the lab. Docker with
+Compose is required for demos; no LLM API key is needed. Homebrew users can install
+the included preview formula: [installation and menu guide](docs/getting-started.md).
+
+### Development checkout
+
 Requirements: Docker Engine with a working daemon, Docker Compose v2, and `uv` with Python 3.12+. Node 22+ is needed only for frontend development outside Compose.
 
 ```bash
@@ -16,7 +31,8 @@ uv run python scripts/setup-env.py
 docker compose --profile demo up --build -d
 ```
 
-Open **http://localhost:3000**. Sign in with `PULSE_ADMIN_TOKEN` from your local `.env` (do not share it). API health: http://localhost:8000/api/v1/health; interactive API docs: http://localhost:8000/docs. Prometheus is bound to http://localhost:9090. All published ports bind to localhost; the Docker gateway has **no published port**.
+Open **http://localhost:3000** for the product landing page, then **Open workspace**
+(http://localhost:3000/dashboard). Sign in with `PULSE_ADMIN_TOKEN` from your local `.env` (do not share it). API health: http://localhost:8000/api/v1/health; interactive API docs: http://localhost:8000/docs. Prometheus is bound to http://localhost:9090. All published ports bind to localhost; the Docker gateway has **no published port**.
 
 `setup-env.py` generates distinct administrator, Docker adapter, demo, and database secrets without printing them, preserves existing settings, and writes `.env` with mode `0600`. Compose rejects empty required secrets. Do not commit `.env`.
 
@@ -200,7 +216,11 @@ Detailed results: [verification record](docs/verification.md).
 
 Verified during implementation: backend tests including real PostgreSQL persistence/checkpoints and recovery against an isolated test adapter; migration/schema agreement; frontend production compilation and TypeScript checks; Compose configuration validation; API/dashboard startup.
 
-**A real Docker acceptance run was not completed on the development host.** Its Docker Desktop installation is absent, its Compose plugin symlink is broken, and its Colima/Lima installation fails under Rosetta. Docker integration remains opt-in; the real acceptance script and CI workflow are included. Do not treat the adapter-backed recovery test as proof of Docker runtime behavior.
+The original MVP validation record above predates the cloud incident lab. Current
+real Docker, PostgreSQL and Prometheus measurements are in the [Phase 2 results](docs/phase2-results.md),
+[telemetry verification results](docs/verification-telemetry-results.md), and
+[installed CLI/REPL validation](docs/onboarding-results.md). Mock reasoning and
+fixture-backed checks are identified separately from real telemetry.
 
 Other deliberate MVP limits:
 
@@ -213,7 +233,9 @@ Other deliberate MVP limits:
 - Diagnostics are collected during investigations; `collect_diagnostics` and configuration recommendations are advisory proposals, with no separate one-click execution control. No automated config editing.
 - No real external provider calls were made during tests; provider access and model compatibility must be validated with your configuration.
 
-Next milestones: run the real acceptance demo on a working Docker host, validate your chosen provider, add application metric adapters and richer deployment/event feeds, then introduce multi-user authorization and out-of-process worker ownership before considering remote infrastructure.
+Next milestones: validate your chosen live provider, add application metric adapters
+and richer deployment/event feeds, then introduce multi-user authorization and
+out-of-process worker ownership before considering remote infrastructure.
 
 ## License
 

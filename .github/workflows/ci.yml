@@ -20,6 +20,14 @@ jobs:
       - run: uv run --no-sync ruff check . && uv run --no-sync ruff format --check .
       - run: uv run --no-sync pyright
       - run: uv run --no-sync pytest -q --ignore=tests/test_integrations.py
+      - name: Installed CLI and public demo bundle
+        run: |
+          uv build --wheel --out-dir dist
+          uv tool install --from dist/pulse_sre-0.2.0-py3-none-any.whl pulse-sre
+          pulse --version
+          printf 'help\nstatus\nexit\n' | Pulse Repl
+        env:
+          PULSE_HOME: ${{ runner.temp }}/pulse-install-check
       - run: npm ci --prefix apps/web && npm run format:check --prefix apps/web && npm run typecheck --prefix apps/web && npm run build --prefix apps/web
         env:
           NEXT_TELEMETRY_DISABLED: '1'

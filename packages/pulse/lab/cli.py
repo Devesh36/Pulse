@@ -12,9 +12,10 @@ from pathlib import Path
 import httpx
 from dotenv import dotenv_values
 
+from pulse.distribution import project_root
 from pulse.lab.catalog import SCENARIOS
 
-ROOT = Path(__file__).resolve().parents[3]
+ROOT = project_root()
 LAB = ROOT / "examples/incident-lab"
 API = "http://127.0.0.1:8100/api/v1"
 
@@ -188,7 +189,7 @@ def reset(http):
     ready(http)
 
 
-def main():
+def main(argv=None):
     parser = argparse.ArgumentParser(prog="pulse")
     sub = parser.add_subparsers(dest="group", required=True)
     lab = sub.add_parser("lab")
@@ -223,8 +224,9 @@ def main():
         "--verification", action="store_true", help="Export the latest recovery evidence evaluation"
     )
     commands.add_parser("reset")
+    commands.add_parser("stop")
     commands.add_parser("down")
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     try:
         if args.command == "up":
             compose(
@@ -238,6 +240,9 @@ def main():
             with client() as http:
                 ready(http)
                 print("Lab ready: real Docker discovery and both demo health checks verified.")
+        elif args.command == "stop":
+            compose("stop", dashboard=True)
+            print("Lab stopped. Credentials, databases, volumes and reports retained.")
         elif args.command == "down":
             # All resources here belong to the fixed disposable lab project.
             compose("down", "--volumes", "--remove-orphans", dashboard=True)

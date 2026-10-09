@@ -83,7 +83,12 @@ type View =
   | "lab";
 const navigation = [
   { href: "/lab", label: "Incident Lab", icon: Workflow, view: "lab" },
-  { href: "/", label: "Overview", icon: LayoutDashboard, view: "overview" },
+  {
+    href: "/dashboard",
+    label: "Overview",
+    icon: LayoutDashboard,
+    view: "overview",
+  },
   { href: "/services", label: "Services", icon: Container, view: "services" },
   {
     href: "/incidents",
@@ -270,7 +275,7 @@ export function Dashboard({
   return (
     <div className="app-shell">
       <aside className="sidebar">
-        <Link href="/" className="brand">
+        <Link href="/dashboard" className="brand">
           <div className="brand-mark">
             <Activity size={24} strokeWidth={2.4} />
           </div>

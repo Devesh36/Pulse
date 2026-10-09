@@ -3,6 +3,7 @@ COPY --from=ghcr.io/astral-sh/uv:0.11.11 /uv /uvx /bin/
 WORKDIR /app
 ENV UV_NO_CACHE=1 UV_LINK_MODE=copy PYTHONUNBUFFERED=1 SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
 COPY pyproject.toml uv.lock ./
+COPY scripts/build-hook.py ./scripts/build-hook.py
 COPY packages ./packages
 COPY apps/__init__.py ./apps/__init__.py
 COPY apps/api ./apps/api

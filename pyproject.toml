@@ -1,6 +1,6 @@
 [project]
 name = "pulse-sre"
-version = "0.1.0"
+version = "0.2.0"
 description = "Evidence-driven local AI SRE with human-approved recovery"
 requires-python = ">=3.12"
 dependencies = [
@@ -10,7 +10,8 @@ dependencies = [
   "prometheus-client>=0.21,<1"
 ]
 [project.scripts]
-pulse = "pulse.lab.cli:main"
+pulse = "pulse.cli:main"
+Pulse = "pulse.cli:main"
 
 [dependency-groups]
 dev = [
@@ -24,6 +25,12 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 packages = ["packages/pulse", "apps"]
+exclude = ["apps/web/**"]
+[tool.hatch.build.hooks.custom]
+path = "scripts/build-hook.py"
+[tool.hatch.build.targets.sdist]
+only-include = ["packages/pulse", "apps", "examples/incident-lab", "scripts/build-hook.py", "pyproject.toml", "uv.lock", "alembic.ini", ".dockerignore", "README.md", "LICENSE"]
+exclude = ["examples/incident-lab/reports/**", "**/node_modules/**", "**/.next/**", "**/__pycache__/**", "**/.env", "**/*.tsbuildinfo"]
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
