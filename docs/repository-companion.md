@@ -67,11 +67,57 @@ pulse › scan
 pulse › init
 ```
 
-Apply the reviewed enrollment command in your regular shell, then type `watch`
-in the REPL. Ctrl+C returns to the REPL. `incidents`, `report`, `dashboard`,
+Apply the reviewed enrollment command in your regular shell, then type `/watch`
+in the REPL. Monitoring runs in an owned background process while the prompt
+accepts commands. `/stop`, `/exit` or EOF stops only that REPL's Pulse processes;
+your application, databases and reports remain. Ctrl+C cancels the current input
+or request and never retries it. If the REPL disappears, an owner guard stops its
+monitoring worker and that worker's API and gateway. A watch started in a different
+terminal is never stopped by this REPL.
+
+`incidents`, `report`, `dashboard`,
 `permissions`, `approve ID`, `reject ID` and `recheck ID` operate on the selected
 project. Quote paths with spaces. `pulse repl PATH` selects one directly.
-`demo`, `telemetry`, `status`, `reports`, `quality` and `stop` still operate on
+
+### Agentic command workflow
+
+Slash prefixes are optional; `/help COMMAND` shows usage and Tab completes command
+names in terminals with readline. Command history is not saved. The prompt shows
+the selected repository. Stop owned monitoring before switching repositories.
+
+```text
+/context
+/watch --no-browser
+/status
+/model
+/services
+/use demo-api
+/ask What evidence explains this service's current behavior?
+/logs 50
+/incidents
+/inspect INCIDENT_UUID
+/timeline INCIDENT_UUID
+/report
+/stop
+/exit
+```
+
+`/ask` uses the selected monitored service and creates a question investigation
+in the existing incident history. Its response is asynchronous: follow the returned
+ID with `/inspect` or `/timeline`. Model investigations use existing budgets and
+fixed read-only evidence tools, and do not receive source files. With no provider
+configured, Pulse uses deterministic evidence and states its limitations. Set
+provider environment variables before launching Pulse and use `/watch --model
+PROVIDER/MODEL`; `/model` only inspects the active configuration.
+
+`/investigate ID` confirms invalidating old pending proposals before rerunning a
+read-only investigation. `/approve ID` still displays the exact expiring action
+and asks for approval, defaulting to No. Empty input never repeats a previous
+command. `/clear` clears the visible terminal without deleting evidence. Updates
+from background monitoring appear after each command; `/status` and `/incidents`
+check live progress. The lab stays explicitly available via `/lab status`,
+`/lab dashboard` and `/lab stop` even with a selected project.
+`demo`, `telemetry`, `reports` and `quality` always operate on
 the separate incident lab, not the selected project.
 
 ## Background reasoning
@@ -177,6 +223,20 @@ during verification and kills its owner to test child cleanup. Only its own
 containers/network are removed. It retains private databases, logs and redacted
 measurements outside the checkout. No live LLM or second full stack is needed.
 See [measured results](repository-companion-results.md).
+
+To validate the interactive command workflow, scoped questions, background
+monitoring, cancellation, stop/restart and hard owner death with real evidence:
+
+```bash
+uv run python examples/incident-lab/scripts/repl-session.py
+# Optional: use an already-installed executable instead of the source entry point
+PULSE_TEST_CLI=/path/to/pulse uv run python examples/incident-lab/scripts/repl-session.py
+```
+
+This check uses the same cached demo image and one synthetic Compose service.
+It executes no recovery, uses deterministic evidence (no live or mock model),
+preserves all existing containers and retains private reports outside the checkout.
+See [REPL validation and limitations](repl-results.md).
 
 Run this acceptance check separately from other tests that restart existing
 containers: its isolation assertions compare every pre-existing container's

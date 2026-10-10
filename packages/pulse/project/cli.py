@@ -133,7 +133,7 @@ def approval(http, aid, digest=None, yes=False, prompt=input):
     return True
 
 
-def main(argv):
+def main(argv, approval_prompt=None):
     parser = argparse.ArgumentParser(
         prog="pulse", description="Inspect and monitor one local repository"
     )
@@ -246,7 +246,7 @@ def main(argv):
                         or "No recorded incidents. Check actual telemetry coverage in the dashboard."
                     )
                 elif args.command == "approve":
-                    approval(http, args.id, args.digest, args.yes)
+                    approval(http, args.id, args.digest, args.yes, prompt=approval_prompt or input)
                 elif args.command == "reject":
                     http.post(
                         f"/remediations/{identifier(args.id)}/reject", json={}

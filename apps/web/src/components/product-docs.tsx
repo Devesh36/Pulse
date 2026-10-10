@@ -23,6 +23,50 @@ const contents = [
 ];
 const commands = [
   [
+    "/help [COMMAND]",
+    "Explore grouped commands and detailed usage. Tab completes command names.",
+  ],
+  [
+    "/open PATH · /scan · /init",
+    "Select a repository, inventory metadata and prepare enrollment for review.",
+  ],
+  [
+    "/watch [FLAGS]",
+    "Keep monitoring and the local dashboard running while this REPL accepts commands.",
+  ],
+  [
+    "/context · /status · /model",
+    "Inspect project scope, API/telemetry readiness and reasoning budgets.",
+  ],
+  [
+    "/services · /use NAME",
+    "List scoped services and select one monitored service for questions and logs.",
+  ],
+  [
+    "/ask QUESTION · /logs [LIMIT]",
+    "Request a read-only evidence investigation or read bounded logs. Follow the returned incident ID for answers.",
+  ],
+  [
+    "/incidents · /inspect ID · /timeline ID",
+    "Read incident state, diagnosis, proposed actions, verification evidence and persisted events.",
+  ],
+  [
+    "/report · /recheck ID",
+    "Read retained reports or verify recovery again without replaying an action.",
+  ],
+  [
+    "/approve ID · /reject ID",
+    "Review an exact expiring proposal and explicitly approve it, or handle recovery yourself.",
+  ],
+  [
+    "/investigate ID · /permissions ID",
+    "Confirm reinvestigation or explicitly change recovery permission. Each action still needs approval.",
+  ],
+  [
+    "/clear",
+    "Clear visible output while retaining context, reports and audit history.",
+  ],
+  [
     "demo / 1",
     "Run a real crash, investigation, approved Start and recovery check.",
   ],
@@ -30,21 +74,30 @@ const commands = [
     "telemetry / 2",
     "Compare recovery and continuing failure, interrupt selected lab telemetry, restart the API and recheck after restoration.",
   ],
-  ["dashboard / 3", "Open the Incident Lab at http://localhost:3100/lab."],
-  ["status / 4", "Inspect fresh lab discoveries and current state."],
+  [
+    "/dashboard · /lab dashboard",
+    "Open the selected project workspace, or explicitly open the incident lab.",
+  ],
+  [
+    "/lab status",
+    "Check the incident lab independently of selected project context.",
+  ],
   [
     "reports / 5",
     "Read measured outcomes, citations, action results and explanations.",
   ],
   [
-    "stop / 6",
-    "Confirm and stop the lab; keep credentials, volumes, database and reports.",
+    "/stop · /lab stop",
+    "Stop only this REPL's project monitoring, or explicitly confirm stopping the lab. Keep your app and all data.",
   ],
   [
     "quality / 7",
     "Review retained evaluations, comparable baselines and actionable regression flags without starting or changing the lab.",
   ],
-  ["exit / 0", "Leave the REPL. Running lab services stay available."],
+  [
+    "exit / 0",
+    "Stop owned project monitoring and leave. Running lab services stay available.",
+  ],
 ];
 
 export function ProductDocs({ siteOnly = false }: { siteOnly?: boolean }) {
@@ -235,7 +288,10 @@ export function ProductDocs({ siteOnly = false }: { siteOnly?: boolean }) {
             <h2>REPL commands</h2>
             <p>
               Launch with <code>pulse repl</code> or <code>Pulse Repl</code>.
-              Type a command or its menu number.
+              Slash prefixes are optional. Monitoring runs while the prompt
+              stays available; Ctrl+C cancels input without retrying an action.
+              Command history is not saved. Answers to questions appear
+              asynchronously in incident inspection and the dashboard.
             </p>
             <div
               className={styles.commandTable}

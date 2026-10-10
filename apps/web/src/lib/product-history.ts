@@ -187,6 +187,13 @@ export const productPhases: ProductPhase[] = [
         title: "Scan, observe and choose the recovery",
         impact:
           "Added bounded repository inventory, reviewed monitoring enrollment, an installed local dashboard and project commands in the CLI/REPL. Each repository keeps its own database, credentials and reports. The gateway checks its directory and service allowlist; users explicitly approve or reject exact recovery proposals. Stopping the terminal leaves the app running. Live monitoring currently supports local Compose apps; model investigations run on detected incidents within existing budgets.",
+        commit: "60a94615690cf5f1842f3036fd89513926325a80",
+      },
+      {
+        date: "2026-10-10",
+        title: "An interactive incident companion",
+        impact:
+          "Added grouped slash commands, command completion and detailed help, repository/service context, read-only questions, logs and incident evidence inspection. Monitoring runs while the prompt remains available, and exits with its owning terminal. Invalid commands and cancellation preserve the session; recovery retains exact human approval and retained evidence.",
       },
     ],
   },

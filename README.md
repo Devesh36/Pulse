@@ -79,6 +79,28 @@ confirm `y`. Then type `dashboard` to open http://localhost:3100/lab; sign in wi
 for measured outcomes, `stop` and confirm `y` to preserve the database and reports,
 then `exit` to leave the menu. The first build can take several minutes.
 
+### Use the interactive project companion
+
+Run `pulse repl /path/to/your-project` (or `Pulse Repl`) and use `/help` to explore.
+Start with `/scan`, `/init`, review/apply the printed Compose enrollment command,
+then `/watch`. The prompt stays available while monitoring runs:
+
+```text
+/status
+/services
+/use api
+/ask Why is this service failing?
+/incidents
+/inspect INCIDENT_UUID
+/timeline INCIDENT_UUID
+```
+
+Tab completes commands; `/help COMMAND` shows usage. `/context`, `/model`,
+`/logs`, `/report` and `/clear` help inspect the current session. Questions and
+investigations read scoped evidence; recovery still requires `/approve ACTION_UUID`.
+`/stop` or `/exit` stops only the monitoring this REPL started and preserves your
+app and data. See the [full command workflow](docs/repository-companion.md#agentic-command-workflow).
+
 ### Development checkout
 
 Requirements: Docker Engine with a working daemon, Docker Compose v2, and `uv` with Python 3.12+. Node 22+ is needed only for frontend development outside Compose.
