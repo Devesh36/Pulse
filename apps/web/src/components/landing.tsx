@@ -442,16 +442,17 @@ export function Landing({ siteOnly = false }: { siteOnly?: boolean }) {
           <div className={styles.eyebrow}>MEET YOUR NEXT INCIDENT PREPARED</div>
           <h2>Install. Open. Try a demo.</h2>
           <p>
-            Open the REPL, type <code>demo</code>, and follow a real
-            crash-and-recovery run. Docker with Compose is required for the lab;
-            the dashboard opens on localhost.
+            Open the REPL inside your running Compose project and type
+            <code>/demo</code>. Pulse scans it, prepares read-only monitoring
+            and opens your local dashboard. Try <code>/lab demo</code> for the
+            separate crash-and-recovery demonstration.
           </p>
           <div className={styles.replHint}>
             <Terminal size={18} />
             <span>
               <code>pulse repl</code>
               <br />
-              Then choose <strong>1 · Demo</strong>.
+              Then type <strong>/demo</strong>.
             </span>
           </div>
         </div>

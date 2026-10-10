@@ -80,6 +80,10 @@ def report_markdown(report):
 
 def approval(http, aid, digest=None, yes=False, prompt=input):
     action = http.get(f"/remediations/{identifier(aid)}").raise_for_status().json()
+    if action.get("read_only"):
+        raise RuntimeError(
+            "Project demo is read-only. Stop it, then use normal monitoring and reviewed enrollment to enable recovery; no approval was issued."
+        )
     if (
         action["status"] != "proposed"
         or action["expires_at"] <= time.time()
@@ -153,6 +157,11 @@ def main(argv, approval_prompt=None):
             command.add_argument("--port", type=int, default=8765)
             command.add_argument("--no-browser", action="store_true")
             command.add_argument("--model")
+            command.add_argument(
+                "--read-only",
+                action="store_true",
+                help="Observe strictly scoped project services without label changes; gateway rejects all recovery",
+            )
     report = commands.add_parser("report")
     report.add_argument("--repo", default=".")
     report.add_argument("--incident")
@@ -204,7 +213,7 @@ def main(argv, approval_prompt=None):
             if not (location(args.repo) / "profile.json").exists():
                 profile = initialize(args.repo)
                 print(setup_instructions(profile), flush=True)
-            session.watch(args.repo, args.port, not args.no_browser, args.model)
+            session.watch(args.repo, args.port, not args.no_browser, args.model, args.read_only)
         elif args.command == "report":
             folder = location(args.repo) / "reports"
             if args.incident:

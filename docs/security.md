@@ -34,6 +34,16 @@ The emergency switch prevents new mutations at policy evaluation; the gateway en
 
 ## Credentials and retained evidence
 
+`/demo` explicitly enrolls the selected repository for read-only observation of
+its existing Compose containers without adding labels. The gateway requires a
+nonempty project/root/service scope, checks canonical Compose working-directory
+labels, preserves explicit monitoring opt-outs and excludes lab resources.
+It rejects every recovery and fault-control operation independently of the API;
+the API also denies approval and permission escalation and records denied
+approval attempts. A demo does not change stored recovery permissions or run
+application code. Normal monitoring retains its existing explicit labels and
+digest-bound approval requirements.
+
 `.env` has mode `0600`; secrets must stay out of source control. API settings report configured status and a sanitized base URL, never keys. Docker environment variables/mounts are omitted from evidence. Common password, token, API-key, authorization-header, known key-prefix, and URL credential patterns are redacted before evidence persistence or model submission. **Pattern redaction can miss secrets.** Avoid putting credentials or sensitive customer data in monitored application logs.
 
 A configured cloud provider receives redacted questions and operational evidence. Use an approved/local endpoint when evidence must remain local. PostgreSQL volumes retain incident/tool/approval/audit/checkpoint data; samples have a 24-hour retention limit. Backups/retention/encryption/access control for the host and database remain operator responsibilities.

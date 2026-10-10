@@ -43,6 +43,7 @@ async def lifespan(app):
         services=json.loads(os.environ["PULSE_RESOURCE_SERVICES"])
         if "PULSE_RESOURCE_SERVICES" in os.environ
         else None,
+        read_only=os.getenv("PULSE_RESOURCE_READ_ONLY") == "true",
     )
     try:
         with parent_guard():

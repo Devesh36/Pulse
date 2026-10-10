@@ -67,19 +67,33 @@ uv tool install --from git+https://github.com/Devesh36/Pulse.git@main pulse-sre
 pulse repl
 ```
 
-Choose **1 / Demo**, confirm the scoped lab action, and follow the real crash/recovery
+Type **/lab demo**, confirm the scoped lab action, and follow the real crash/recovery
 run. `Pulse Repl` is also supported. Type `telemetry` for missing-evidence verification,
 `reports` for results, or `stop` to preserve history and stop the lab. Docker with
 Compose is required for demos; no LLM API key is needed. Homebrew users can install
 the included preview formula: [installation and menu guide](docs/getting-started.md).
 
-After installation, start Docker Desktop/Engine, run `pulse repl`, type `demo` and
-confirm `y`. Then type `dashboard` to open http://localhost:3100/lab; sign in with
+After installation, start Docker Desktop/Engine, run `pulse repl`, type `/lab demo` and
+confirm `y`. Then type `/lab dashboard` to open http://localhost:3100/lab; sign in with
 `PULSE_ADMIN_TOKEN` from the credential file path printed by the REPL. Type `reports`
-for measured outcomes, `stop` and confirm `y` to preserve the database and reports,
+for measured outcomes, `/lab stop` and confirm `y` to preserve the database and reports,
 then `exit` to leave the menu. The first build can take several minutes.
 
 ### Use the interactive project companion
+
+For a one-command introduction to your already-running local Compose app:
+
+```bash
+cd /path/to/your-project
+Pulse Repl
+```
+
+Then type `/demo`. Pulse scans the repository, prepares private state, discovers
+its existing Compose services and opens a read-only local dashboard. No separate
+enrollment command or application label changes are required. Repeating `/demo`
+reuses the session. Recovery is disabled in this mode; `/stop` ends owned monitoring.
+If your app is not running or lacks a supported Compose file, Pulse explains the
+missing runtime rather than inventing telemetry or executing repository scripts.
 
 Run `pulse repl /path/to/your-project` (or `Pulse Repl`) and use `/help` to explore.
 Start with `/scan`, `/init`, review/apply the printed Compose enrollment command,

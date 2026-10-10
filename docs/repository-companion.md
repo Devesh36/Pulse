@@ -13,6 +13,37 @@ not establish the security or transaction correctness of a trading/banking app.
 
 ## Install, scan and enroll
 
+### One-command project demo
+
+Open `Pulse Repl` inside your **already-running local Docker Compose project**,
+then type `/demo`. The current directory is selected automatically. Pulse scans
+bounded metadata, creates/reuses private state, detects the Compose project from
+its existing containers and starts a read-only local dashboard and monitor. A
+single discovered service becomes the context for `/ask`. Multiple services are
+listed for `/use NAME`; incident counts and evidence commands explain actual
+observations. No question or fault is injected automatically.
+
+No app scripts, image builds/pulls, Compose commands, label changes or container
+mutations run in this mode. Read-only enrollment requires the exact Compose
+project, canonical working directory and declared service allowlist; explicit
+`pulse.monitor=false` opt-outs and incident-lab resources stay excluded. All
+recovery is blocked by both the API and gateway, even for previously eligible
+development containers. Stored permissions remain unchanged for normal sessions.
+
+Repeated `/demo` calls reuse an active read-only session. An existing normal
+session must be stopped in its owning terminal first. The demo waits for a fresh
+completed telemetry poll; stale/missing polls never yield a ready verdict.
+It still reports missing application metrics or absent containers as unavailable.
+
+Optional flags: `/demo --compose-file PATH --compose-project NAME --port 8765
+--model PROVIDER/MODEL --no-browser`. If more than one Compose project uses the
+directory, select its name explicitly. Existing profile scope is never replaced.
+Without a Compose runtime, the scan remains useful but continuous application
+monitoring cannot run; `/lab demo` provides the separate authorized sample.
+
+Stop with `/stop` or `/exit`; the app and retained evidence remain. For normal
+approval-enabled monitoring, use the explicit enrollment workflow below.
+
 Use Python 3.12+, uv and Git, plus Docker Engine/Desktop with Compose v2. This
 installs the GitHub main preview, not a published PyPI release:
 
@@ -117,7 +148,7 @@ command. `/clear` clears the visible terminal without deleting evidence. Updates
 from background monitoring appear after each command; `/status` and `/incidents`
 check live progress. The lab stays explicitly available via `/lab status`,
 `/lab dashboard` and `/lab stop` even with a selected project.
-`demo`, `telemetry`, `reports` and `quality` always operate on
+`/lab demo`, `telemetry`, `reports` and `quality` always operate on
 the separate incident lab, not the selected project.
 
 ## Background reasoning
@@ -229,6 +260,8 @@ monitoring, cancellation, stop/restart and hard owner death with real evidence:
 
 ```bash
 uv run python examples/incident-lab/scripts/repl-session.py
+uv run python examples/incident-lab/scripts/repl-session.py --demo
+uv run --with playwright python examples/incident-lab/scripts/repl-session.py --demo --browser
 # Optional: use an already-installed executable instead of the source entry point
 PULSE_TEST_CLI=/path/to/pulse uv run python examples/incident-lab/scripts/repl-session.py
 ```

@@ -36,6 +36,7 @@ class PulseRepl(ProjectCommands):
     prompt = "pulse › "
     intro = "\nPulse — evidence before action.\n/help for commands · Tab to complete · Ctrl+C to cancel · /exit to leave\n"
     MENU = """Project
+  /demo [FLAGS]   Scan, prepare and open this project's read-only dashboard
   /open PATH       Select a repository (quote paths with spaces)
   /scan            Inventory its metadata; never execute its scripts
   /init            Prepare enrollment for you to review and apply
@@ -61,7 +62,7 @@ Decide
   /permissions ID  Explicitly change service recovery permission
   /recheck ID      Verify again without replaying remediation
 Incident lab
-  1 / demo         Guided crash → investigation → approved recovery
+  /lab demo        Guided crash → investigation → approved recovery
   2 / telemetry    Missing evidence → inconclusive → restored recovery
   /lab status      Check the lab explicitly, even with a selected project
   /lab dashboard   Open the lab workspace
@@ -120,7 +121,6 @@ Slash prefixes are optional. Legacy numeric shortcuts 3–6 also work.
                 "clear",
                 "exit",
                 "quit",
-                "demo",
                 "telemetry",
                 "reports",
                 "quality",
@@ -434,8 +434,14 @@ Slash prefixes are optional. Legacy numeric shortcuts 3–6 also work.
             )
 
     def do_demo(self, arg):
-        """Run a real scoped crash-and-recovery demonstration."""
-        self.demonstrate("container-crash")
+        """/demo [--compose-file PATH] [--compose-project NAME] [--port PORT] [--model PROVIDER/MODEL] [--no-browser] — Scan and open selected project monitoring in read-only mode. /lab demo runs the isolated fault lab."""
+        if self.project_path:
+            from pulse.project.demo import run
+
+            with redirect_stdout(self.stdout), redirect_stderr(self.stdout):
+                run(self, arg)
+        else:
+            self.demonstrate("container-crash")
 
     def do_telemetry(self, arg):
         """Demonstrate inconclusive verification and restored telemetry."""
@@ -545,15 +551,16 @@ Slash prefixes are optional. Legacy numeric shortcuts 3–6 also work.
             cli.main(["lab", "stop"])
 
     def do_lab(self, arg):
-        """/lab status|dashboard|stop — Explicitly target the incident lab, independent of project context."""
+        """/lab demo|status|dashboard|stop — Explicitly target the incident lab, independent of project context."""
         operations = {
             "status": self.lab_status,
             "dashboard": self.lab_dashboard,
             "stop": self.lab_stop,
+            "demo": lambda arg: self.demonstrate("container-crash"),
         }
         operation = operations.get(arg.strip().lower())
         if operation is None:
-            self.emit("Use /lab status, /lab dashboard or /lab stop.")
+            self.emit("Use /lab demo, /lab status, /lab dashboard or /lab stop.")
         else:
             operation("")
 
@@ -589,8 +596,7 @@ def terminal_completion(shell):
 
 def run(repo=None):
     shell = PulseRepl(stdin=sys.stdin, stdout=sys.stdout)
-    if repo:
-        shell.do_open(shlex.quote(repo))
+    shell.do_open(shlex.quote(repo or os.getcwd()))
     shell.use_rawinput = sys.stdin.isatty() and sys.stdout.isatty()
     restore_completion = terminal_completion(shell) if shell.use_rawinput else lambda: None
     try:

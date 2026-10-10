@@ -194,6 +194,13 @@ export const productPhases: ProductPhase[] = [
         title: "An interactive incident companion",
         impact:
           "Added grouped slash commands, command completion and detailed help, repository/service context, read-only questions, logs and incident evidence inspection. Monitoring runs while the prompt remains available, and exits with its owning terminal. Invalid commands and cancellation preserve the session; recovery retains exact human approval and retained evidence.",
+        commit: "229bc590e5b7f61186748683cb0d0a2779be7b30",
+      },
+      {
+        date: "2026-10-10",
+        title: "One command to meet your project",
+        impact:
+          "Added /demo in the project REPL: bounded inventory, automatic private setup, read-only discovery of existing Compose services, a readiness check and a local dashboard. Demo enrollment changes no app labels or containers and rejects recovery at both API and gateway. Repeated demos reuse the session; the separate crash lab stays available through /lab demo.",
       },
     ],
   },

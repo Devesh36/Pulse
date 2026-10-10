@@ -23,6 +23,10 @@ const contents = [
 ];
 const commands = [
   [
+    "/demo [FLAGS]",
+    "Scan the current repository, prepare private state and open its read-only local dashboard in one flow. Reuses an active demo; never recreates your app.",
+  ],
+  [
     "/help [COMMAND]",
     "Explore grouped commands and detailed usage. Tab completes command names.",
   ],
@@ -67,7 +71,7 @@ const commands = [
     "Clear visible output while retaining context, reports and audit history.",
   ],
   [
-    "demo / 1",
+    "/lab demo",
     "Run a real crash, investigation, approved Start and recovery check.",
   ],
   [
@@ -192,7 +196,7 @@ export function ProductDocs({ siteOnly = false }: { siteOnly?: boolean }) {
               <li>
                 <h3>Run the real demo</h3>
                 <pre tabIndex={0}>
-                  <code>{"pulse › demo\nContinue? [y/N] y"}</code>
+                  <code>{"pulse › /lab demo\nContinue? [y/N] y"}</code>
                 </pre>
                 <p>
                   The first run builds the fixed <code>pulse-lab</code> Compose
@@ -221,7 +225,7 @@ export function ProductDocs({ siteOnly = false }: { siteOnly?: boolean }) {
                 <pre tabIndex={0}>
                   <code>
                     {
-                      "pulse › reports\npulse › stop\nContinue? [y/N] y\npulse › exit"
+                      "pulse › reports\npulse › /lab stop\nContinue? [y/N] y\npulse › exit"
                     }
                   </code>
                 </pre>
@@ -255,9 +259,12 @@ export function ProductDocs({ siteOnly = false }: { siteOnly?: boolean }) {
               incident investigations. Ctrl+C stops Pulse and leaves your app
               running; history and reports persist. Sign in at the printed local
               URL using the private credentials file. No Node build is required.
-              You can also use <code>Pulse Repl</code>, then{" "}
-              <code>open PATH</code>,<code>scan</code>, <code>init</code> and{" "}
-              <code>watch</code>.
+              You can also open <code>Pulse Repl</code> inside your repository
+              and type <code>/demo</code> for automatic read-only setup. It
+              discovers existing Compose containers and opens the dashboard
+              without changing their labels. Recovery is disabled in this demo;
+              normal approval-enabled monitoring uses the enrollment workflow
+              above.
             </p>
             <p>
               Review a proposed fix in the dashboard or with{" "}
@@ -484,9 +491,10 @@ export function ProductDocs({ siteOnly = false }: { siteOnly?: boolean }) {
             <details>
               <summary>How do I stop or update safely?</summary>
               <p>
-                Use <code>stop</code> in the REPL or <code>pulse lab stop</code>{" "}
-                to retain history. <code>exit</code> leaves the lab running.
-                Update a uv install with <code>uv tool upgrade pulse-sre</code>.{" "}
+                Use <code>/lab stop</code> in the REPL or{" "}
+                <code>pulse lab stop</code> to retain history. <code>exit</code>{" "}
+                leaves the lab running. Update a uv install with{" "}
+                <code>uv tool upgrade pulse-sre</code>.{" "}
                 <code>pulse lab down</code> deletes disposable lab volumes and
                 database history, while retaining host reports. Uninstalling the
                 CLI leaves user data and running containers.

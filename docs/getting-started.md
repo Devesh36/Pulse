@@ -1,11 +1,12 @@
 # Start with Pulse
 
 For your own running Compose application, follow the
-[repository companion guide](repository-companion.md): `pulse scan`, `pulse init`,
-review/apply opt-in enrollment, then keep `pulse watch` open. The workflow below
+[repository companion guide](repository-companion.md): open `Pulse Repl` in that
+repository and type `/demo` for automatic read-only setup and a local dashboard.
+Normal recovery-enabled sessions use reviewed enrollment and `pulse watch`. The workflow below
 demonstrates the separate authorized incident lab.
 
-Install the preview from the default `main` branch, open the terminal menu, and choose **Demo**.
+Install the preview from `main`, open the REPL, and type **/lab demo** to try the separate lab.
 Git and uv are needed for the uv route. Homebrew installs Python and uv for its route.
 Real demos need a running Docker Engine/Desktop with Compose v2. No model API key is needed.
 
@@ -42,7 +43,7 @@ on the cloud validation host; the equivalent locked installation and CLI were ch
 ## Use the menu
 
 ```text
-pulse › demo
+pulse › /lab demo
 Continue? [y/N] y
 ```
 
@@ -54,12 +55,13 @@ The first build can take several minutes; later runs reuse images and data.
 
 | Command | What happens |
 |---|---|
-| `demo` or `1` | Crash → evidence-backed investigation → approved start → recovery verification |
+| `/demo` or `1` | Scan and open the current project's read-only dashboard and monitor |
+| `/lab demo` | Crash → evidence-backed investigation → approved start → recovery verification |
 | `telemetry` or `2` | Successful and ineffective actions, selected telemetry loss, API restart and read-only restoration recheck |
-| `dashboard` or `3` | Open http://localhost:3100/lab |
-| `status` or `4` | Show fresh lab discoveries; no credentials are created by this command |
+| `/lab dashboard` | Open http://localhost:3100/lab |
+| `/lab status` | Show fresh lab discoveries; no credentials are created by this command |
 | `reports` or `5` | Show measured verdicts, citations, actions and actionable explanations |
-| `stop` or `6` | Stop the lab while preserving its database, credentials, volumes and reports |
+| `/lab stop` | Stop the lab while preserving its database, credentials, volumes and reports |
 | `quality` or `7` | Review retained evaluations, compatible baselines and improvement steps offline; no resource changes |
 | `exit` or `0` | Leave the REPL; the lab remains available |
 

@@ -278,7 +278,7 @@ def test_actual_terminal_tab_completion_and_slash_help():
         assert predicate(), transcript.decode(errors="replace")
 
     try:
-        collect(lambda: b"pulse \xe2\x80\xba " in transcript)
+        collect(lambda: b"pulse [" in transcript and b"\xe2\x80\xba " in transcript)
         os.write(master, b"/hel\t\n")
         collect(lambda: transcript.count(b"Project\r\n") >= 2)
         os.write(master, b"/help ask\n/exit\n")

@@ -115,7 +115,7 @@ def terminal(value):
     return re.sub(r"[\x00-\x08\x0b-\x1f\x7f]", "", redact(value))
 
 
-def environment(profile, folder, port, model):
+def environment(profile, folder, port, model, read_only=False):
     tokens = credentials(profile["root"])
     # Never source the target repository's .env or execute its package scripts.
     inherited = {k: v for k, v in os.environ.items() if not k.startswith("PULSE_")}
@@ -126,6 +126,7 @@ def environment(profile, folder, port, model):
         "services": profile["services"],
         "override_file": str(folder / "monitor.compose.json"),
         "prometheus_configured": bool(profile.get("prometheus_url")),
+        "read_only": read_only,
     }
     api = {
         **inherited,
@@ -152,13 +153,14 @@ def environment(profile, folder, port, model):
         "PULSE_RESOURCE_PROJECT": profile["compose_project"],
         "PULSE_RESOURCE_ROOT": profile["root"],
         "PULSE_RESOURCE_SERVICES": json.dumps(profile["services"]),
+        "PULSE_RESOURCE_READ_ONLY": "true" if read_only else "false",
         "PULSE_LAB_ENABLED": "false",
         "PULSE_SESSION_OWNER": str(os.getpid()),
     }
     return api, gateway
 
 
-def watch(path, port=8765, browser=True, model=None):
+def watch(path, port=8765, browser=True, model=None, read_only=False):
     profile = load(path)
     folder = location(path)
     model = model if model is not None else os.getenv("PULSE_LLM_MODEL", "")
@@ -184,7 +186,7 @@ def watch(path, port=8765, browser=True, model=None):
         for name in ("pulse.db", "gateway.db", "api.log", "gateway.log", "active.json"):
             if (folder / name).is_symlink():
                 raise RuntimeError("Project state files cannot use symlinks")
-        api_env, gateway_env = environment(profile, folder, port, model)
+        api_env, gateway_env = environment(profile, folder, port, model, read_only)
         children = []
         logs = []
         http = None
@@ -234,7 +236,10 @@ def watch(path, port=8765, browser=True, model=None):
                 "Starting Pulse's scoped gateway and local dashboard. Your application is not started or changed.",
                 flush=True,
             )
-            atomic_json(folder / "active.json", {"port": port, "owner_pid": os.getpid()})
+            atomic_json(
+                folder / "active.json",
+                {"port": port, "owner_pid": os.getpid(), "read_only": read_only},
+            )
             deadline = time.monotonic() + 40
             while time.monotonic() < deadline:
                 if any(child.poll() is not None for child in children):

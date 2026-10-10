@@ -163,6 +163,7 @@ class ProjectCommands(cmd.Cmd):
         parser.add_argument("--port", type=int, default=8765)
         parser.add_argument("--model")
         parser.add_argument("--no-browser", action="store_true")
+        parser.add_argument("--read-only", action="store_true")
         args = parser.parse_args(shlex.split(arg))
         if not self.project_path:
             raise RuntimeError("Select a repository with /open PATH first")
@@ -196,6 +197,8 @@ class ProjectCommands(cmd.Cmd):
                 command += ["--model", args.model]
             if args.no_browser:
                 command += ["--no-browser"]
+            if args.read_only:
+                command += ["--read-only"]
             try:
                 self.watch_process = subprocess.Popen(
                     command,

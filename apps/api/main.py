@@ -526,6 +526,8 @@ def create_app(config: Config | None = None, store=None, runtime=None):
                 result.append(
                     {
                         **serialize(service),
+                        "remediation_allowed": service.remediation_allowed
+                        and not config.project_context.get("read_only", False),
                         "metrics": latest.data if latest is not None and fresh else None,
                     }
                 )
@@ -533,11 +535,21 @@ def create_app(config: Config | None = None, store=None, runtime=None):
 
     @app.get("/api/v1/services/{sid}", dependencies=auth, response_model=ServiceView)
     async def service(sid: str):
-        return serialize(require_service(sid))
+        row = require_service(sid)
+        return {
+            **serialize(row),
+            "remediation_allowed": row.remediation_allowed
+            and not config.project_context.get("read_only", False),
+        }
 
     @app.patch("/api/v1/services/{sid}/permissions", dependencies=auth, response_model=ServiceView)
     async def permissions(sid: str, body: ServicePermission):
         require_service(sid)
+        if body.remediation_allowed and config.project_context.get("read_only"):
+            raise HTTPException(
+                403,
+                "Project demo is read-only. Stop it and use normal monitoring to review recovery permissions.",
+            )
         with store.session.begin() as db:
             row = db.get(Service, sid)
             if row is None:
@@ -687,13 +699,18 @@ def create_app(config: Config | None = None, store=None, runtime=None):
                 {
                     **serialize(action),
                     "service_name": service.name,
-                    "remediation_allowed": service.remediation_allowed,
+                    "read_only": bool(config.project_context.get("read_only")),
+                    "remediation_allowed": service.remediation_allowed
+                    and not config.project_context.get("read_only", False),
                     "incident_state": incident.state,
                 }
             )
 
     @app.post("/api/v1/remediations/{aid}/approve", dependencies=auth, status_code=202)
     async def approve(aid: str, body: Approval, request: Request):
+        if config.project_context.get("read_only"):
+            store.audit("remediation.approval_denied", aid, {"reason": "Project demo is read-only"})
+            raise HTTPException(409, "Project demo is read-only; no approval was issued")
         try:
             await runtime.remediator.claim(aid, body.action_digest, actor=request.state.actor)
         except PolicyError as e:

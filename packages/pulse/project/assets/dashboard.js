@@ -1,5 +1,6 @@
 "use strict";
 const $ = (id) => document.getElementById(id);
+let readOnly = false;
 let timer,
   selected,
   report,
@@ -132,7 +133,8 @@ async function detail(id) {
             );
             $("review").showModal();
           },
-          incident.state !== "AWAITING_APPROVAL" ||
+          readOnly ||
+            incident.state !== "AWAITING_APPROVAL" ||
             action.expires_at * 1000 <= Date.now(),
         ),
         button("I’ll handle it · reject proposal", () =>
@@ -153,6 +155,7 @@ async function refresh() {
     api("/settings"),
   ]);
   $("project-name").textContent = project.inventory.name;
+  readOnly = Boolean(project.read_only);
   $("project-info").textContent =
     `${project.inventory.languages.join(" · ") || "Project metadata"} · ${project.inventory.frameworks.join(" · ") || "No framework inferred"}`;
   $("scope").textContent =
@@ -168,7 +171,13 @@ async function refresh() {
     `${services.length} enrolled services discovered. ${project.prometheus_configured ? "Prometheus uses the supported demo metric schema; inspect metric availability." : "Prometheus is not configured: application latency/error-rate detection is unavailable."}`;
   $("setup").textContent = services.length
     ? "Services below were observed through the selected repository’s scoped gateway."
-    : `No opted-in services observed. Review ${project.override_file}, then apply it with your Compose file before expecting runtime coverage.`;
+    : project.read_only
+      ? "No scoped Compose containers observed. Start your application yourself; missing telemetry does not prove health."
+      : `No opted-in services observed. Review ${project.override_file}, then apply it with your Compose file before expecting runtime coverage.`;
+  if (project.read_only) {
+    $("scope").textContent +=
+      " · Read-only project demo: recovery is disabled and application labels are unchanged.";
+  }
   const rows = $("services");
   rows.replaceChildren();
   for (const service of services) {
@@ -197,6 +206,7 @@ async function refresh() {
     );
     const labels = service.snapshot.labels || {};
     const eligible =
+      !readOnly &&
       labels["pulse.remediate"] === "true" &&
       labels["pulse.environment"] === "development";
     el.append(
@@ -204,7 +214,9 @@ async function refresh() {
         "p",
         eligible
           ? `Approved recovery permission: ${service.remediation_allowed ? "enabled" : "disabled"}. Each action still needs its own approval.`
-          : "Recovery is advisory. Explicit development/recovery labels are required for Pulse to change this service.",
+          : readOnly
+            ? "Read-only project demo: recovery is disabled."
+            : "Recovery is advisory. Explicit development/recovery labels are required for Pulse to change this service.",
       ),
     );
     if (eligible)
