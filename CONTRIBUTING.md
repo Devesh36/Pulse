@@ -11,3 +11,7 @@ Preserve evidence IDs, distinguish observations from hypotheses, and state uncer
 Schema changes require a new frozen Alembic revision, including PostgreSQL upgrade validation. Existing migrations must not import live ORM metadata. Keep credentials out of logs, API responses, example files, screenshots, commits, and fixtures.
 
 Open a focused pull request describing the problem, resulting behavior, test evidence, and any remaining limitations. Update documentation when installation, capabilities, or safety assumptions change. This project uses the MIT license; contributions are under that license.
+
+Every product change also needs a dated entry in the landing page’s Phases history
+(`apps/web/src/lib/product-history.ts`). Summarize its effect on Pulse, preserve
+earlier entries, and backfill known commit links. Follow [the history update guide](docs/product-history.md).

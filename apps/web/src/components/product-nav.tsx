@@ -13,6 +13,7 @@ export function ProductNav({ siteOnly = false }: { siteOnly?: boolean }) {
         <Link href="/#how-it-works">How it works</Link>
         <Link href="/#demo">Demo</Link>
         <Link href="/docs">Docs</Link>
+        <Link href="/#phases">Phases</Link>
         <Link href="/#about">About</Link>
       </div>
       <Link

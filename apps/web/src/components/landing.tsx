@@ -21,6 +21,7 @@ import {
 import styles from "./landing.module.css";
 import { ProductNav } from "./product-nav";
 import { ProductScreenshots } from "./product-screenshots";
+import { ProductPhases } from "./product-phases";
 
 const repository = "https://github.com/Devesh36/Pulse/tree/main";
 const pulseTrace =
@@ -486,6 +487,7 @@ export function Landing({ siteOnly = false }: { siteOnly?: boolean }) {
           </Link>
         </div>
       </section>
+      <ProductPhases />
       <section
         className={`${styles.section} ${styles.aboutSection}`}
         id="about"
@@ -525,6 +527,7 @@ export function Landing({ siteOnly = false }: { siteOnly?: boolean }) {
         <p>Evidence before action.</p>
         <div>
           <Link href="/docs">Documentation</Link>
+          <a href="#phases">Phases</a>
           <a href="#about">About</a>
           <a href={repository}>
             Source code <ArrowRight size={13} />
