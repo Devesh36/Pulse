@@ -22,12 +22,12 @@ import styles from "./landing.module.css";
 import { ProductNav } from "./product-nav";
 import { ProductScreenshots } from "./product-screenshots";
 
-const repository = "https://github.com/Devesh36/Pulse/tree/work";
+const repository = "https://github.com/Devesh36/Pulse/tree/main";
 const pulseTrace =
   "M0 66H70q8-12 16 0h28l7 9 9-52 11 73 9-30h18q12-24 24 0h59q8-12 16 0h28l7 9 9-52 11 73 9-30h18q12-24 24 0H480";
 const installs = {
-  uv: "uv tool install --from git+https://github.com/Devesh36/Pulse.git@work pulse-sre\npulse repl",
-  brew: "curl -fsSL https://raw.githubusercontent.com/Devesh36/Pulse/work/scripts/install-homebrew.sh | bash\npulse repl",
+  uv: "uv tool install --from git+https://github.com/Devesh36/Pulse.git@main pulse-sre\npulse repl",
+  brew: "curl -fsSL https://raw.githubusercontent.com/Devesh36/Pulse/main/scripts/install-homebrew.sh | bash\npulse repl",
 };
 const steps = [
   {
@@ -114,7 +114,7 @@ export function Install() {
           ? "Select the commands above to copy them manually."
           : method === "uv"
             ? "Git-based install. Python 3.12+; uv can install Python for you."
-            : "Preview formula from the work branch. Requires Homebrew and Git."}
+            : "Preview formula from the main branch. Requires Homebrew and Git."}
       </div>
     </div>
   );

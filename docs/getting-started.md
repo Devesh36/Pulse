@@ -1,13 +1,13 @@
 # Start with Pulse
 
-Install the preview from the `work` branch, open the terminal menu, and choose **Demo**.
+Install the preview from the default `main` branch, open the terminal menu, and choose **Demo**.
 Git and uv are needed for the uv route. Homebrew installs Python and uv for its route.
 Real demos need a running Docker Engine/Desktop with Compose v2. No model API key is needed.
 
 ## Install with uv
 
 ```bash
-uv tool install --from git+https://github.com/Devesh36/Pulse.git@work pulse-sre
+uv tool install --from git+https://github.com/Devesh36/Pulse.git@main pulse-sre
 pulse repl
 ```
 
@@ -18,16 +18,15 @@ Pulse requires Python 3.12+; uv can provision it. If `pulse` is not found, run
 ## Install with Homebrew
 
 The repository includes a preview tap formula; it is not a Homebrew core formula.
-Until the changes are merged to the repository's default branch, select the `work`
-branch of the tap before installation:
+Install from the repository's default `main` branch:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Devesh36/Pulse/work/scripts/install-homebrew.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Devesh36/Pulse/main/scripts/install-homebrew.sh | bash
 pulse repl
 ```
 
 The [installer](../scripts/install-homebrew.sh) adds the explicit repository tap,
-fetches the preview branch even when the tap was shallow-cloned, and installs
+fetches `main` even when the tap was shallow-cloned, and installs
 `--HEAD`. It refuses a dirty tap or a different existing remote. To inspect it first,
 download the script to a local file and run it with Bash after review.
 

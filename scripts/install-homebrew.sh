@@ -17,8 +17,8 @@ if [ -n "$(git -C "$pulse_tap_root" status --porcelain)" ]; then
   echo "The existing tap has local changes; preserve them before installing Pulse." >&2
   exit 1
 fi
-git -C "$pulse_tap_root" fetch origin work:refs/remotes/origin/work
-git -C "$pulse_tap_root" switch --detach refs/remotes/origin/work
-# Keep auto-update from replacing this explicit preview checkout with main mid-install.
+git -C "$pulse_tap_root" fetch origin main:refs/remotes/origin/main
+git -C "$pulse_tap_root" switch --detach refs/remotes/origin/main
+# Keep auto-update from changing the selected checkout mid-install.
 HOMEBREW_NO_AUTO_UPDATE=1 brew install --HEAD devesh36/pulse/pulse
 echo "Pulse installed. Run: pulse repl"

@@ -6,6 +6,9 @@ and bootstrap installer, and a Next.js product home page. The operational overvi
 moved to `/dashboard`; the existing incident/lab routes and authentication remain.
 Usage: [getting started](getting-started.md).
 
+Current installation instructions track `main`. Branch names and commands below
+retain their historical `work` references from the recorded validation run.
+
 ## Passed checks
 
 Commands below ran from the checkout, with `UV_CACHE_DIR=/workspace/.cache/uv`.

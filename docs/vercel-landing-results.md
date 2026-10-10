@@ -4,6 +4,9 @@ Validated in the cloud checkout on 2026-10-09. Vercel CLI 63.1.0,
 Node 24.19.0, Next.js 16.4.0 and Python 3.12 were used. This report covers
 configuration and local execution, not a cloud deployment.
 
+Current deployment instructions track `main`. The branch snapshots below retain
+their historical `work` references; see the current [Vercel guide](vercel-landing.md).
+
 ## Commands and outcomes
 
 Unless noted, run from the repository root.

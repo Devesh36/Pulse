@@ -250,7 +250,7 @@ def test_homebrew_bootstrap_preserves_existing_taps(tmp_path, problem):
     )
     if problem == "none":
         assert result.returncode == 0
-        assert "fetch origin work:refs/remotes/origin/work" in log.read_text()
+        assert "fetch origin main:refs/remotes/origin/main" in log.read_text()
         assert "install --HEAD devesh36/pulse/pulse" in log.read_text()
     else:
         assert result.returncode == 1

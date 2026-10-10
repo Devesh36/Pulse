@@ -50,7 +50,7 @@ to run locally through Docker and the REPL.
 Install the preview and open its guided demo:
 
 ```bash
-uv tool install --from git+https://github.com/Devesh36/Pulse.git@work pulse-sre
+uv tool install --from git+https://github.com/Devesh36/Pulse.git@main pulse-sre
 pulse repl
 ```
 

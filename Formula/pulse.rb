@@ -2,7 +2,7 @@ class Pulse < Formula
   desc "Evidence-driven incident investigation and approved recovery for local Docker"
   homepage "https://github.com/Devesh36/Pulse"
   license "MIT"
-  head "https://github.com/Devesh36/Pulse.git", branch: "work"
+  head "https://github.com/Devesh36/Pulse.git", branch: "main"
 
   depends_on "python@3.12"
   depends_on "uv"

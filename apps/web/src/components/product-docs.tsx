@@ -127,7 +127,7 @@ export function ProductDocs({ siteOnly = false }: { siteOnly?: boolean }) {
                 </p>
                 <Install />
                 <p>
-                  These commands install the GitHub <code>work</code> preview.
+                  These commands install the GitHub <code>main</code> preview.
                   The Homebrew formula is a repository tap; native Homebrew
                   installation has not been validated on the cloud test host.
                 </p>
@@ -268,7 +268,7 @@ export function ProductDocs({ siteOnly = false }: { siteOnly?: boolean }) {
               <code>pulse.monitor=true</code>. Start/Restart proposals also
               require the remediation labels and separate dashboard permission.
               See the{" "}
-              <a href="https://github.com/Devesh36/Pulse/blob/work/README.md#opt-containers-in">
+              <a href="https://github.com/Devesh36/Pulse/blob/main/README.md#opt-containers-in">
                 container opt-in guide
               </a>{" "}
               before adding resources.
@@ -314,11 +314,11 @@ export function ProductDocs({ siteOnly = false }: { siteOnly?: boolean }) {
               The API, dashboard, CLI and evaluation reports expose the outcome,
               required evidence, received observations, timestamps and reason.
               Read the{" "}
-              <a href="https://github.com/Devesh36/Pulse/blob/work/docs/recovery-verification.md">
+              <a href="https://github.com/Devesh36/Pulse/blob/main/docs/recovery-verification.md">
                 verification policy
               </a>{" "}
               and{" "}
-              <a href="https://github.com/Devesh36/Pulse/blob/work/docs/verification-telemetry-results.md">
+              <a href="https://github.com/Devesh36/Pulse/blob/main/docs/verification-telemetry-results.md">
                 measured telemetry-loss results
               </a>{" "}
               for the detailed evidence.
@@ -389,7 +389,7 @@ export function ProductDocs({ siteOnly = false }: { siteOnly?: boolean }) {
                 this guide work without the API at{" "}
                 <code>http://localhost:3000</code>. The operational dashboard
                 requires the backend. See the{" "}
-                <a href="https://github.com/Devesh36/Pulse/blob/work/docs/getting-started.md#product-website">
+                <a href="https://github.com/Devesh36/Pulse/blob/main/docs/getting-started.md#product-website">
                   development instructions
                 </a>{" "}
                 for the complete stack.
@@ -400,7 +400,7 @@ export function ProductDocs({ siteOnly = false }: { siteOnly?: boolean }) {
             <Link href="/#get-started" className={styles.primary}>
               Start with Pulse <ArrowRight size={16} />
             </Link>
-            <a href="https://github.com/Devesh36/Pulse/tree/work/docs">
+            <a href="https://github.com/Devesh36/Pulse/tree/main/docs">
               More technical docs <ArrowRight size={16} />
             </a>
           </div>
@@ -414,7 +414,7 @@ export function ProductDocs({ siteOnly = false }: { siteOnly?: boolean }) {
         <p>Evidence before action.</p>
         <div>
           <Link href="/#about">About Pulse</Link>
-          <a href="https://github.com/Devesh36/Pulse/tree/work">Source code</a>
+          <a href="https://github.com/Devesh36/Pulse/tree/main">Source code</a>
           <span>MIT licensed</span>
         </div>
       </footer>

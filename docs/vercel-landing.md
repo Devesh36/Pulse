@@ -12,10 +12,9 @@ and guided incident lab on their own machines.
 
 ## Vercel project settings
 
-1. Import `Devesh36/Pulse` from the **`work` branch**, which contains the website.
-   At the time of this patch, `main` still renders the operational dashboard at `/`
-   and does not contain the landing page. Redeploying that old branch will keep
-   serving the old product. Changes must reach `main` before using it for this site.
+1. Import `Devesh36/Pulse` from the default **`main` branch**, which contains the
+   landing page, Docs and red ECG theme. The former `work` branch has been
+   consolidated into `main`.
 2. Click **Import single project** beside **web / Next.js**. Use Root Directory
    **`apps/web`** and framework **Next.js**.
 3. Leave build/install overrides disabled: `apps/web/vercel.json` supplies
@@ -26,9 +25,9 @@ and guided incident lab on their own machines.
 
 No Vercel project was linked or deployed while preparing this patch.
 
-For an existing project, create a new deployment from `work` rather than merely
+For an existing project, create a new deployment from `main` rather than merely
 redeploying the previous commit. Confirm the deployment's source commit includes
-this patch. Select `work` as the production branch if this project should track it;
+this patch. Select `main` as the production branch if this project should track it;
 branch pushes otherwise create previews according to the project's Git settings.
 
 The repository-root Services import is also supported: leave Root Directory at
