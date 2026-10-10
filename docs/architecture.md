@@ -13,6 +13,16 @@ Pulse is a modular monorepo with one API/worker process and a separate privilege
 
 ## Incident data flow
 
+The optional `packages/pulse/project` companion inventories known repository
+manifests and stores a private path-bound profile. `pulse watch` runs the existing
+API/runtime and a directory/service-scoped gateway as owned local processes. Its
+authenticated HTML/CSS/JS dashboard ships in the Python wheel, requiring no
+Next.js build. It uses a per-project SQLite database and gateway journal. Closing
+the owner stops only Pulse; watch never starts/stops application containers or
+executes/edits target code. Live monitoring requires a running opted-in local
+Compose app. The same lifecycle, approvals, checkpointing and verification below
+apply, with bounded model calls triggered by detected incidents.
+
 1. The gateway discovers only containers labeled `pulse.monitor=true`. API runtime upserts their identity/snapshot; operator monitoring choice persists.
 2. Monitored containers get a timestamped sample of status, Engine metrics, and fixed-template Prometheus measurements. Samples older than 24 hours are removed.
 3. The deterministic detector evaluates current health/status and consecutive threshold observations in a rolling window. A unique nullable `active_key` handles race-safe deduplication. Terminal incidents release the key; cooldown uses the previous update timestamp.

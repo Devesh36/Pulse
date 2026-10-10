@@ -4,6 +4,13 @@
 
 Pulse discovers opted-in containers, detects operational incidents, investigates with audited read-only tools, proposes a recovery action, requires your approval, and observes the service before declaring recovery. The dashboard contains live backend data; it does not seed fabricated incidents or metrics.
 
+Run the installed CLI in your own repository: `pulse scan`, `pulse init`, then
+review/apply the printed enrollment command and keep `pulse watch` open. Its
+local project dashboard and investigations share that terminal's lifetime;
+Ctrl+C stops only Pulse. History and reports persist. This first version scans
+different project types and monitors **running local Docker Compose apps**.
+See [repository setup, LLM configuration and recovery choices](docs/repository-companion.md).
+
 ## About Pulse
 
 Pulse connects monitoring, investigation, human-approved recovery and verification
@@ -11,6 +18,11 @@ in one local workspace. It is built for trusted Docker development environments,
 with a Next.js dashboard, Python API, PostgreSQL incident history and Prometheus
 telemetry. The guided incident lab lets you try the full workflow on selected demo
 resources using real measurements and deterministic reasoning, without a model API key.
+
+The repository companion ships a lightweight dashboard in the Python package,
+with a per-repository SQLite database and scoped gateway. It requires no Node
+build or separate Pulse stack. The Next.js operational workspace remains
+available for the full development/lab workflow; Vercel hosts the public website.
 
 Recovery is reported as **RECOVERED**, **NOT_RECOVERED** or **INCONCLUSIVE**. Missing
 telemetry never counts as healthy; a read-only recheck after restoration observes
@@ -36,6 +48,7 @@ and troubleshooting, with full-size product screenshots. **About** on the landin
 page describes the product, architecture and approval model.
 
 - [Install and use Pulse](docs/getting-started.md)
+- [Monitor your own repository](docs/repository-companion.md)
 - [Deploy the landing page and Docs on Vercel](docs/vercel-landing.md)
 - [Architecture](docs/architecture.md) and [API reference](docs/api.md)
 - [Recovery verification](docs/recovery-verification.md) and [real telemetry-loss results](docs/verification-telemetry-results.md)

@@ -1,6 +1,7 @@
 """Private Docker capability gateway. Never publish this port or expose its token to a model."""
 
 import asyncio
+import json
 import os
 import secrets
 import sqlite3
@@ -12,6 +13,7 @@ import docker
 from docker.errors import DockerException, NotFound
 from fastapi import Depends, FastAPI, Header, HTTPException, Path, Query
 from pulse.core.redaction import redact
+from pulse.project.guard import parent_guard
 from pulse.tools.docker_adapter import SDKAdapter, run_sdk
 from pydantic import BaseModel, Field
 
@@ -34,10 +36,19 @@ async def lifespan(app):
     client = docker.from_env(timeout=10)
     await asyncio.to_thread(client.ping)
     adapter = SDKAdapter(
-        client, os.getenv("PULSE_RESOURCE_PROJECT"), os.getenv("PULSE_LAB_TOKEN", "")
+        client,
+        os.getenv("PULSE_RESOURCE_PROJECT"),
+        os.getenv("PULSE_LAB_TOKEN", ""),
+        resource_root=os.getenv("PULSE_RESOURCE_ROOT"),
+        services=json.loads(os.environ["PULSE_RESOURCE_SERVICES"])
+        if "PULSE_RESOURCE_SERVICES" in os.environ
+        else None,
     )
-    yield
-    client.close()
+    try:
+        with parent_guard():
+            yield
+    finally:
+        client.close()
 
 
 async def auth(authorization: Annotated[str | None, Header()] = None):

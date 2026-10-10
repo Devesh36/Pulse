@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self'; base-uri 'none'; form-action 'self'"
+    />
+    <title>Pulse · Project workspace</title>
+    <link rel="stylesheet" href="/_pulse/dashboard.css" />
+    <script src="/_pulse/dashboard.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <a href="/" class="brand" aria-label="Pulse project home"
+        ><svg
+          aria-hidden="true"
+          width="30"
+          height="30"
+          viewBox="0 0 32 32"
+          fill="none"
+        >
+          <path
+            d="M1 17h7l4-12 7 23 4-11h8"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linejoin="round"
+          />
+        </svg>
+        pulse.</a
+      ><span>Local project workspace</span
+      ><button id="logout" hidden>Sign out</button>
+    </header>
+    <main>
+      <section id="login" class="panel login">
+        <p class="eyebrow">YOUR PROJECT. YOUR DECISION.</p>
+        <h1>Open your project workspace</h1>
+        <p>
+          Use the administrator token in the private credentials file printed by
+          <code>pulse watch</code>. Your project and incident history stay
+          local.
+        </p>
+        <form id="login-form">
+          <label for="token">Administrator token</label
+          ><input
+            id="token"
+            type="password"
+            autocomplete="off"
+            required
+          /><button type="submit">Open workspace</button>
+        </form>
+      </section>
+      <p id="error" role="alert" hidden></p>
+      <div id="workspace" hidden>
+        <section class="intro">
+          <p class="eyebrow">EVIDENCE BEFORE ACTION</p>
+          <h1 id="project-name">Your project</h1>
+          <p id="project-info"></p>
+          <p id="reasoning"></p>
+          <p id="session-state" role="status"></p>
+        </section>
+        <section class="panel" id="enrollment">
+          <h2>Project setup &amp; coverage</h2>
+          <p id="scope"></p>
+          <p id="coverage"></p>
+          <p id="setup"></p>
+          <p>
+            Telemetry shows runtime observations. A repository inventory is not
+            a security audit; business correctness needs application-specific
+            checks.
+          </p>
+        </section>
+        <section class="panel">
+          <div class="section-top">
+            <h2>Services</h2>
+            <span>Refreshes every 5 seconds</span>
+          </div>
+          <div id="services"></div>
+        </section>
+        <section class="panel">
+          <h2>Incidents</h2>
+          <p>
+            Review the diagnosis and recorded evidence. You choose whether to
+            allow a proposed recovery or handle the problem yourself.
+          </p>
+          <div id="incidents"></div>
+        </section>
+        <section class="panel" id="incident-detail" hidden>
+          <div class="section-top">
+            <h2>Incident report</h2>
+            <button id="download">Download JSON report</button>
+          </div>
+          <div id="detail"></div>
+        </section>
+      </div>
+    </main>
+    <dialog id="review">
+      <form method="dialog">
+        <h2>Review this exact action</h2>
+        <pre id="proposal"></pre>
+        <p>
+          Only the displayed action will be approved. Pulse will observe
+          recovery afterward; a successful operation alone does not prove
+          recovery.
+        </p>
+        <div class="actions">
+          <button value="cancel">Cancel</button
+          ><button value="approve" id="confirm-action">Approve action</button>
+        </div>
+      </form>
+    </dialog>
+    <footer>
+      Pulse stays alive while its terminal session runs. Reports and incident
+      history persist after it stops.
+    </footer>
+  </body>
+</html>

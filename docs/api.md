@@ -10,6 +10,15 @@ GET `/overview` returns database-wide monitored/healthy service counts, active i
 
 ## Services
 
+Repository companion mode also serves its bundled dashboard at `/` and adds
+authenticated GET `/api/v1/project` for inventory, scope and coverage. Public
+GET `/api/v1/project/identity` returns only an opaque path identity so the CLI
+can check a local port before sending credentials; it grants no access. These
+routes exist only for project sessions. GET `/api/v1/remediations/{action_id}`
+returns the redacted proposal with service name, current recovery permission and
+incident state for terminal review. Existing approval/rejection endpoints and
+policy checks remain authoritative. Companion sessions disable lab controls.
+
 - GET `/services`: discovered containers, current snapshot, operator permissions, latest collected sample.
 - GET `/services/{id}`: persisted service metadata.
 - PATCH `/services/{id}/permissions`: full `{"monitored":true,"remediation_allowed":false}`. Remediation requires monitoring. This does not approve any action.

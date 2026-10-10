@@ -171,6 +171,22 @@ export const productPhases: ProductPhase[] = [
         title: "Publish the story of Pulse",
         impact:
           "Added this Phases timeline and navigation link, with dated explanations and source commits. Established a contribution rule to record the product impact of future changes here.",
+        commit: "64c6647737d65b29b4ce8fe1854030bd290d3a40",
+      },
+    ],
+  },
+  {
+    id: "repository-companion",
+    label: "Phase 4",
+    title: "Bring Pulse to your repository",
+    summary:
+      "A terminal session owns a local project dashboard, continuous Docker Compose monitoring and background incident investigations.",
+    changes: [
+      {
+        date: "2026-10-10",
+        title: "Scan, observe and choose the recovery",
+        impact:
+          "Added bounded repository inventory, reviewed monitoring enrollment, an installed local dashboard and project commands in the CLI/REPL. Each repository keeps its own database, credentials and reports. The gateway checks its directory and service allowlist; users explicitly approve or reject exact recovery proposals. Stopping the terminal leaves the app running. Live monitoring currently supports local Compose apps; model investigations run on detected incidents within existing budgets.",
       },
     ],
   },

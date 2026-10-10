@@ -1,0 +1,2930 @@
+{
+  "scenario": "recovery-verification",
+  "status": "PASS",
+  "started_at": 1791621723.0177379,
+  "mode": "mock-model",
+  "configured_targets": {
+    "detection_deadline_seconds": 60,
+    "expected_verification": "NOT_RECOVERED"
+  },
+  "incident_id": "f81ac2f0-c496-4035-8770-7b21458a88b7",
+  "detection_latency_seconds": 10.343186616897583,
+  "incident_created_at": 1791621733.3609257,
+  "diagnosis": {
+    "category": "unknown",
+    "category_correct": true,
+    "validated_citations": 2,
+    "tool_calls": 5,
+    "successful_tool_calls": 5,
+    "required_tools_present": true,
+    "manual_review_required": "References and numeric observations are checked; truth of every free-text statement is not mechanically proven."
+  },
+  "detection": {
+    "sample": {
+      "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+      "name": "pulse-lab-demo-worker-1",
+      "status": "running",
+      "health": "unhealthy",
+      "health_log": [
+        {
+          "Start": "2026-10-10T08:42:03.296080629Z",
+          "End": "2026-10-10T08:42:03.78751196Z",
+          "ExitCode": 1,
+          "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+        },
+        {
+          "Start": "2026-10-10T08:42:05.788124038Z",
+          "End": "2026-10-10T08:42:06.211412645Z",
+          "ExitCode": 1,
+          "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+        },
+        {
+          "Start": "2026-10-10T08:42:08.212538825Z",
+          "End": "2026-10-10T08:42:08.691950428Z",
+          "ExitCode": 1,
+          "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+        }
+      ],
+      "restart_count": 0,
+      "exit_code": 0,
+      "oom_killed": false,
+      "error": "",
+      "started_at": "2026-10-10T08:40:43.136844611Z",
+      "finished_at": "2026-10-10T08:40:37.054644062Z",
+      "created_at": "2026-10-10T08:35:50.400994939Z",
+      "image": "pulse-lab-demo",
+      "labels": {
+        "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+        "com.docker.compose.project": "pulse-lab",
+        "com.docker.compose.service": "demo-worker",
+        "pulse.environment": "development",
+        "pulse.lab": "pulse-lab",
+        "pulse.monitor": "true",
+        "pulse.remediate": "true"
+      },
+      "observed_at": 1791621733.350491,
+      "available": true,
+      "cpu_percent": 17.79198396793587,
+      "memory_bytes": 60370944,
+      "memory_limit_bytes": 268435456,
+      "memory_percent": 22.48992919921875,
+      "at": 1791621733.342567,
+      "reason": null,
+      "source": "docker",
+      "latency_ms": 9.63970588235294,
+      "prometheus": {
+        "latency": {
+          "query": "histogram_quantile(0.95, sum by (le) (rate(demo_http_duration_seconds_bucket{service=\"demo-worker\"}[10s]))) * 1000",
+          "value": 9.63970588235294,
+          "result": [
+            {
+              "metric": {},
+              "value": [
+                1791621733.351,
+                "9.63970588235294"
+              ]
+            }
+          ],
+          "source": "prometheus",
+          "sample_at": 1791621732.906,
+          "observed_at": 1791621733.3551145,
+          "available": true,
+          "window_seconds": 10,
+          "window_started_at": 1791621723.3505619,
+          "evaluated_at": 1791621733.3505619,
+          "service": "demo-worker",
+          "metric": "latency"
+        },
+        "error_rate": {
+          "query": "sum(rate(demo_http_requests_total{service=\"demo-worker\",status=~\"5..\"}[10s])) / sum(rate(demo_http_requests_total{service=\"demo-worker\"}[10s]))",
+          "value": 0.0,
+          "result": [
+            {
+              "metric": {},
+              "value": [
+                1791621733.351,
+                "0"
+              ]
+            }
+          ],
+          "source": "prometheus",
+          "sample_at": 1791621732.906,
+          "observed_at": 1791621733.3556073,
+          "available": true,
+          "window_seconds": 10,
+          "window_started_at": 1791621723.3510056,
+          "evaluated_at": 1791621733.3510056,
+          "service": "demo-worker",
+          "metric": "error_rate"
+        },
+        "request_count": {
+          "query": "sum(increase(demo_http_requests_total{service=\"demo-worker\"}[10s]))",
+          "value": 172.5,
+          "result": [
+            {
+              "metric": {},
+              "value": [
+                1791621733.351,
+                "172.5"
+              ]
+            }
+          ],
+          "source": "prometheus",
+          "sample_at": 1791621732.906,
+          "observed_at": 1791621733.3554006,
+          "available": true,
+          "window_seconds": 10,
+          "window_started_at": 1791621723.351258,
+          "evaluated_at": 1791621733.351258,
+          "service": "demo-worker",
+          "metric": "request_count"
+        }
+      },
+      "error_rate": 0.0,
+      "request_count": 172.5
+    },
+    "thresholds": {
+      "interval_seconds": 2.0,
+      "cpu_threshold": 85.0,
+      "memory_threshold": 85.0,
+      "latency_threshold_ms": 800.0,
+      "error_rate_threshold": 0.2,
+      "restart_threshold": 3,
+      "window_seconds": 10,
+      "min_samples": 2,
+      "cooldown_seconds": 0,
+      "verification_seconds": 6.0,
+      "recovery_grace_seconds": 15.0,
+      "agent_max_iterations": 6,
+      "agent_token_budget": 12000,
+      "agent_max_tool_calls": 25,
+      "agent_max_seconds": 180.0,
+      "agent_max_concurrent": 3,
+      "agent_max_pending": 32,
+      "telemetry_max_age_seconds": 30.0,
+      "verification_max_gap_seconds": 5.0,
+      "http_min_requests": 5,
+      "memory_recovery_threshold": 50.0,
+      "latency_recovery_ms": 200.0,
+      "error_recovery_rate": 0.05,
+      "remediation_disabled": false
+    }
+  },
+  "evidence": [
+    {
+      "id": "4a5aa78a-ed69-4505-83c2-f2316e035f34",
+      "incident_id": "f81ac2f0-c496-4035-8770-7b21458a88b7",
+      "service_id": "e65d3477-aaa1-4900-8bd0-06403ea8bf46",
+      "name": "inspect_container",
+      "args": {
+        "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+        "service_id": null,
+        "since": 1800,
+        "limit": 100,
+        "query": "latency"
+      },
+      "result": {
+        "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+        "name": "pulse-lab-demo-worker-1",
+        "status": "running",
+        "health": "unhealthy",
+        "health_log": [
+          {
+            "Start": "2026-10-10T08:42:05.788124038Z",
+            "End": "2026-10-10T08:42:06.211412645Z",
+            "ExitCode": 1,
+            "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+          },
+          {
+            "Start": "2026-10-10T08:42:08.212538825Z",
+            "End": "2026-10-10T08:42:08.691950428Z",
+            "ExitCode": 1,
+            "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+          },
+          {
+            "Start": "2026-10-10T08:42:10.692807824Z",
+            "End": "2026-10-10T08:42:11.116712538Z",
+            "ExitCode": 1,
+            "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+          }
+        ],
+        "restart_count": 0,
+        "exit_code": 0,
+        "oom_killed": false,
+        "error": "",
+        "started_at": "2026-10-10T08:40:43.136844611Z",
+        "finished_at": "2026-10-10T08:40:37.054644062Z",
+        "created_at": "2026-10-10T08:35:50.400994939Z",
+        "image": "pulse-lab-demo",
+        "labels": {
+          "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+          "com.docker.compose.project": "pulse-lab",
+          "com.docker.compose.service": "demo-worker",
+          "pulse.environment": "development",
+          "pulse.lab": "pulse-lab",
+          "pulse.monitor": "true",
+          "pulse.remediate": "true"
+        },
+        "observed_at": 1791621733.4376247
+      },
+      "success": true,
+      "duration_ms": 6.89,
+      "at": 1791621733.4396927
+    },
+    {
+      "id": "b4e3a193-dd36-445c-b7b0-9bfa0cb48efb",
+      "incident_id": "f81ac2f0-c496-4035-8770-7b21458a88b7",
+      "service_id": "e65d3477-aaa1-4900-8bd0-06403ea8bf46",
+      "name": "get_container_metrics",
+      "args": {
+        "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+        "service_id": null,
+        "since": 1800,
+        "limit": 100,
+        "query": "latency"
+      },
+      "result": {
+        "available": true,
+        "cpu_percent": 4.179324055666004,
+        "memory_bytes": 49233920,
+        "memory_limit_bytes": 268435456,
+        "memory_percent": 18.341064453125,
+        "at": 1791621735.347125,
+        "observed_at": 1791621735.348768,
+        "reason": null,
+        "source": "docker",
+        "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+        "history": [
+          {
+            "at": 1791621362.3548408,
+            "available": true,
+            "memory_percent": 18.1304931640625,
+            "cpu_percent": 6.934136546184738,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621375.3999295,
+            "available": true,
+            "memory_percent": 18.212890625,
+            "cpu_percent": 3.6044,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621388.4426026,
+            "available": true,
+            "memory_percent": 23.0438232421875,
+            "cpu_percent": 21.213745019920317,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621402.5030205,
+            "available": true,
+            "memory_percent": 18.11370849609375,
+            "cpu_percent": 3.6168016194331987,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621415.5510669,
+            "available": true,
+            "memory_percent": 18.341064453125,
+            "cpu_percent": 4.2719758064516125,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621428.602425,
+            "available": true,
+            "memory_percent": 23.602294921875,
+            "cpu_percent": 28.75389221556886,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621441.6549962,
+            "available": true,
+            "memory_percent": 18.524169921875,
+            "cpu_percent": 26.438709677419354,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621454.701468,
+            "available": true,
+            "memory_percent": 18.2464599609375,
+            "cpu_percent": 3.8423541247484914,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621467.7461407,
+            "available": true,
+            "memory_percent": 18.45550537109375,
+            "cpu_percent": 3.8515,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621480.7956922,
+            "available": true,
+            "memory_percent": 21.051025390625,
+            "cpu_percent": 7.392570281124498,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621493.8507533,
+            "available": true,
+            "memory_percent": 23.095703125,
+            "cpu_percent": 20.868036072144292,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621506.905489,
+            "available": true,
+            "memory_percent": 18.62335205078125,
+            "cpu_percent": 28.06756487025948,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621520.5118787,
+            "available": true,
+            "memory_percent": 18.54400634765625,
+            "cpu_percent": 3.8791152263374484,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621533.5620027,
+            "available": true,
+            "memory_percent": 22.4884033203125,
+            "cpu_percent": 13.407715430861725,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621547.596922,
+            "available": true,
+            "memory_percent": 18.524169921875,
+            "cpu_percent": 3.7444111776447104,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621560.6645977,
+            "available": true,
+            "memory_percent": 18.65692138671875,
+            "cpu_percent": 4.028137651821862,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621573.720625,
+            "available": true,
+            "memory_percent": 22.5555419921875,
+            "cpu_percent": 11.333870967741937,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621586.8128066,
+            "available": true,
+            "memory_percent": 18.7835693359375,
+            "cpu_percent": 29.671255060728747,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621600.4489076,
+            "available": true,
+            "memory_percent": 18.83087158203125,
+            "cpu_percent": 3.6229540918163674,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621613.5157492,
+            "available": true,
+            "memory_percent": 22.930908203125,
+            "cpu_percent": 14.564068825910931,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621626.5797105,
+            "available": true,
+            "memory_percent": 18.7286376953125,
+            "cpu_percent": 27.579124236252543,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621631.6283717,
+            "available": true,
+            "memory_percent": 18.90106201171875,
+            "cpu_percent": 31.770623742454728,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621637.6429136,
+            "available": false,
+            "memory_percent": null,
+            "cpu_percent": null,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621640.704886,
+            "available": false,
+            "memory_percent": null,
+            "cpu_percent": null,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621645.7686183,
+            "available": true,
+            "memory_percent": 15.7470703125,
+            "cpu_percent": 49.778942115768466,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621651.781857,
+            "available": true,
+            "memory_percent": 18.10150146484375,
+            "cpu_percent": 29.012474849094573,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621656.838545,
+            "available": true,
+            "memory_percent": 18.12286376953125,
+            "cpu_percent": 27.998985801217035,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621662.8584673,
+            "available": true,
+            "memory_percent": 18.26629638671875,
+            "cpu_percent": 3.8075697211155375,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621667.9021363,
+            "available": true,
+            "memory_percent": 18.2220458984375,
+            "cpu_percent": 3.5458835341365464,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621673.9217024,
+            "available": true,
+            "memory_percent": 18.1243896484375,
+            "cpu_percent": 31.86066398390342,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621678.9656277,
+            "available": true,
+            "memory_percent": 18.35174560546875,
+            "cpu_percent": 26.41861167002012,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621684.9872873,
+            "available": true,
+            "memory_percent": 18.05877685546875,
+            "cpu_percent": 3.2252,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621691.026569,
+            "available": true,
+            "memory_percent": 23.51531982421875,
+            "cpu_percent": 24.81873727087576,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621697.0223994,
+            "available": true,
+            "memory_percent": 18.18389892578125,
+            "cpu_percent": 8.625050505050504,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621702.0755036,
+            "available": true,
+            "memory_percent": 18.27545166015625,
+            "cpu_percent": 12.951491053677932,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621708.1295218,
+            "available": true,
+            "memory_percent": 18.32733154296875,
+            "cpu_percent": 3.921992110453649,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621713.1743057,
+            "available": true,
+            "memory_percent": 18.15643310546875,
+            "cpu_percent": 3.8558764940239048,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621718.2170987,
+            "available": true,
+            "memory_percent": 18.29986572265625,
+            "cpu_percent": 4.0894,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621723.2568462,
+            "available": true,
+            "memory_percent": 18.3868408203125,
+            "cpu_percent": 4.271,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621728.3076413,
+            "available": true,
+            "memory_percent": 21.9207763671875,
+            "cpu_percent": 9.75863453815261,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791621733.356395,
+            "available": true,
+            "memory_percent": 22.48992919921875,
+            "cpu_percent": 17.79198396793587,
+            "source": "persisted_docker_sample"
+          }
+        ]
+      },
+      "success": true,
+      "duration_ms": 1913.22,
+      "at": 1791621735.35587
+    },
+    {
+      "id": "d8362124-99bc-4539-82c3-fd84c43f4f23",
+      "incident_id": "f81ac2f0-c496-4035-8770-7b21458a88b7",
+      "service_id": "e65d3477-aaa1-4900-8bd0-06403ea8bf46",
+      "name": "get_container_logs",
+      "args": {
+        "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+        "service_id": null,
+        "since": 1800,
+        "limit": 100,
+        "query": "latency"
+      },
+      "result": {
+        "lines": [
+          "2026-10-10T08:42:09.603223709Z {\"at\": 1791621729.602958, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.16}",
+          "2026-10-10T08:42:09.610929400Z {\"at\": 1791621729.6097105, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.13}",
+          "2026-10-10T08:42:09.718810779Z {\"at\": 1791621729.7184217, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.15}",
+          "2026-10-10T08:42:09.726630340Z {\"at\": 1791621729.7264678, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.15}",
+          "2026-10-10T08:42:09.834615757Z {\"at\": 1791621729.8344045, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.16}",
+          "2026-10-10T08:42:09.841362505Z {\"at\": 1791621729.8412354, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.14}",
+          "2026-10-10T08:42:09.949353448Z {\"at\": 1791621729.94901, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.18}",
+          "2026-10-10T08:42:09.956392576Z {\"at\": 1791621729.9562569, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.14}",
+          "2026-10-10T08:42:10.064475283Z {\"at\": 1791621730.0642729, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.71}",
+          "2026-10-10T08:42:10.071002903Z {\"at\": 1791621730.0708413, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.13}",
+          "2026-10-10T08:42:10.178633375Z {\"at\": 1791621730.1784241, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.14}",
+          "2026-10-10T08:42:10.185260084Z {\"at\": 1791621730.1850948, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.16}",
+          "2026-10-10T08:42:10.292976204Z {\"at\": 1791621730.2927506, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.27}",
+          "2026-10-10T08:42:10.299548201Z {\"at\": 1791621730.2993731, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.12}",
+          "2026-10-10T08:42:10.407333220Z {\"at\": 1791621730.4071004, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.16}",
+          "2026-10-10T08:42:10.414302349Z {\"at\": 1791621730.4138384, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.15}",
+          "2026-10-10T08:42:10.521713926Z {\"at\": 1791621730.5214915, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.15}",
+          "2026-10-10T08:42:10.529503527Z {\"at\": 1791621730.528101, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.15}",
+          "2026-10-10T08:42:10.636133566Z {\"at\": 1791621730.6356905, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.17}",
+          "2026-10-10T08:42:10.643751534Z {\"at\": 1791621730.6428907, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.14}",
+          "2026-10-10T08:42:10.751605187Z {\"at\": 1791621730.751416, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.14}",
+          "2026-10-10T08:42:10.758106062Z {\"at\": 1791621730.7579484, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.12}",
+          "2026-10-10T08:42:10.878046740Z {\"at\": 1791621730.8778737, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 17.66}",
+          "2026-10-10T08:42:10.884969468Z {\"at\": 1791621730.8848562, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.13}",
+          "2026-10-10T08:42:10.992553105Z {\"at\": 1791621730.9923763, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.14}",
+          "2026-10-10T08:42:10.999364792Z {\"at\": 1791621730.9992404, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.26}",
+          "2026-10-10T08:42:11.106754392Z {\"at\": 1791621731.1066468, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.19}",
+          "2026-10-10T08:42:11.113292117Z {\"at\": 1791621731.1131563, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.13}",
+          "2026-10-10T08:42:11.221895942Z {\"at\": 1791621731.2217145, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.14}",
+          "2026-10-10T08:42:11.228234137Z {\"at\": 1791621731.2281144, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.11}",
+          "2026-10-10T08:42:11.336101966Z {\"at\": 1791621731.335851, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.17}",
+          "2026-10-10T08:42:11.344455354Z {\"at\": 1791621731.3442917, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.19}",
+          "2026-10-10T08:42:11.452148640Z {\"at\": 1791621731.451949, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.14}",
+          "2026-10-10T08:42:11.458584933Z {\"at\": 1791621731.4584582, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.12}",
+          "2026-10-10T08:42:11.566234293Z {\"at\": 1791621731.5659177, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.13}",
+          "2026-10-10T08:42:11.572696195Z {\"at\": 1791621731.5726056, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.12}",
+          "2026-10-10T08:42:11.681337706Z {\"at\": 1791621731.6810904, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.16}",
+          "2026-10-10T08:42:11.687854120Z {\"at\": 1791621731.687731, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.12}",
+          "2026-10-10T08:42:11.796534815Z {\"at\": 1791621731.7959352, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.17}",
+          "2026-10-10T08:42:11.803184299Z {\"at\": 1791621731.8029912, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.17}",
+          "2026-10-10T08:42:11.910742106Z {\"at\": 1791621731.9105177, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.15}",
+          "2026-10-10T08:42:11.917600117Z {\"at\": 1791621731.917472, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.14}",
+          "2026-10-10T08:42:12.025110128Z {\"at\": 1791621732.0248613, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.14}",
+          "2026-10-10T08:42:12.031705510Z {\"at\": 1791621732.031578, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.12}",
+          "2026-10-10T08:42:12.139706138Z {\"at\": 1791621732.1394706, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.17}",
+          "2026-10-10T08:42:12.146862473Z {\"at\": 1791621732.1467428, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.14}",
+          "2026-10-10T08:42:12.254726696Z {\"at\": 1791621732.2544684, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.26}",
+          "2026-10-10T08:42:12.261357981Z {\"at\": 1791621732.261228, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.13}",
+          "2026-10-10T08:42:12.369739492Z {\"at\": 1791621732.3688772, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.17}",
+          "2026-10-10T08:42:12.376280893Z {\"at\": 1791621732.3761253, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.18}",
+          "2026-10-10T08:42:12.484220008Z {\"at\": 1791621732.4839275, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.18}",
+          "2026-10-10T08:42:12.491303939Z {\"at\": 1791621732.4911327, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.14}",
+          "2026-10-10T08:42:12.599289450Z {\"at\": 1791621732.5990725, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.16}",
+          "2026-10-10T08:42:12.606041217Z {\"at\": 1791621732.60589, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.15}",
+          "2026-10-10T08:42:12.713800657Z {\"at\": 1791621732.7135882, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.26}",
+          "2026-10-10T08:42:12.720453029Z {\"at\": 1791621732.7203019, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.09}",
+          "2026-10-10T08:42:12.828281488Z {\"at\": 1791621732.8279912, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.23}",
+          "2026-10-10T08:42:12.835114558Z {\"at\": 1791621732.8349426, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.12}",
+          "2026-10-10T08:42:12.944144895Z {\"at\": 1791621732.9427598, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.14}",
+          "2026-10-10T08:42:12.949323784Z {\"at\": 1791621732.9492218, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.13}",
+          "2026-10-10T08:42:13.057010499Z {\"at\": 1791621733.0568142, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.15}",
+          "2026-10-10T08:42:13.063625014Z {\"at\": 1791621733.0634384, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.14}",
+          "2026-10-10T08:42:13.171891947Z {\"at\": 1791621733.171251, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.16}",
+          "2026-10-10T08:42:13.178367509Z {\"at\": 1791621733.1782224, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.13}",
+          "2026-10-10T08:42:13.288121049Z {\"at\": 1791621733.2866118, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.24}",
+          "2026-10-10T08:42:13.297282568Z {\"at\": 1791621733.297109, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.18}",
+          "2026-10-10T08:42:13.407847859Z {\"at\": 1791621733.4070592, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.55}",
+          "2026-10-10T08:42:13.414719906Z {\"at\": 1791621733.4145558, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.19}",
+          "2026-10-10T08:42:13.523036798Z {\"at\": 1791621733.5228028, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.26}",
+          "2026-10-10T08:42:13.578656255Z {\"at\": 1791621733.5784862, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.16}",
+          "2026-10-10T08:42:13.686820007Z {\"at\": 1791621733.6866295, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.16}",
+          "2026-10-10T08:42:13.693366425Z {\"at\": 1791621733.6932316, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.13}",
+          "2026-10-10T08:42:13.801354162Z {\"at\": 1791621733.8011916, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.18}",
+          "2026-10-10T08:42:13.808344462Z {\"at\": 1791621733.8082538, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.21}",
+          "2026-10-10T08:42:13.916085885Z {\"at\": 1791621733.9158673, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.18}",
+          "2026-10-10T08:42:13.922620535Z {\"at\": 1791621733.9225044, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.12}",
+          "2026-10-10T08:42:14.030302233Z {\"at\": 1791621734.0301344, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.15}",
+          "2026-10-10T08:42:14.036879898Z {\"at\": 1791621734.0367925, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.11}",
+          "2026-10-10T08:42:14.144544330Z {\"at\": 1791621734.1443152, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.16}",
+          "2026-10-10T08:42:14.151216302Z {\"at\": 1791621734.1510718, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.15}",
+          "2026-10-10T08:42:14.260061383Z {\"at\": 1791621734.2598135, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.15}",
+          "2026-10-10T08:42:14.267012004Z {\"at\": 1791621734.2668586, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.12}",
+          "2026-10-10T08:42:14.374875670Z {\"at\": 1791621734.3746846, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.16}",
+          "2026-10-10T08:42:14.381647256Z {\"at\": 1791621734.381469, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.14}",
+          "2026-10-10T08:42:14.489200851Z {\"at\": 1791621734.4889894, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.15}",
+          "2026-10-10T08:42:14.496177646Z {\"at\": 1791621734.4960089, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.12}",
+          "2026-10-10T08:42:14.604097822Z {\"at\": 1791621734.603771, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.18}",
+          "2026-10-10T08:42:14.611931845Z {\"at\": 1791621734.610862, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.13}",
+          "2026-10-10T08:42:14.720449469Z {\"at\": 1791621734.7190847, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.17}",
+          "2026-10-10T08:42:14.727467040Z {\"at\": 1791621734.725923, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.16}",
+          "2026-10-10T08:42:14.833933148Z {\"at\": 1791621734.8337157, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.27}",
+          "2026-10-10T08:42:14.841754191Z {\"at\": 1791621734.8402345, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.16}",
+          "2026-10-10T08:42:14.947546564Z {\"at\": 1791621734.9473674, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.13}",
+          "2026-10-10T08:42:14.954545397Z {\"at\": 1791621734.9544168, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.12}",
+          "2026-10-10T08:42:15.062129028Z {\"at\": 1791621735.061881, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.15}",
+          "2026-10-10T08:42:15.069836551Z {\"at\": 1791621735.0692298, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.19}",
+          "2026-10-10T08:42:15.178538803Z {\"at\": 1791621735.1783378, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.15}",
+          "2026-10-10T08:42:15.185312788Z {\"at\": 1791621735.1851473, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.18}",
+          "2026-10-10T08:42:15.293070690Z {\"at\": 1791621735.292886, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.15}",
+          "2026-10-10T08:42:15.300299974Z {\"at\": 1791621735.3001199, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.14}"
+        ],
+        "truncated": false
+      },
+      "success": true,
+      "duration_ms": 11.14,
+      "at": 1791621735.370208
+    },
+    {
+      "id": "6a3d575c-6264-429f-b9fc-8ee9fedaaab4",
+      "incident_id": "f81ac2f0-c496-4035-8770-7b21458a88b7",
+      "service_id": "e65d3477-aaa1-4900-8bd0-06403ea8bf46",
+      "name": "get_container_restart_history",
+      "args": {
+        "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+        "service_id": null,
+        "since": 1800,
+        "limit": 100,
+        "query": "latency"
+      },
+      "result": {
+        "samples": [
+          {
+            "at": 1791621733.356395,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:40:43.136844611Z",
+            "finished_at": "2026-10-10T08:40:37.054644062Z"
+          },
+          {
+            "at": 1791621728.3076413,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:40:43.136844611Z",
+            "finished_at": "2026-10-10T08:40:37.054644062Z"
+          },
+          {
+            "at": 1791621723.2568462,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:40:43.136844611Z",
+            "finished_at": "2026-10-10T08:40:37.054644062Z"
+          },
+          {
+            "at": 1791621718.2170987,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:40:43.136844611Z",
+            "finished_at": "2026-10-10T08:40:37.054644062Z"
+          },
+          {
+            "at": 1791621713.1743057,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:40:43.136844611Z",
+            "finished_at": "2026-10-10T08:40:37.054644062Z"
+          },
+          {
+            "at": 1791621708.1295218,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:40:43.136844611Z",
+            "finished_at": "2026-10-10T08:40:37.054644062Z"
+          },
+          {
+            "at": 1791621702.0755036,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:40:43.136844611Z",
+            "finished_at": "2026-10-10T08:40:37.054644062Z"
+          },
+          {
+            "at": 1791621697.0223994,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:40:43.136844611Z",
+            "finished_at": "2026-10-10T08:40:37.054644062Z"
+          },
+          {
+            "at": 1791621691.026569,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:40:43.136844611Z",
+            "finished_at": "2026-10-10T08:40:37.054644062Z"
+          },
+          {
+            "at": 1791621684.9872873,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:40:43.136844611Z",
+            "finished_at": "2026-10-10T08:40:37.054644062Z"
+          },
+          {
+            "at": 1791621678.9656277,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:40:43.136844611Z",
+            "finished_at": "2026-10-10T08:40:37.054644062Z"
+          },
+          {
+            "at": 1791621673.9217024,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:40:43.136844611Z",
+            "finished_at": "2026-10-10T08:40:37.054644062Z"
+          },
+          {
+            "at": 1791621667.9021363,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:40:43.136844611Z",
+            "finished_at": "2026-10-10T08:40:37.054644062Z"
+          },
+          {
+            "at": 1791621662.8584673,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:40:43.136844611Z",
+            "finished_at": "2026-10-10T08:40:37.054644062Z"
+          },
+          {
+            "at": 1791621656.838545,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:40:43.136844611Z",
+            "finished_at": "2026-10-10T08:40:37.054644062Z"
+          },
+          {
+            "at": 1791621651.781857,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:40:43.136844611Z",
+            "finished_at": "2026-10-10T08:40:37.054644062Z"
+          },
+          {
+            "at": 1791621645.7686183,
+            "restart_count": 0,
+            "status": "exited",
+            "started_at": "2026-10-10T08:35:55.671134476Z",
+            "finished_at": "2026-10-10T08:40:37.054644062Z"
+          },
+          {
+            "at": 1791621640.704886,
+            "restart_count": 0,
+            "status": "exited",
+            "started_at": "2026-10-10T08:35:55.671134476Z",
+            "finished_at": "2026-10-10T08:40:37.054644062Z"
+          },
+          {
+            "at": 1791621637.6429136,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:35:55.671134476Z",
+            "finished_at": "0001-01-01T00:00:00Z"
+          },
+          {
+            "at": 1791621631.6283717,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:35:55.671134476Z",
+            "finished_at": "0001-01-01T00:00:00Z"
+          },
+          {
+            "at": 1791621626.5797105,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:35:55.671134476Z",
+            "finished_at": "0001-01-01T00:00:00Z"
+          },
+          {
+            "at": 1791621613.5157492,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:35:55.671134476Z",
+            "finished_at": "0001-01-01T00:00:00Z"
+          },
+          {
+            "at": 1791621600.4489076,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:35:55.671134476Z",
+            "finished_at": "0001-01-01T00:00:00Z"
+          },
+          {
+            "at": 1791621586.8128066,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:35:55.671134476Z",
+            "finished_at": "0001-01-01T00:00:00Z"
+          },
+          {
+            "at": 1791621573.720625,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:35:55.671134476Z",
+            "finished_at": "0001-01-01T00:00:00Z"
+          },
+          {
+            "at": 1791621560.6645977,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:35:55.671134476Z",
+            "finished_at": "0001-01-01T00:00:00Z"
+          },
+          {
+            "at": 1791621547.596922,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:35:55.671134476Z",
+            "finished_at": "0001-01-01T00:00:00Z"
+          },
+          {
+            "at": 1791621533.5620027,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:35:55.671134476Z",
+            "finished_at": "0001-01-01T00:00:00Z"
+          },
+          {
+            "at": 1791621520.5118787,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:35:55.671134476Z",
+            "finished_at": "0001-01-01T00:00:00Z"
+          },
+          {
+            "at": 1791621506.905489,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:35:55.671134476Z",
+            "finished_at": "0001-01-01T00:00:00Z"
+          },
+          {
+            "at": 1791621493.8507533,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:35:55.671134476Z",
+            "finished_at": "0001-01-01T00:00:00Z"
+          },
+          {
+            "at": 1791621480.7956922,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:35:55.671134476Z",
+            "finished_at": "0001-01-01T00:00:00Z"
+          },
+          {
+            "at": 1791621467.7461407,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:35:55.671134476Z",
+            "finished_at": "0001-01-01T00:00:00Z"
+          },
+          {
+            "at": 1791621454.701468,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:35:55.671134476Z",
+            "finished_at": "0001-01-01T00:00:00Z"
+          },
+          {
+            "at": 1791621441.6549962,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:35:55.671134476Z",
+            "finished_at": "0001-01-01T00:00:00Z"
+          },
+          {
+            "at": 1791621428.602425,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:35:55.671134476Z",
+            "finished_at": "0001-01-01T00:00:00Z"
+          },
+          {
+            "at": 1791621415.5510669,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:35:55.671134476Z",
+            "finished_at": "0001-01-01T00:00:00Z"
+          },
+          {
+            "at": 1791621402.5030205,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:35:55.671134476Z",
+            "finished_at": "0001-01-01T00:00:00Z"
+          },
+          {
+            "at": 1791621388.4426026,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:35:55.671134476Z",
+            "finished_at": "0001-01-01T00:00:00Z"
+          },
+          {
+            "at": 1791621375.3999295,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:35:55.671134476Z",
+            "finished_at": "0001-01-01T00:00:00Z"
+          },
+          {
+            "at": 1791621362.3548408,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-10T08:35:55.671134476Z",
+            "finished_at": "0001-01-01T00:00:00Z"
+          }
+        ],
+        "source": "observed samples, not a complete Docker event history"
+      },
+      "success": true,
+      "duration_ms": 4.66,
+      "at": 1791621735.377874
+    },
+    {
+      "id": "eeda2b90-a48b-42a9-90d1-c3d0177b974d",
+      "incident_id": "f81ac2f0-c496-4035-8770-7b21458a88b7",
+      "service_id": "e65d3477-aaa1-4900-8bd0-06403ea8bf46",
+      "name": "get_recent_service_events",
+      "args": {
+        "container_id": null,
+        "service_id": null,
+        "since": 1800,
+        "limit": 100,
+        "query": "latency"
+      },
+      "result": {
+        "events": [
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621666,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621668,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621668,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621668,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621670,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621670,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621671,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621673,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621673,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621673,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621675,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621675,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621676,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621678,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621678,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621678,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621680,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621680,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621681,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621683,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621683,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621683,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621685,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621685,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621686,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621688,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621688,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621688,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621690,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621690,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621691,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621693,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621693,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621693,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621695,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621695,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621696,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621698,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621698,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621698,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621700,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621700,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621701,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621703,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621703,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621703,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621705,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621705,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621706,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621708,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621708,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621708,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621710,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621710,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621711,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621713,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621713,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621713,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621715,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621715,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621716,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621718,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621718,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621718,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621720,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621720,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621721,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621723,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621723,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621723,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621725,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621725,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621726,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "health_status: unhealthy",
+            "at": 1791621726,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621728,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621728,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621728,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621730,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621730,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621731,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621733,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791621733,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "action": "exec_die",
+            "at": 1791621733,
+            "source": "docker_events"
+          }
+        ],
+        "source": "docker_events",
+        "observed_at": 1791621735.389908,
+        "truncated": false
+      },
+      "success": true,
+      "duration_ms": 15.69,
+      "at": 1791621735.3965116
+    }
+  ],
+  "time_to_diagnosis_seconds": 2.0709986686706543,
+  "actual_investigation_mode": "mock-model",
+  "investigation_cost": {
+    "tokens_used": 0,
+    "tool_calls": 5,
+    "estimated_provider_cost_usd": 0,
+    "cost_note": "No provider calls in deterministic/mock mode; live pricing estimate unavailable."
+  },
+  "verification": {
+    "version": 2,
+    "outcome": "failed",
+    "result": "NOT_RECOVERED",
+    "reason": "Observed continuing failure: http_health_failed, docker_health_unhealthy. Inspect the evidence before proposing another action.",
+    "started_at": 1791621736.2887173,
+    "deadline_at": 1791621757.2887173,
+    "updated_at": 1791621755.466443,
+    "required_evidence": [
+      "docker_state",
+      "docker_metrics",
+      "http_health"
+    ],
+    "policy": {
+      "interval_seconds": 2.0,
+      "cpu_threshold": 85.0,
+      "memory_threshold": 85.0,
+      "latency_threshold_ms": 800.0,
+      "error_rate_threshold": 0.2,
+      "restart_threshold": 3,
+      "window_seconds": 10,
+      "min_samples": 2,
+      "cooldown_seconds": 0,
+      "verification_seconds": 6.0,
+      "recovery_grace_seconds": 15.0,
+      "agent_max_iterations": 6,
+      "agent_token_budget": 12000,
+      "agent_max_tool_calls": 25,
+      "agent_max_seconds": 180.0,
+      "agent_max_concurrent": 3,
+      "agent_max_pending": 32,
+      "telemetry_max_age_seconds": 30.0,
+      "verification_max_gap_seconds": 5.0,
+      "http_min_requests": 5,
+      "memory_recovery_threshold": 50.0,
+      "latency_recovery_ms": 200.0,
+      "error_recovery_rate": 0.05,
+      "remediation_disabled": false
+    },
+    "baseline": {
+      "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+      "name": "pulse-lab-demo-worker-1",
+      "status": "running",
+      "health": "starting",
+      "health_log": [
+        {
+          "Start": "2026-10-10T08:42:10.692807824Z",
+          "End": "2026-10-10T08:42:11.116712538Z",
+          "ExitCode": 1,
+          "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+        },
+        {
+          "Start": "2026-10-10T08:42:13.117116042Z",
+          "End": "2026-10-10T08:42:13.609091845Z",
+          "ExitCode": 1,
+          "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+        },
+        {
+          "Start": "2026-10-10T08:42:15.612149727Z",
+          "End": "2026-10-10T08:42:16.099793709Z",
+          "ExitCode": 137,
+          "Output": ""
+        }
+      ],
+      "restart_count": 0,
+      "exit_code": 0,
+      "oom_killed": false,
+      "error": "",
+      "started_at": "2026-10-10T08:42:16.185119029Z",
+      "finished_at": "2026-10-10T08:42:16.101639623Z",
+      "created_at": "2026-10-10T08:35:50.400994939Z",
+      "image": "pulse-lab-demo",
+      "labels": {
+        "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+        "com.docker.compose.project": "pulse-lab",
+        "com.docker.compose.service": "demo-worker",
+        "pulse.environment": "development",
+        "pulse.lab": "pulse-lab",
+        "pulse.monitor": "true",
+        "pulse.remediate": "true"
+      },
+      "observed_at": 1791621736.2824118,
+      "action_completed_at": 1791621736.2887173
+    },
+    "source_watermarks": {
+      "docker_state": 1791621754.4367495,
+      "docker_metrics": 1791621755.462607,
+      "http_health": 1791621754.4364324
+    },
+    "stable_since": null,
+    "stable_samples": 0,
+    "stable_source_starts": {},
+    "required_stable_seconds": 6.0,
+    "max_gap_seconds": 5.0,
+    "sample_count": 6,
+    "samples": [
+      {
+        "at": 1791621737.3591056,
+        "required_evidence": [
+          "docker_state",
+          "docker_metrics",
+          "http_health"
+        ],
+        "received_evidence": {
+          "docker_state": {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "name": "pulse-lab-demo-worker-1",
+            "status": "running",
+            "health": "starting",
+            "health_log": [
+              {
+                "Start": "2026-10-10T08:42:10.692807824Z",
+                "End": "2026-10-10T08:42:11.116712538Z",
+                "ExitCode": 1,
+                "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+              },
+              {
+                "Start": "2026-10-10T08:42:13.117116042Z",
+                "End": "2026-10-10T08:42:13.609091845Z",
+                "ExitCode": 1,
+                "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+              },
+              {
+                "Start": "2026-10-10T08:42:15.612149727Z",
+                "End": "2026-10-10T08:42:16.099793709Z",
+                "ExitCode": 137,
+                "Output": ""
+              }
+            ],
+            "restart_count": 0,
+            "exit_code": 0,
+            "oom_killed": false,
+            "error": "",
+            "started_at": "2026-10-10T08:42:16.185119029Z",
+            "finished_at": "2026-10-10T08:42:16.101639623Z",
+            "created_at": "2026-10-10T08:35:50.400994939Z",
+            "image": "pulse-lab-demo",
+            "labels": {
+              "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+              "com.docker.compose.project": "pulse-lab",
+              "com.docker.compose.service": "demo-worker",
+              "pulse.environment": "development",
+              "pulse.lab": "pulse-lab",
+              "pulse.monitor": "true",
+              "pulse.remediate": "true"
+            },
+            "observed_at": 1791621736.3168306,
+            "at": 1791621736.3168306
+          },
+          "docker_metrics": {
+            "available": true,
+            "cpu_percent": 51.05565656565657,
+            "memory_bytes": 29638656,
+            "memory_limit_bytes": 268435456,
+            "memory_percent": 11.041259765625,
+            "at": 1791621737.354552,
+            "observed_at": 1791621737.3566368,
+            "reason": null,
+            "source": "docker",
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc"
+          },
+          "http_health": {
+            "error": "ConnectError",
+            "at": 1791621737.3587363,
+            "available": false
+          }
+        },
+        "rejected_evidence": {
+          "http_health": "tool_failed:ConnectError",
+          "docker_health": "health_not_ready"
+        },
+        "accepted_timestamps": {
+          "docker_state": 1791621736.3168306,
+          "docker_metrics": 1791621737.354552
+        },
+        "failures": [],
+        "contradictions": [],
+        "missing_evidence": true,
+        "healthy": false,
+        "condition_evidence": {
+          "container_not_running": {
+            "failing": false,
+            "at": 1791621736.3168306,
+            "source": "docker_state"
+          },
+          "container_restarted": {
+            "failing": false,
+            "at": 1791621736.3168306,
+            "source": "docker_state"
+          }
+        },
+        "snapshot": {
+          "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+          "name": "pulse-lab-demo-worker-1",
+          "status": "running",
+          "health": "starting",
+          "health_log": [
+            {
+              "Start": "2026-10-10T08:42:10.692807824Z",
+              "End": "2026-10-10T08:42:11.116712538Z",
+              "ExitCode": 1,
+              "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+            },
+            {
+              "Start": "2026-10-10T08:42:13.117116042Z",
+              "End": "2026-10-10T08:42:13.609091845Z",
+              "ExitCode": 1,
+              "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+            },
+            {
+              "Start": "2026-10-10T08:42:15.612149727Z",
+              "End": "2026-10-10T08:42:16.099793709Z",
+              "ExitCode": 137,
+              "Output": ""
+            }
+          ],
+          "restart_count": 0,
+          "exit_code": 0,
+          "oom_killed": false,
+          "error": "",
+          "started_at": "2026-10-10T08:42:16.185119029Z",
+          "finished_at": "2026-10-10T08:42:16.101639623Z",
+          "created_at": "2026-10-10T08:35:50.400994939Z",
+          "image": "pulse-lab-demo",
+          "labels": {
+            "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+            "com.docker.compose.project": "pulse-lab",
+            "com.docker.compose.service": "demo-worker",
+            "pulse.environment": "development",
+            "pulse.lab": "pulse-lab",
+            "pulse.monitor": "true",
+            "pulse.remediate": "true"
+          },
+          "observed_at": 1791621736.3168306,
+          "at": 1791621736.3168306
+        },
+        "metrics": {
+          "available": true,
+          "cpu_percent": 51.05565656565657,
+          "memory_bytes": 29638656,
+          "memory_limit_bytes": 268435456,
+          "memory_percent": 11.041259765625,
+          "at": 1791621737.354552,
+          "observed_at": 1791621737.3566368,
+          "reason": null,
+          "source": "docker",
+          "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc"
+        },
+        "action_completed_at": 1791621736.2887173
+      },
+      {
+        "at": 1791621741.3679032,
+        "required_evidence": [
+          "docker_state",
+          "docker_metrics",
+          "http_health"
+        ],
+        "received_evidence": {
+          "docker_state": {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "name": "pulse-lab-demo-worker-1",
+            "status": "running",
+            "health": "starting",
+            "health_log": [
+              {
+                "Start": "2026-10-10T08:42:10.692807824Z",
+                "End": "2026-10-10T08:42:11.116712538Z",
+                "ExitCode": 1,
+                "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+              },
+              {
+                "Start": "2026-10-10T08:42:13.117116042Z",
+                "End": "2026-10-10T08:42:13.609091845Z",
+                "ExitCode": 1,
+                "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+              },
+              {
+                "Start": "2026-10-10T08:42:15.612149727Z",
+                "End": "2026-10-10T08:42:16.099793709Z",
+                "ExitCode": 137,
+                "Output": ""
+              }
+            ],
+            "restart_count": 0,
+            "exit_code": 0,
+            "oom_killed": false,
+            "error": "",
+            "started_at": "2026-10-10T08:42:16.185119029Z",
+            "finished_at": "2026-10-10T08:42:16.101639623Z",
+            "created_at": "2026-10-10T08:35:50.400994939Z",
+            "image": "pulse-lab-demo",
+            "labels": {
+              "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+              "com.docker.compose.project": "pulse-lab",
+              "com.docker.compose.service": "demo-worker",
+              "pulse.environment": "development",
+              "pulse.lab": "pulse-lab",
+              "pulse.monitor": "true",
+              "pulse.remediate": "true"
+            },
+            "observed_at": 1791621739.3808062,
+            "at": 1791621739.3808062
+          },
+          "docker_metrics": {
+            "available": true,
+            "cpu_percent": 10.19677419354839,
+            "memory_bytes": 58499072,
+            "memory_limit_bytes": 268435456,
+            "memory_percent": 21.7926025390625,
+            "at": 1791621741.363696,
+            "observed_at": 1791621741.3662806,
+            "reason": null,
+            "source": "docker",
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc"
+          },
+          "http_health": {
+            "status": 503,
+            "at": 1791621739.4010546,
+            "source": "http_health"
+          }
+        },
+        "rejected_evidence": {
+          "docker_health": "health_not_ready"
+        },
+        "accepted_timestamps": {
+          "docker_state": 1791621739.3808062,
+          "docker_metrics": 1791621741.363696,
+          "http_health": 1791621739.4010546
+        },
+        "failures": [
+          "http_health_failed"
+        ],
+        "contradictions": [],
+        "missing_evidence": true,
+        "healthy": false,
+        "condition_evidence": {
+          "container_not_running": {
+            "failing": false,
+            "at": 1791621739.3808062,
+            "source": "docker_state"
+          },
+          "container_restarted": {
+            "failing": false,
+            "at": 1791621739.3808062,
+            "source": "docker_state"
+          },
+          "http_health_failed": {
+            "failing": true,
+            "at": 1791621739.4010546,
+            "source": "http_health"
+          }
+        },
+        "snapshot": {
+          "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+          "name": "pulse-lab-demo-worker-1",
+          "status": "running",
+          "health": "starting",
+          "health_log": [
+            {
+              "Start": "2026-10-10T08:42:10.692807824Z",
+              "End": "2026-10-10T08:42:11.116712538Z",
+              "ExitCode": 1,
+              "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+            },
+            {
+              "Start": "2026-10-10T08:42:13.117116042Z",
+              "End": "2026-10-10T08:42:13.609091845Z",
+              "ExitCode": 1,
+              "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+            },
+            {
+              "Start": "2026-10-10T08:42:15.612149727Z",
+              "End": "2026-10-10T08:42:16.099793709Z",
+              "ExitCode": 137,
+              "Output": ""
+            }
+          ],
+          "restart_count": 0,
+          "exit_code": 0,
+          "oom_killed": false,
+          "error": "",
+          "started_at": "2026-10-10T08:42:16.185119029Z",
+          "finished_at": "2026-10-10T08:42:16.101639623Z",
+          "created_at": "2026-10-10T08:35:50.400994939Z",
+          "image": "pulse-lab-demo",
+          "labels": {
+            "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+            "com.docker.compose.project": "pulse-lab",
+            "com.docker.compose.service": "demo-worker",
+            "pulse.environment": "development",
+            "pulse.lab": "pulse-lab",
+            "pulse.monitor": "true",
+            "pulse.remediate": "true"
+          },
+          "observed_at": 1791621739.3808062,
+          "at": 1791621739.3808062
+        },
+        "metrics": {
+          "available": true,
+          "cpu_percent": 10.19677419354839,
+          "memory_bytes": 58499072,
+          "memory_limit_bytes": 268435456,
+          "memory_percent": 21.7926025390625,
+          "at": 1791621741.363696,
+          "observed_at": 1791621741.3662806,
+          "reason": null,
+          "source": "docker",
+          "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc"
+        },
+        "action_completed_at": 1791621736.2887173,
+        "http_status": 503
+      },
+      {
+        "at": 1791621745.3791602,
+        "required_evidence": [
+          "docker_state",
+          "docker_metrics",
+          "http_health"
+        ],
+        "received_evidence": {
+          "docker_state": {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "name": "pulse-lab-demo-worker-1",
+            "status": "running",
+            "health": "starting",
+            "health_log": [
+              {
+                "Start": "2026-10-10T08:42:13.117116042Z",
+                "End": "2026-10-10T08:42:13.609091845Z",
+                "ExitCode": 1,
+                "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+              },
+              {
+                "Start": "2026-10-10T08:42:15.612149727Z",
+                "End": "2026-10-10T08:42:16.099793709Z",
+                "ExitCode": 137,
+                "Output": ""
+              },
+              {
+                "Start": "2026-10-10T08:42:21.280418162Z",
+                "End": "2026-10-10T08:42:21.752398727Z",
+                "ExitCode": 1,
+                "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+              }
+            ],
+            "restart_count": 0,
+            "exit_code": 0,
+            "oom_killed": false,
+            "error": "",
+            "started_at": "2026-10-10T08:42:16.185119029Z",
+            "finished_at": "2026-10-10T08:42:16.101639623Z",
+            "created_at": "2026-10-10T08:35:50.400994939Z",
+            "image": "pulse-lab-demo",
+            "labels": {
+              "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+              "com.docker.compose.project": "pulse-lab",
+              "com.docker.compose.service": "demo-worker",
+              "pulse.environment": "development",
+              "pulse.lab": "pulse-lab",
+              "pulse.monitor": "true",
+              "pulse.remediate": "true"
+            },
+            "observed_at": 1791621743.394221,
+            "at": 1791621743.394221
+          },
+          "docker_metrics": {
+            "available": true,
+            "cpu_percent": 9.477544910179642,
+            "memory_bytes": 48963584,
+            "memory_limit_bytes": 268435456,
+            "memory_percent": 18.2403564453125,
+            "at": 1791621745.374248,
+            "observed_at": 1791621745.3760054,
+            "reason": null,
+            "source": "docker",
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc"
+          },
+          "http_health": {
+            "status": 503,
+            "at": 1791621743.3892322,
+            "source": "http_health"
+          }
+        },
+        "rejected_evidence": {
+          "docker_health": "health_not_ready"
+        },
+        "accepted_timestamps": {
+          "docker_state": 1791621743.394221,
+          "docker_metrics": 1791621745.374248,
+          "http_health": 1791621743.3892322
+        },
+        "failures": [
+          "http_health_failed"
+        ],
+        "contradictions": [],
+        "missing_evidence": true,
+        "healthy": false,
+        "condition_evidence": {
+          "container_not_running": {
+            "failing": false,
+            "at": 1791621743.394221,
+            "source": "docker_state"
+          },
+          "container_restarted": {
+            "failing": false,
+            "at": 1791621743.394221,
+            "source": "docker_state"
+          },
+          "http_health_failed": {
+            "failing": true,
+            "at": 1791621743.3892322,
+            "source": "http_health"
+          }
+        },
+        "snapshot": {
+          "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+          "name": "pulse-lab-demo-worker-1",
+          "status": "running",
+          "health": "starting",
+          "health_log": [
+            {
+              "Start": "2026-10-10T08:42:13.117116042Z",
+              "End": "2026-10-10T08:42:13.609091845Z",
+              "ExitCode": 1,
+              "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+            },
+            {
+              "Start": "2026-10-10T08:42:15.612149727Z",
+              "End": "2026-10-10T08:42:16.099793709Z",
+              "ExitCode": 137,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-10T08:42:21.280418162Z",
+              "End": "2026-10-10T08:42:21.752398727Z",
+              "ExitCode": 1,
+              "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+            }
+          ],
+          "restart_count": 0,
+          "exit_code": 0,
+          "oom_killed": false,
+          "error": "",
+          "started_at": "2026-10-10T08:42:16.185119029Z",
+          "finished_at": "2026-10-10T08:42:16.101639623Z",
+          "created_at": "2026-10-10T08:35:50.400994939Z",
+          "image": "pulse-lab-demo",
+          "labels": {
+            "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+            "com.docker.compose.project": "pulse-lab",
+            "com.docker.compose.service": "demo-worker",
+            "pulse.environment": "development",
+            "pulse.lab": "pulse-lab",
+            "pulse.monitor": "true",
+            "pulse.remediate": "true"
+          },
+          "observed_at": 1791621743.394221,
+          "at": 1791621743.394221
+        },
+        "metrics": {
+          "available": true,
+          "cpu_percent": 9.477544910179642,
+          "memory_bytes": 48963584,
+          "memory_limit_bytes": 268435456,
+          "memory_percent": 18.2403564453125,
+          "at": 1791621745.374248,
+          "observed_at": 1791621745.3760054,
+          "reason": null,
+          "source": "docker",
+          "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc"
+        },
+        "action_completed_at": 1791621736.2887173,
+        "http_status": 503
+      },
+      {
+        "at": 1791621748.4055233,
+        "required_evidence": [
+          "docker_state",
+          "docker_metrics",
+          "http_health"
+        ],
+        "received_evidence": {
+          "docker_state": {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "name": "pulse-lab-demo-worker-1",
+            "status": "running",
+            "health": "unhealthy",
+            "health_log": [
+              {
+                "Start": "2026-10-10T08:42:21.280418162Z",
+                "End": "2026-10-10T08:42:21.752398727Z",
+                "ExitCode": 1,
+                "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+              },
+              {
+                "Start": "2026-10-10T08:42:23.753449053Z",
+                "End": "2026-10-10T08:42:24.525315436Z",
+                "ExitCode": 1,
+                "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+              },
+              {
+                "Start": "2026-10-10T08:42:26.526585074Z",
+                "End": "2026-10-10T08:42:27.043817461Z",
+                "ExitCode": 1,
+                "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+              }
+            ],
+            "restart_count": 0,
+            "exit_code": 0,
+            "oom_killed": false,
+            "error": "",
+            "started_at": "2026-10-10T08:42:16.185119029Z",
+            "finished_at": "2026-10-10T08:42:16.101639623Z",
+            "created_at": "2026-10-10T08:35:50.400994939Z",
+            "image": "pulse-lab-demo",
+            "labels": {
+              "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+              "com.docker.compose.project": "pulse-lab",
+              "com.docker.compose.service": "demo-worker",
+              "pulse.environment": "development",
+              "pulse.lab": "pulse-lab",
+              "pulse.monitor": "true",
+              "pulse.remediate": "true"
+            },
+            "observed_at": 1791621747.399782,
+            "at": 1791621747.399782
+          },
+          "docker_metrics": {
+            "available": true,
+            "cpu_percent": 4.0363999999999995,
+            "memory_bytes": 48852992,
+            "memory_limit_bytes": 268435456,
+            "memory_percent": 18.19915771484375,
+            "at": 1791621748.401788,
+            "observed_at": 1791621748.4035728,
+            "reason": null,
+            "source": "docker",
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc"
+          },
+          "http_health": {
+            "status": 503,
+            "at": 1791621747.3958006,
+            "source": "http_health"
+          }
+        },
+        "rejected_evidence": {},
+        "accepted_timestamps": {
+          "docker_state": 1791621747.399782,
+          "docker_metrics": 1791621748.401788,
+          "http_health": 1791621747.3958006
+        },
+        "failures": [
+          "docker_health_unhealthy",
+          "http_health_failed"
+        ],
+        "contradictions": [],
+        "missing_evidence": false,
+        "healthy": false,
+        "condition_evidence": {
+          "container_not_running": {
+            "failing": false,
+            "at": 1791621747.399782,
+            "source": "docker_state"
+          },
+          "container_restarted": {
+            "failing": false,
+            "at": 1791621747.399782,
+            "source": "docker_state"
+          },
+          "http_health_failed": {
+            "failing": true,
+            "at": 1791621747.3958006,
+            "source": "http_health"
+          },
+          "docker_health_unhealthy": {
+            "failing": true,
+            "at": 1791621747.399782,
+            "source": "docker_state"
+          }
+        },
+        "snapshot": {
+          "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+          "name": "pulse-lab-demo-worker-1",
+          "status": "running",
+          "health": "unhealthy",
+          "health_log": [
+            {
+              "Start": "2026-10-10T08:42:21.280418162Z",
+              "End": "2026-10-10T08:42:21.752398727Z",
+              "ExitCode": 1,
+              "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+            },
+            {
+              "Start": "2026-10-10T08:42:23.753449053Z",
+              "End": "2026-10-10T08:42:24.525315436Z",
+              "ExitCode": 1,
+              "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+            },
+            {
+              "Start": "2026-10-10T08:42:26.526585074Z",
+              "End": "2026-10-10T08:42:27.043817461Z",
+              "ExitCode": 1,
+              "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+            }
+          ],
+          "restart_count": 0,
+          "exit_code": 0,
+          "oom_killed": false,
+          "error": "",
+          "started_at": "2026-10-10T08:42:16.185119029Z",
+          "finished_at": "2026-10-10T08:42:16.101639623Z",
+          "created_at": "2026-10-10T08:35:50.400994939Z",
+          "image": "pulse-lab-demo",
+          "labels": {
+            "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+            "com.docker.compose.project": "pulse-lab",
+            "com.docker.compose.service": "demo-worker",
+            "pulse.environment": "development",
+            "pulse.lab": "pulse-lab",
+            "pulse.monitor": "true",
+            "pulse.remediate": "true"
+          },
+          "observed_at": 1791621747.399782,
+          "at": 1791621747.399782
+        },
+        "metrics": {
+          "available": true,
+          "cpu_percent": 4.0363999999999995,
+          "memory_bytes": 48852992,
+          "memory_limit_bytes": 268435456,
+          "memory_percent": 18.19915771484375,
+          "at": 1791621748.401788,
+          "observed_at": 1791621748.4035728,
+          "reason": null,
+          "source": "docker",
+          "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc"
+        },
+        "action_completed_at": 1791621736.2887173,
+        "http_status": 503
+      },
+      {
+        "at": 1791621752.4152367,
+        "required_evidence": [
+          "docker_state",
+          "docker_metrics",
+          "http_health"
+        ],
+        "received_evidence": {
+          "docker_state": {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "name": "pulse-lab-demo-worker-1",
+            "status": "running",
+            "health": "unhealthy",
+            "health_log": [
+              {
+                "Start": "2026-10-10T08:42:23.753449053Z",
+                "End": "2026-10-10T08:42:24.525315436Z",
+                "ExitCode": 1,
+                "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+              },
+              {
+                "Start": "2026-10-10T08:42:26.526585074Z",
+                "End": "2026-10-10T08:42:27.043817461Z",
+                "ExitCode": 1,
+                "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+              },
+              {
+                "Start": "2026-10-10T08:42:29.044591177Z",
+                "End": "2026-10-10T08:42:29.553011236Z",
+                "ExitCode": 1,
+                "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+              }
+            ],
+            "restart_count": 0,
+            "exit_code": 0,
+            "oom_killed": false,
+            "error": "",
+            "started_at": "2026-10-10T08:42:16.185119029Z",
+            "finished_at": "2026-10-10T08:42:16.101639623Z",
+            "created_at": "2026-10-10T08:35:50.400994939Z",
+            "image": "pulse-lab-demo",
+            "labels": {
+              "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+              "com.docker.compose.project": "pulse-lab",
+              "com.docker.compose.service": "demo-worker",
+              "pulse.environment": "development",
+              "pulse.lab": "pulse-lab",
+              "pulse.monitor": "true",
+              "pulse.remediate": "true"
+            },
+            "observed_at": 1791621750.4279814,
+            "at": 1791621750.4279814
+          },
+          "docker_metrics": {
+            "available": true,
+            "cpu_percent": 26.828443113772455,
+            "memory_bytes": 49074176,
+            "memory_limit_bytes": 268435456,
+            "memory_percent": 18.28155517578125,
+            "at": 1791621752.411426,
+            "observed_at": 1791621752.4134457,
+            "reason": null,
+            "source": "docker",
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc"
+          },
+          "http_health": {
+            "status": 503,
+            "at": 1791621750.425592,
+            "source": "http_health"
+          }
+        },
+        "rejected_evidence": {},
+        "accepted_timestamps": {
+          "docker_state": 1791621750.4279814,
+          "docker_metrics": 1791621752.411426,
+          "http_health": 1791621750.425592
+        },
+        "failures": [
+          "docker_health_unhealthy",
+          "http_health_failed"
+        ],
+        "contradictions": [],
+        "missing_evidence": false,
+        "healthy": false,
+        "condition_evidence": {
+          "container_not_running": {
+            "failing": false,
+            "at": 1791621750.4279814,
+            "source": "docker_state"
+          },
+          "container_restarted": {
+            "failing": false,
+            "at": 1791621750.4279814,
+            "source": "docker_state"
+          },
+          "http_health_failed": {
+            "failing": true,
+            "at": 1791621750.425592,
+            "source": "http_health"
+          },
+          "docker_health_unhealthy": {
+            "failing": true,
+            "at": 1791621750.4279814,
+            "source": "docker_state"
+          }
+        },
+        "snapshot": {
+          "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+          "name": "pulse-lab-demo-worker-1",
+          "status": "running",
+          "health": "unhealthy",
+          "health_log": [
+            {
+              "Start": "2026-10-10T08:42:23.753449053Z",
+              "End": "2026-10-10T08:42:24.525315436Z",
+              "ExitCode": 1,
+              "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+            },
+            {
+              "Start": "2026-10-10T08:42:26.526585074Z",
+              "End": "2026-10-10T08:42:27.043817461Z",
+              "ExitCode": 1,
+              "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+            },
+            {
+              "Start": "2026-10-10T08:42:29.044591177Z",
+              "End": "2026-10-10T08:42:29.553011236Z",
+              "ExitCode": 1,
+              "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+            }
+          ],
+          "restart_count": 0,
+          "exit_code": 0,
+          "oom_killed": false,
+          "error": "",
+          "started_at": "2026-10-10T08:42:16.185119029Z",
+          "finished_at": "2026-10-10T08:42:16.101639623Z",
+          "created_at": "2026-10-10T08:35:50.400994939Z",
+          "image": "pulse-lab-demo",
+          "labels": {
+            "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+            "com.docker.compose.project": "pulse-lab",
+            "com.docker.compose.service": "demo-worker",
+            "pulse.environment": "development",
+            "pulse.lab": "pulse-lab",
+            "pulse.monitor": "true",
+            "pulse.remediate": "true"
+          },
+          "observed_at": 1791621750.4279814,
+          "at": 1791621750.4279814
+        },
+        "metrics": {
+          "available": true,
+          "cpu_percent": 26.828443113772455,
+          "memory_bytes": 49074176,
+          "memory_limit_bytes": 268435456,
+          "memory_percent": 18.28155517578125,
+          "at": 1791621752.411426,
+          "observed_at": 1791621752.4134457,
+          "reason": null,
+          "source": "docker",
+          "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc"
+        },
+        "action_completed_at": 1791621736.2887173,
+        "http_status": 503
+      },
+      {
+        "at": 1791621755.466443,
+        "required_evidence": [
+          "docker_state",
+          "docker_metrics",
+          "http_health"
+        ],
+        "received_evidence": {
+          "docker_state": {
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+            "name": "pulse-lab-demo-worker-1",
+            "status": "running",
+            "health": "unhealthy",
+            "health_log": [
+              {
+                "Start": "2026-10-10T08:42:26.526585074Z",
+                "End": "2026-10-10T08:42:27.043817461Z",
+                "ExitCode": 1,
+                "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+              },
+              {
+                "Start": "2026-10-10T08:42:29.044591177Z",
+                "End": "2026-10-10T08:42:29.553011236Z",
+                "ExitCode": 1,
+                "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+              },
+              {
+                "Start": "2026-10-10T08:42:31.553799216Z",
+                "End": "2026-10-10T08:42:31.962959284Z",
+                "ExitCode": 1,
+                "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+              }
+            ],
+            "restart_count": 0,
+            "exit_code": 0,
+            "oom_killed": false,
+            "error": "",
+            "started_at": "2026-10-10T08:42:16.185119029Z",
+            "finished_at": "2026-10-10T08:42:16.101639623Z",
+            "created_at": "2026-10-10T08:35:50.400994939Z",
+            "image": "pulse-lab-demo",
+            "labels": {
+              "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+              "com.docker.compose.project": "pulse-lab",
+              "com.docker.compose.service": "demo-worker",
+              "pulse.environment": "development",
+              "pulse.lab": "pulse-lab",
+              "pulse.monitor": "true",
+              "pulse.remediate": "true"
+            },
+            "observed_at": 1791621754.4367495,
+            "at": 1791621754.4367495
+          },
+          "docker_metrics": {
+            "available": true,
+            "cpu_percent": 3.717234468937876,
+            "memory_bytes": 48898048,
+            "memory_limit_bytes": 268435456,
+            "memory_percent": 18.2159423828125,
+            "at": 1791621755.462607,
+            "observed_at": 1791621755.4645038,
+            "reason": null,
+            "source": "docker",
+            "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc"
+          },
+          "http_health": {
+            "status": 503,
+            "at": 1791621754.4364324,
+            "source": "http_health"
+          }
+        },
+        "rejected_evidence": {},
+        "accepted_timestamps": {
+          "docker_state": 1791621754.4367495,
+          "docker_metrics": 1791621755.462607,
+          "http_health": 1791621754.4364324
+        },
+        "failures": [
+          "docker_health_unhealthy",
+          "http_health_failed"
+        ],
+        "contradictions": [],
+        "missing_evidence": false,
+        "healthy": false,
+        "condition_evidence": {
+          "container_not_running": {
+            "failing": false,
+            "at": 1791621754.4367495,
+            "source": "docker_state"
+          },
+          "container_restarted": {
+            "failing": false,
+            "at": 1791621754.4367495,
+            "source": "docker_state"
+          },
+          "http_health_failed": {
+            "failing": true,
+            "at": 1791621754.4364324,
+            "source": "http_health"
+          },
+          "docker_health_unhealthy": {
+            "failing": true,
+            "at": 1791621754.4367495,
+            "source": "docker_state"
+          }
+        },
+        "snapshot": {
+          "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+          "name": "pulse-lab-demo-worker-1",
+          "status": "running",
+          "health": "unhealthy",
+          "health_log": [
+            {
+              "Start": "2026-10-10T08:42:26.526585074Z",
+              "End": "2026-10-10T08:42:27.043817461Z",
+              "ExitCode": 1,
+              "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+            },
+            {
+              "Start": "2026-10-10T08:42:29.044591177Z",
+              "End": "2026-10-10T08:42:29.553011236Z",
+              "ExitCode": 1,
+              "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+            },
+            {
+              "Start": "2026-10-10T08:42:31.553799216Z",
+              "End": "2026-10-10T08:42:31.962959284Z",
+              "ExitCode": 1,
+              "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+            }
+          ],
+          "restart_count": 0,
+          "exit_code": 0,
+          "oom_killed": false,
+          "error": "",
+          "started_at": "2026-10-10T08:42:16.185119029Z",
+          "finished_at": "2026-10-10T08:42:16.101639623Z",
+          "created_at": "2026-10-10T08:35:50.400994939Z",
+          "image": "pulse-lab-demo",
+          "labels": {
+            "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+            "com.docker.compose.project": "pulse-lab",
+            "com.docker.compose.service": "demo-worker",
+            "pulse.environment": "development",
+            "pulse.lab": "pulse-lab",
+            "pulse.monitor": "true",
+            "pulse.remediate": "true"
+          },
+          "observed_at": 1791621754.4367495,
+          "at": 1791621754.4367495
+        },
+        "metrics": {
+          "available": true,
+          "cpu_percent": 3.717234468937876,
+          "memory_bytes": 48898048,
+          "memory_limit_bytes": 268435456,
+          "memory_percent": 18.2159423828125,
+          "at": 1791621755.462607,
+          "observed_at": 1791621755.4645038,
+          "reason": null,
+          "source": "docker",
+          "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc"
+        },
+        "action_completed_at": 1791621736.2887173,
+        "http_status": 503
+      }
+    ],
+    "last_decisive": {
+      "at": 1791621755.466443,
+      "required_evidence": [
+        "docker_state",
+        "docker_metrics",
+        "http_health"
+      ],
+      "received_evidence": {
+        "docker_state": {
+          "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+          "name": "pulse-lab-demo-worker-1",
+          "status": "running",
+          "health": "unhealthy",
+          "health_log": [
+            {
+              "Start": "2026-10-10T08:42:26.526585074Z",
+              "End": "2026-10-10T08:42:27.043817461Z",
+              "ExitCode": 1,
+              "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+            },
+            {
+              "Start": "2026-10-10T08:42:29.044591177Z",
+              "End": "2026-10-10T08:42:29.553011236Z",
+              "ExitCode": 1,
+              "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+            },
+            {
+              "Start": "2026-10-10T08:42:31.553799216Z",
+              "End": "2026-10-10T08:42:31.962959284Z",
+              "ExitCode": 1,
+              "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+            }
+          ],
+          "restart_count": 0,
+          "exit_code": 0,
+          "oom_killed": false,
+          "error": "",
+          "started_at": "2026-10-10T08:42:16.185119029Z",
+          "finished_at": "2026-10-10T08:42:16.101639623Z",
+          "created_at": "2026-10-10T08:35:50.400994939Z",
+          "image": "pulse-lab-demo",
+          "labels": {
+            "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+            "com.docker.compose.project": "pulse-lab",
+            "com.docker.compose.service": "demo-worker",
+            "pulse.environment": "development",
+            "pulse.lab": "pulse-lab",
+            "pulse.monitor": "true",
+            "pulse.remediate": "true"
+          },
+          "observed_at": 1791621754.4367495,
+          "at": 1791621754.4367495
+        },
+        "docker_metrics": {
+          "available": true,
+          "cpu_percent": 3.717234468937876,
+          "memory_bytes": 48898048,
+          "memory_limit_bytes": 268435456,
+          "memory_percent": 18.2159423828125,
+          "at": 1791621755.462607,
+          "observed_at": 1791621755.4645038,
+          "reason": null,
+          "source": "docker",
+          "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc"
+        },
+        "http_health": {
+          "status": 503,
+          "at": 1791621754.4364324,
+          "source": "http_health"
+        }
+      },
+      "rejected_evidence": {},
+      "accepted_timestamps": {
+        "docker_state": 1791621754.4367495,
+        "docker_metrics": 1791621755.462607,
+        "http_health": 1791621754.4364324
+      },
+      "failures": [
+        "docker_health_unhealthy",
+        "http_health_failed"
+      ],
+      "contradictions": [],
+      "missing_evidence": false,
+      "healthy": false,
+      "condition_evidence": {
+        "container_not_running": {
+          "failing": false,
+          "at": 1791621754.4367495,
+          "source": "docker_state"
+        },
+        "container_restarted": {
+          "failing": false,
+          "at": 1791621754.4367495,
+          "source": "docker_state"
+        },
+        "http_health_failed": {
+          "failing": true,
+          "at": 1791621754.4364324,
+          "source": "http_health"
+        },
+        "docker_health_unhealthy": {
+          "failing": true,
+          "at": 1791621754.4367495,
+          "source": "docker_state"
+        }
+      },
+      "snapshot": {
+        "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+        "name": "pulse-lab-demo-worker-1",
+        "status": "running",
+        "health": "unhealthy",
+        "health_log": [
+          {
+            "Start": "2026-10-10T08:42:26.526585074Z",
+            "End": "2026-10-10T08:42:27.043817461Z",
+            "ExitCode": 1,
+            "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+          },
+          {
+            "Start": "2026-10-10T08:42:29.044591177Z",
+            "End": "2026-10-10T08:42:29.553011236Z",
+            "ExitCode": 1,
+            "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+          },
+          {
+            "Start": "2026-10-10T08:42:31.553799216Z",
+            "End": "2026-10-10T08:42:31.962959284Z",
+            "ExitCode": 1,
+            "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+          }
+        ],
+        "restart_count": 0,
+        "exit_code": 0,
+        "oom_killed": false,
+        "error": "",
+        "started_at": "2026-10-10T08:42:16.185119029Z",
+        "finished_at": "2026-10-10T08:42:16.101639623Z",
+        "created_at": "2026-10-10T08:35:50.400994939Z",
+        "image": "pulse-lab-demo",
+        "labels": {
+          "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+          "com.docker.compose.project": "pulse-lab",
+          "com.docker.compose.service": "demo-worker",
+          "pulse.environment": "development",
+          "pulse.lab": "pulse-lab",
+          "pulse.monitor": "true",
+          "pulse.remediate": "true"
+        },
+        "observed_at": 1791621754.4367495,
+        "at": 1791621754.4367495
+      },
+      "metrics": {
+        "available": true,
+        "cpu_percent": 3.717234468937876,
+        "memory_bytes": 48898048,
+        "memory_limit_bytes": 268435456,
+        "memory_percent": 18.2159423828125,
+        "at": 1791621755.462607,
+        "observed_at": 1791621755.4645038,
+        "reason": null,
+        "source": "docker",
+        "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc"
+      },
+      "action_completed_at": 1791621736.2887173,
+      "http_status": 503
+    },
+    "condition_evidence": {
+      "container_not_running": {
+        "failing": false,
+        "at": 1791621754.4367495,
+        "source": "docker_state"
+      },
+      "container_restarted": {
+        "failing": false,
+        "at": 1791621754.4367495,
+        "source": "docker_state"
+      },
+      "http_health_failed": {
+        "failing": true,
+        "at": 1791621754.4364324,
+        "source": "http_health"
+      },
+      "docker_health_unhealthy": {
+        "failing": true,
+        "at": 1791621754.4367495,
+        "source": "docker_state"
+      }
+    },
+    "service_name": "demo-worker",
+    "samples_truncated": false,
+    "observation_seconds": 21.00144124031067,
+    "completed_at": 1791621757.2901587
+  },
+  "remediation": {
+    "id": "39127f0b-e603-4066-96f4-969271d4776e",
+    "incident_id": "f81ac2f0-c496-4035-8770-7b21458a88b7",
+    "service_id": "e65d3477-aaa1-4900-8bd0-06403ea8bf46",
+    "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+    "kind": "restart",
+    "reason": "Attempt a controlled development-container restart, followed by sustained recovery checks. This may only temporarily relieve the symptom.",
+    "digest": "958c7bff1cb821943d5767645fdac483fc84b908d18cdfb22c7be59c967d966b",
+    "status": "executed",
+    "created_at": 1791621735.433248,
+    "expires_at": 1791622635.4332483,
+    "outcome": {
+      "snapshot": {
+        "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+        "name": "pulse-lab-demo-worker-1",
+        "status": "running",
+        "health": "starting",
+        "health_log": [
+          {
+            "Start": "2026-10-10T08:42:10.692807824Z",
+            "End": "2026-10-10T08:42:11.116712538Z",
+            "ExitCode": 1,
+            "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+          },
+          {
+            "Start": "2026-10-10T08:42:13.117116042Z",
+            "End": "2026-10-10T08:42:13.609091845Z",
+            "ExitCode": 1,
+            "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+          },
+          {
+            "Start": "2026-10-10T08:42:15.612149727Z",
+            "End": "2026-10-10T08:42:16.099793709Z",
+            "ExitCode": 137,
+            "Output": ""
+          }
+        ],
+        "restart_count": 0,
+        "exit_code": 0,
+        "oom_killed": false,
+        "error": "",
+        "started_at": "2026-10-10T08:42:16.185119029Z",
+        "finished_at": "2026-10-10T08:42:16.101639623Z",
+        "created_at": "2026-10-10T08:35:50.400994939Z",
+        "image": "pulse-lab-demo",
+        "labels": {
+          "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+          "com.docker.compose.project": "pulse-lab",
+          "com.docker.compose.service": "demo-worker",
+          "pulse.environment": "development",
+          "pulse.lab": "pulse-lab",
+          "pulse.monitor": "true",
+          "pulse.remediate": "true"
+        },
+        "observed_at": 1791621736.2824118,
+        "action_completed_at": 1791621736.2887173
+      },
+      "pre_action": {
+        "snapshot": {
+          "container_id": "055adccd1fb15f51a6e8aac368987ebf029a39944e35244186e2ab3dec22f3cc",
+          "name": "pulse-lab-demo-worker-1",
+          "status": "running",
+          "health": "unhealthy",
+          "health_log": [
+            {
+              "Start": "2026-10-10T08:42:08.212538825Z",
+              "End": "2026-10-10T08:42:08.691950428Z",
+              "ExitCode": 1,
+              "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+            },
+            {
+              "Start": "2026-10-10T08:42:10.692807824Z",
+              "End": "2026-10-10T08:42:11.116712538Z",
+              "ExitCode": 1,
+              "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+            },
+            {
+              "Start": "2026-10-10T08:42:13.117116042Z",
+              "End": "2026-10-10T08:42:13.609091845Z",
+              "ExitCode": 1,
+              "Output": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/urllib/request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 503: Service Unavailable\n"
+            }
+          ],
+          "restart_count": 0,
+          "exit_code": 0,
+          "oom_killed": false,
+          "error": "",
+          "started_at": "2026-10-10T08:40:43.136844611Z",
+          "finished_at": "2026-10-10T08:40:37.054644062Z",
+          "created_at": "2026-10-10T08:35:50.400994939Z",
+          "image": "pulse-lab-demo",
+          "labels": {
+            "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+            "com.docker.compose.project": "pulse-lab",
+            "com.docker.compose.service": "demo-worker",
+            "pulse.environment": "development",
+            "pulse.lab": "pulse-lab",
+            "pulse.monitor": "true",
+            "pulse.remediate": "true"
+          },
+          "observed_at": 1791621735.5863547
+        },
+        "at": 1791621735.5947518
+      }
+    }
+  },
+  "final_state": "FAILED",
+  "approval_enforced": true,
+  "duplicate_rejected": true,
+  "verification_correct": true,
+  "remediation_recovered": false,
+  "completed_at": 1791621757.8317914,
+  "reset_succeeded": true,
+  "run_id": "0971c084-2907-4b3b-9bac-da4315ac56ef",
+  "evaluation_context": {
+    "version": 1,
+    "suite": "telemetry-restoration",
+    "runtime": {
+      "interval_seconds": 2,
+      "cpu_threshold": 85.0,
+      "memory_threshold": 85.0,
+      "latency_threshold_ms": 800.0,
+      "error_rate_threshold": 0.2,
+      "restart_threshold": 3,
+      "window_seconds": 10,
+      "min_samples": 2,
+      "cooldown_seconds": 0,
+      "verification_seconds": 6,
+      "recovery_grace_seconds": 15,
+      "agent_max_iterations": 6,
+      "agent_token_budget": 12000,
+      "agent_max_tool_calls": 25,
+      "agent_max_seconds": 180.0,
+      "agent_max_concurrent": 3,
+      "agent_max_pending": 32,
+      "telemetry_max_age_seconds": 30.0,
+      "verification_max_gap_seconds": 5,
+      "http_min_requests": 5,
+      "memory_recovery_threshold": 50.0,
+      "latency_recovery_ms": 200.0,
+      "error_recovery_rate": 0.05,
+      "remediation_disabled": false
+    }
+  },
+  "healthy_baseline": {
+    "started_at": 1791621708.9586978,
+    "duration_seconds": 14.058837890625,
+    "unexpected_incidents": [],
+    "false_positive_count": 0
+  },
+  "evaluation_record": {
+    "id": "dc0db5de-8dce-485a-ae2f-3d3ee06903a4",
+    "at": 1791621766.1118999
+  }
+}

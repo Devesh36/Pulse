@@ -11,7 +11,7 @@ from pulse.core.schemas import ActionProposal, State
 from pulse.core.verification import finite
 from pulse.db.models import Audit, Checkpoint, Event, Incident, Remediation, Sample, Service
 from pulse.tools.docker_adapter import DockerAdapter
-from pulse.tools.prometheus import Prometheus
+from pulse.tools.prometheus import Prometheus, UnconfiguredPrometheus
 from pulse.tools.registry import ToolRegistry
 
 log = logging.getLogger("pulse")
@@ -21,7 +21,9 @@ class Runtime:
     def __init__(self, store, config, adapter=None, model=None):
         self.store, self.config = store, config
         self.adapter = adapter or DockerAdapter(config)
-        self.prometheus = Prometheus(config.prometheus_url)
+        self.prometheus = (
+            Prometheus(config.prometheus_url) if config.prometheus_url else UnconfiguredPrometheus()
+        )
         self.tools = ToolRegistry(store, self.adapter, self.prometheus, config)
         self.investigator = Investigator(store, self.tools, config, model)
         self.remediator = Remediator(store, self.adapter, self.prometheus, config)

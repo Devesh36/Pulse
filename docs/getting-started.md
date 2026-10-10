@@ -1,5 +1,10 @@
 # Start with Pulse
 
+For your own running Compose application, follow the
+[repository companion guide](repository-companion.md): `pulse scan`, `pulse init`,
+review/apply opt-in enrollment, then keep `pulse watch` open. The workflow below
+demonstrates the separate authorized incident lab.
+
 Install the preview from the default `main` branch, open the terminal menu, and choose **Demo**.
 Git and uv are needed for the uv route. Homebrew installs Python and uv for its route.
 Real demos need a running Docker Engine/Desktop with Compose v2. No model API key is needed.

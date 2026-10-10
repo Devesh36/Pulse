@@ -1,0 +1,216 @@
+:root {
+  color-scheme: dark;
+  --bg: #08090b;
+  --surface: #111216;
+  --border: #2d2e35;
+  --ink: #f4f4f5;
+  --muted: #b0b1bc;
+  --red: #ff4d5f;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font:
+    15px/1.6 system-ui,
+    sans-serif;
+}
+header,
+main,
+footer {
+  max-width: 1200px;
+  margin: auto;
+  padding: 24px;
+}
+header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 1px solid var(--border);
+}
+header > span {
+  margin-right: auto;
+  color: var(--muted);
+  font-size: 13px;
+}
+a {
+  color: inherit;
+}
+.brand {
+  font-size: 28px;
+  font-weight: 750;
+  text-decoration: none;
+  letter-spacing: -1px;
+}
+.brand svg,
+.eyebrow {
+  color: var(--red);
+}
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+}
+h1 {
+  font-size: clamp(28px, 5vw, 44px);
+  letter-spacing: -1px;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+h2 {
+  font-size: 20px;
+  margin: 0 0 12px;
+}
+h3 {
+  font-size: 16px;
+  margin: 0 0 6px;
+}
+p {
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.intro {
+  padding: 20px 0;
+}
+.panel {
+  padding: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+.login {
+  max-width: 640px;
+  margin: 50px auto;
+}
+label {
+  display: block;
+  margin-bottom: 8px;
+}
+input {
+  width: 100%;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px;
+  font: inherit;
+  margin-bottom: 16px;
+}
+button {
+  cursor: pointer;
+  background: var(--bg);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font: inherit;
+  min-height: 44px;
+}
+button:hover {
+  border-color: var(--red);
+}
+button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+button[type="submit"],
+#confirm-action {
+  background: #b51d2b;
+  border-color: #b51d2b;
+}
+button:focus-visible,
+input:focus-visible,
+summary:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 4px;
+}
+.row {
+  padding: 18px 0;
+  border-top: 1px solid var(--border);
+  overflow-wrap: anywhere;
+}
+.row p {
+  margin: 6px 0;
+}
+.actions,
+.section-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+.section-top {
+  justify-content: space-between;
+}
+.section-top > span {
+  color: var(--muted);
+  font-size: 12px;
+}
+.badge {
+  color: var(--red);
+  font:
+    12px/1.5 ui-monospace,
+    monospace;
+}
+pre {
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px;
+  font:
+    12px/1.6 ui-monospace,
+    monospace;
+  max-height: 480px;
+}
+summary {
+  cursor: pointer;
+  padding: 10px 0;
+}
+#error {
+  color: #ffb7bf;
+  padding: 14px;
+  border: 1px solid #7a2634;
+  border-radius: 8px;
+}
+dialog {
+  background: var(--surface);
+  color: var(--ink);
+  width: min(620px, 92vw);
+  max-height: 90vh;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+}
+dialog::backdrop {
+  background: #0009;
+}
+footer {
+  color: var(--muted);
+  font-size: 12px;
+}
+[hidden] {
+  display: none !important;
+}
+@media (max-width: 600px) {
+  header,
+  main,
+  footer {
+    padding: 18px;
+  }
+  .panel {
+    padding: 18px;
+  }
+  .login {
+    margin: 24px auto;
+  }
+}

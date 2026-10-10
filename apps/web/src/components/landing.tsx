@@ -508,11 +508,18 @@ export function Landing({ siteOnly = false }: { siteOnly?: boolean }) {
             lab to try the complete workflow on your own machine.
           </p>
           <p>
-            The Next.js dashboard sits alongside a Python API, PostgreSQL
+            The full Next.js dashboard sits alongside a Python API, PostgreSQL
             history and Prometheus telemetry. Only opted-in resources can be
             monitored; recovery actions require separate permission and your
             explicit, expiring approval. Every verdict stays connected to its
             evidence.
+          </p>
+          <p>
+            Run <code>pulse scan</code>, <code>pulse init</code> and
+            <code>pulse watch</code> in your own Compose repository. The
+            installed Python companion serves a local project dashboard while
+            its terminal stays open. Stopping Pulse leaves your app running and
+            retains reports.
           </p>
           <a href={repository} className={styles.secondary}>
             Explore the MIT-licensed source <ArrowRight size={15} />

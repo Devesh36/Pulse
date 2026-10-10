@@ -1,6 +1,7 @@
 import asyncio
 import time
 from datetime import datetime
+from pathlib import Path
 
 import httpx
 import requests
@@ -63,10 +64,20 @@ class DockerAdapter:
 class SDKAdapter:
     """Used only in the isolated gateway. Docker metadata never includes environment or mounts."""
 
-    def __init__(self, client, project=None, lab_token=""):
+    def __init__(self, client, project=None, lab_token="", resource_root=None, services=None):
         self.client = client
         self.project = project
         self.lab_token = lab_token
+        self.resource_root = Path(resource_root).resolve() if resource_root else None
+        self.services = set(services) if services is not None else None
+
+    def in_scope(self, container):
+        labels = container.labels
+        if self.resource_root is not None:
+            folder = labels.get("com.docker.compose.project.working_dir")
+            if not folder or Path(folder).resolve() != self.resource_root:
+                return False
+        return self.services is None or labels.get("com.docker.compose.service") in self.services
 
     def container(self, cid):
         container = self.client.containers.get(cid)
@@ -77,6 +88,8 @@ class SDKAdapter:
             raise PermissionError("Lab resources require an explicitly scoped lab gateway")
         if self.project and container.labels.get("com.docker.compose.project") != self.project:
             raise PermissionError("Container is outside the gateway project allowlist")
+        if not self.in_scope(container):
+            raise PermissionError("Container is outside the selected repository/service allowlist")
         return container
 
     def snapshot(self, container):
@@ -126,7 +139,7 @@ class SDKAdapter:
         return [
             self.snapshot(c)
             for c in self.client.containers.list(all=True, filters={"label": labels})
-            if self.project or not c.labels.get("pulse.lab")
+            if (self.project or not c.labels.get("pulse.lab")) and self.in_scope(c)
         ]
 
     def inspect(self, cid):

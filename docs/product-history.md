@@ -3,7 +3,7 @@
 The landing page’s **Phases** navigation link opens `/#phases`. The same link is
 available from Docs. The timeline groups product changes into phases, with an
 impact summary, UTC date and a GitHub commit link for each recorded commit.
-Earlier phases can be expanded; the current quality-feedback phase opens by
+Earlier phases can be expanded; the current repository-companion phase opens by
 default. Black/red styling follows the rest of the public site.
 
 Content lives in `apps/web/src/lib/product-history.ts`; rendering lives in

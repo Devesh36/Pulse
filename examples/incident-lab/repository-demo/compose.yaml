@@ -1,0 +1,22 @@
+# A single synthetic application for testing the installed repository companion.
+# Build this trusted fixture only if pulse-lab-demo is not already cached.
+services:
+  demo-api:
+    image: pulse-lab-demo:latest
+    build: ../services
+    environment:
+      LAB_SERVICE: demo-api
+      PULSE_LAB_ENABLED: "true"
+      PULSE_LAB_TOKEN: ${PULSE_LAB_TOKEN:?Use scripts/project-session.py}
+    ports: ["127.0.0.1:${PULSE_REPO_DEMO_PORT:-18880}:8080"]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 256m
+    cpus: 0.5
+    restart: "no"
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)"]
+      interval: 2s
+      timeout: 3s
+      retries: 2
+      start_period: 3s

@@ -3,6 +3,7 @@
 import cmd
 import json
 import os
+import shlex
 import shutil
 import subprocess
 import sys
@@ -31,7 +32,13 @@ def mock_mode():
 class PulseRepl(cmd.Cmd):
     prompt = "pulse › "
     intro = "\nPulse — evidence before action.\nType demo for a guided real lab run, help for commands, or exit.\n"
-    MENU = "1 / demo       Guided crash → investigation → approved recovery\n2 / telemetry  Missing evidence → inconclusive → restored recovery\n3 / dashboard  Open the local incident workspace\n4 / status     Check the lab\n5 / reports    Show the latest measured results\n6 / stop       Stop the lab; keep its data\n7 / quality    Review retained results and improvement steps\n0 / exit       Leave the REPL"
+    MENU = "open PATH      Select your repository\nscan           Inventory the selected repository\ninit           Prepare its opt-in monitoring profile\nwatch          Keep its local dashboard and monitoring alive\nincidents      Show the selected project's incidents\nreport         Read its latest retained incident report\napprove ID     Review and approve one proposed action\nreject ID      Handle it yourself; reject the proposal\n1 / demo       Guided crash → investigation → approved recovery\n2 / telemetry  Missing evidence → inconclusive → restored recovery\n3 / dashboard  Open the local incident workspace\n4 / status     Check the lab\n5 / reports    Show the latest measured results\n6 / stop       Stop the lab; keep its data\n7 / quality    Review retained results and improvement steps\n0 / exit       Leave the REPL"
+
+    def __init__(self, *args, repo=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.project_path = None
+        if repo:
+            self.do_open(shlex.quote(repo))
 
     def preloop(self):
         self.stdout.write(self.MENU + "\n\n")
@@ -47,7 +54,84 @@ class PulseRepl(cmd.Cmd):
             "7": "quality",
             "0": "exit",
         }
-        return aliases.get(line.strip(), line.lower())
+        stripped = line.strip()
+        if stripped in aliases:
+            return aliases[stripped]
+        command, separator, arguments = stripped.partition(" ")
+        return command.lower() + separator + arguments
+
+    def do_open(self, arg):
+        """Select a repository without executing it or starting monitoring."""
+        from pulse.project.scan import repository
+
+        try:
+            parts = shlex.split(arg)
+            if len(parts) != 1:
+                raise RuntimeError("Use open PATH, quoting paths that contain spaces")
+            self.project_path = str(repository(parts[0]))
+            self.stdout.write(
+                f"Selected repository: {self.project_path}\nType scan, init, then watch. No application command was executed.\n"
+            )
+        except (OSError, ValueError, RuntimeError) as error:
+            self.stdout.write(
+                f"Repository could not be opened: {type(error).__name__}. Check the path.\n"
+            )
+
+    def project_command(self, command, arg=""):
+        if not self.project_path:
+            self.stdout.write(
+                "Select your project with open PATH first. Demo commands remain available.\n"
+            )
+            return
+        from pulse.project.cli import main
+
+        try:
+            arguments = shlex.split(arg)
+        except ValueError:
+            self.stdout.write("Invalid command quoting.\n")
+            return
+        path = (
+            [self.project_path]
+            if command in {"scan", "init", "watch", "dashboard", "incidents"}
+            else ["--repo", self.project_path]
+        )
+        main([command, *arguments, *path])
+
+    def do_scan(self, arg):
+        """Inventory selected repository metadata without executing its scripts."""
+        self.project_command("scan", arg)
+
+    def do_init(self, arg):
+        """Prepare a private project profile and an enrollment override to review."""
+        self.project_command("init", arg)
+
+    def do_watch(self, arg):
+        """Run this project's monitoring and dashboard until Ctrl+C."""
+        self.project_command("watch", arg)
+
+    def do_incidents(self, arg):
+        """Show the selected project's incident state."""
+        self.project_command("incidents", arg)
+
+    def do_report(self, arg):
+        """Read the selected project's retained incident report."""
+        self.project_command("report", arg)
+
+    def do_approve(self, arg):
+        """Review and approve an exact, expiring project action."""
+        self.project_command("approve", arg)
+
+    def do_reject(self, arg):
+        """Reject the selected project's action; handle the issue yourself."""
+        self.project_command("reject", arg)
+
+    def do_permissions(self, arg):
+        """Set the selected project's service permission; approvals remain required."""
+        self.project_command("permissions", arg)
+
+    def do_recheck(self, arg):
+        """Request read-only recovery verification for the selected project."""
+        self.project_command("recheck", arg)
 
     def emptyline(self):
         pass
@@ -179,6 +263,9 @@ class PulseRepl(cmd.Cmd):
 
     def do_dashboard(self, arg):
         """Open the lab dashboard."""
+        if self.project_path:
+            self.project_command("dashboard", arg)
+            return
         from pulse.lab.cli import LAB
 
         url = "http://localhost:3100/lab"
@@ -276,8 +363,10 @@ class PulseRepl(cmd.Cmd):
     do_eof = do_exit
 
 
-def run():
+def run(repo=None):
     shell = PulseRepl(stdin=sys.stdin, stdout=sys.stdout)
+    if repo:
+        shell.do_open(shlex.quote(repo))
     shell.use_rawinput = False
     try:
         shell.cmdloop()

@@ -5,6 +5,27 @@ import time
 import httpx
 
 
+class UnconfiguredPrometheus:
+    def __init__(self):
+        self.max_age_seconds = 30
+
+    async def query(self, metric, service_name, window=60):
+        return {
+            "value": None,
+            "result": [],
+            "source": "prometheus",
+            "available": False,
+            "sample_at": None,
+            "observed_at": time.time(),
+            "service": service_name,
+            "metric": metric,
+            "reason": "Prometheus is not configured for this project",
+        }
+
+    async def close(self):
+        pass
+
+
 class Prometheus:
     def __init__(self, url, max_age_seconds=30):
         self.client = httpx.AsyncClient(base_url=url, timeout=8)

@@ -14,6 +14,7 @@ import styles from "@/components/landing.module.css";
 const contents = [
   ["what-it-does", "What Pulse does"],
   ["first-run", "Your first run"],
+  ["your-repository", "Your own repository"],
   ["commands", "REPL commands"],
   ["how-it-runs", "How it runs"],
   ["verification", "Read the verdict"],
@@ -177,6 +178,57 @@ export function ProductDocs({ siteOnly = false }: { siteOnly?: boolean }) {
                 </p>
               </li>
             </ol>
+          </section>
+          <section id="your-repository">
+            <div className={styles.eyebrow}>
+              YOUR REPOSITORY / LOCAL COMPANION
+            </div>
+            <h2>Keep your project in view</h2>
+            <p>
+              Run Pulse in your own repository. It inventories known manifests,
+              prepares opt-in monitoring and serves a local project dashboard
+              directly from the installed Python package. Live monitoring
+              currently requires a running local Docker Compose application.
+            </p>
+            <pre tabIndex={0}>
+              <code>
+                {
+                  "cd /path/to/your-project\npulse scan\npulse init\n# Review and run the printed Compose enrollment command\npulse watch"
+                }
+              </code>
+            </pre>
+            <p>
+              Keep that terminal open for telemetry polling and background
+              incident investigations. Ctrl+C stops Pulse and leaves your app
+              running; history and reports persist. Sign in at the printed local
+              URL using the private credentials file. No Node build is required.
+              You can also use <code>Pulse Repl</code>, then{" "}
+              <code>open PATH</code>,<code>scan</code>, <code>init</code> and{" "}
+              <code>watch</code>.
+            </p>
+            <p>
+              Review a proposed fix in the dashboard or with{" "}
+              <code>pulse approve ACTION_UUID</code>. Enter declines; every
+              action needs an exact, expiring one-time approval. Choose “I’ll
+              handle it” or
+              <code>pulse reject ACTION_UUID</code> to fix it yourself.
+              Available mutations remain Start/Restart on explicitly eligible
+              development containers; source/configuration edits are advisory.
+            </p>
+            <p>
+              Configure a model and provider credentials in the Pulse terminal
+              to use background LLM investigations. Without one, Pulse labels
+              its deterministic evidence analysis clearly. Models investigate
+              detected incidents within budgets, rather than continuously
+              reading source code. Scanning is metadata inventory, not a
+              security audit.
+            </p>
+            <p>
+              <a href="https://github.com/Devesh36/Pulse/blob/main/docs/repository-companion.md">
+                Full setup, telemetry coverage, permissions and retained reports{" "}
+                <ArrowRight size={14} />
+              </a>
+            </p>
           </section>
           <section id="commands">
             <div className={styles.eyebrow}>03 / THE TERMINAL MENU</div>

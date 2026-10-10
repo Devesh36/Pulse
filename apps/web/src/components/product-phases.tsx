@@ -22,7 +22,7 @@ export function ProductPhases() {
         <div className={styles.eyebrow}>HOW PULSE CAME TO LIFE</div>
         <h2 id="phases-heading">Phases</h2>
         <p>
-          From the first incident workspace to continuous quality feedback.
+          From the first incident workspace to your own repository companion.
           Follow what changed, when it changed, and what each step added to
           Pulse.
         </p>
@@ -48,7 +48,7 @@ export function ProductPhases() {
               <article aria-labelledby={`phase-${phase.id}`}>
                 <h3 id={`phase-${phase.id}`}>{phase.title}</h3>
                 <p className={styles.phaseSummary}>{phase.summary}</p>
-                <details open={phase.id === "continuous-quality"}>
+                <details open={phase.id === "repository-companion"}>
                   <summary>
                     {phase.changes.length}{" "}
                     {phase.changes.length === 1 ? "change" : "changes"}

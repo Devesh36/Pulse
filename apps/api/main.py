@@ -282,6 +282,11 @@ def create_app(config: Config | None = None, store=None, runtime=None):
 
     auth = [Depends(authorized)]
 
+    if config.project_context:
+        from pulse.project.web import attach
+
+        attach(app, config, auth)
+
     def lab_service(name):
         if not config.lab_enabled:
             raise HTTPException(403, "Incident lab is disabled; start the isolated lab stack")
@@ -667,6 +672,25 @@ def create_app(config: Config | None = None, store=None, runtime=None):
             )
         store.audit("incident.dismissed", iid, body.model_dump())
         return {"dismissed": True}
+
+    @app.get("/api/v1/remediations/{aid}", dependencies=auth)
+    async def action_details(aid: str):
+        with store.session() as db:
+            action = db.get(Remediation, aid)
+            if not action:
+                raise HTTPException(404, "Action not found")
+            service = db.get(Service, action.service_id)
+            incident = db.get(Incident, action.incident_id)
+            if service is None or incident is None:
+                raise HTTPException(409, "Action context is unavailable; no approval can be issued")
+            return redact(
+                {
+                    **serialize(action),
+                    "service_name": service.name,
+                    "remediation_allowed": service.remediation_allowed,
+                    "incident_state": incident.state,
+                }
+            )
 
     @app.post("/api/v1/remediations/{aid}/approve", dependencies=auth, status_code=202)
     async def approve(aid: str, body: Approval, request: Request):

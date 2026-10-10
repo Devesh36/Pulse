@@ -2,6 +2,16 @@
 
 Pulse V1 is a single-administrator localhost tool for **trusted development containers**, not a public hosting platform or production auto-remediator. Administrative ports bind to `127.0.0.1`. Keep the gateway on the isolated Compose network with no published port. Do not expose it with a reverse proxy.
 
+The installed repository companion uses two terminal-owned native processes:
+API/dashboard on loopback and a separately authenticated gateway on the next
+port. The native gateway has the operator's existing Docker access; this is not
+an OS sandbox or privilege reduction. Its routes check the Compose project,
+canonical working directory, service allowlist and existing labels. Do not
+expose either port beyond the trusted host. Private project credentials/state
+live outside the target repository. Scanning never executes target code or
+sources its `.env`. Only explicitly eligible development services can receive
+recovery proposals; permission, digest, expiry, audit and replay checks remain.
+
 ## Malicious operational evidence / prompt injection
 
 Logs, health output, image names, service metadata, deployment labels, operational questions, and retrieved tool data can contain adversarial instructions. Pulse supplies them as data and instructs the investigator to ignore embedded instructions. The model may still misinterpret them; a prompt is not a security boundary.

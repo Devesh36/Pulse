@@ -1,3 +1,4 @@
+import os
 from functools import lru_cache
 
 from pydantic import Field, field_validator
@@ -24,6 +25,7 @@ class Config(BaseSettings):
     lab_enabled: bool = False
     lab_project: str = "pulse-lab"
     lab_test_token: str = Field(default="", repr=False)
+    project_context: dict = {}
 
     @field_validator("llm_api_base", "llm_api_key", mode="before")
     @classmethod
@@ -31,6 +33,12 @@ class Config(BaseSettings):
         return value or None
 
 
+class ProjectConfig(Config):
+    model_config = SettingsConfigDict(env_prefix="PULSE_", env_file=None, extra="ignore")
+
+
 @lru_cache
 def get_config() -> Config:
+    if os.getenv("PULSE_PROJECT_SESSION") == "true":
+        return ProjectConfig()
     return Config()
