@@ -109,6 +109,14 @@ class Setting(Base):
     value: Mapped[dict] = mapped_column(JSON)
 
 
+class LabEvaluation(Base):
+    __tablename__ = "lab_evaluations"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
+    at: Mapped[float] = mapped_column(Float, default=time.time, index=True)
+    scenario: Mapped[str] = mapped_column(String(80))
+    report: Mapped[dict] = mapped_column(JSON)
+
+
 class Checkpoint(Base):
     __tablename__ = "agent_checkpoints"
     thread_id: Mapped[str] = mapped_column(String(100), primary_key=True)

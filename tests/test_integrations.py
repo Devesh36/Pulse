@@ -33,7 +33,7 @@ async def test_postgres_incident_memory_checkpoints_and_recovery(config):
             update={
                 "interval_seconds": 2,
                 "verification_seconds": 2,
-                "recovery_grace_seconds": 0,
+                "recovery_grace_seconds": 2,
                 "min_samples": 1,
             }
         )
@@ -112,3 +112,23 @@ def test_real_docker_fault_inspection_and_start():
     finally:
         container.remove(force=True)
         client.close()
+
+
+@pytest.mark.skipif(
+    not os.getenv("PULSE_TEST_PROMETHEUS_URL"),
+    reason="Set PULSE_TEST_PROMETHEUS_URL to the isolated incident lab Prometheus",
+)
+async def test_real_prometheus_lab_request_volume_and_latency():
+    from pulse.tools.prometheus import Prometheus
+
+    prom = Prometheus(os.environ["PULSE_TEST_PROMETHEUS_URL"])
+    try:
+        count = await prom.query("request_count", "demo-api", 10)
+        latency = await prom.query("latency", "demo-api", 10)
+        errors = await prom.query("error_rate", "demo-api", 10)
+        assert count["available"] and count["value"] >= 5
+        assert latency["available"] and 0 < latency["value"] < 200
+        assert errors["available"] and errors["value"] == 0
+        assert count["source"] == "prometheus" and count["sample_at"] is not None
+    finally:
+        await prom.close()

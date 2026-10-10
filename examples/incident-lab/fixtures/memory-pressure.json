@@ -1,0 +1,14 @@
+{
+  "scenario_id": "memory-pressure",
+  "expected_service": "demo-api",
+  "failure_type": "memory-pressure",
+  "expected_signal": "memory",
+  "expected_category": "memory_pressure",
+  "expected_remediation": "reset_memory",
+  "expected_verification": "RECOVERED",
+  "detection_deadline_seconds": 60,
+  "required_tools": [
+    "get_container_metrics",
+    "get_container_logs"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "scenario_id": "recovery-verification",
+  "expected_service": "demo-worker",
+  "failure_type": "recovery-verification",
+  "expected_signal": "unhealthy",
+  "expected_category": null,
+  "expected_remediation": "restart",
+  "expected_verification": "NOT_RECOVERED",
+  "detection_deadline_seconds": 60,
+  "required_tools": [
+    "inspect_container",
+    "get_recent_service_events"
+  ]
+}

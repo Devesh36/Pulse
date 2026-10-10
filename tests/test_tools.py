@@ -103,6 +103,7 @@ def test_docker_cpu_memory_computation():
     c.labels = {"pulse.monitor": "true"}
     c.status = "running"
     c.stats.return_value = {
+        "read": "2026-10-09T14:00:00.000000000Z",
         "cpu_stats": {
             "cpu_usage": {"total_usage": 200},
             "system_cpu_usage": 1000,

@@ -6,8 +6,9 @@ from sqlalchemy import delete, select, update
 
 from pulse.agents.investigator import Investigator
 from pulse.core.detection import detect
-from pulse.core.remediation import Remediator
+from pulse.core.remediation import MUTATING_ACTIONS, Remediator
 from pulse.core.schemas import ActionProposal, State
+from pulse.core.verification import finite
 from pulse.db.models import Audit, Checkpoint, Event, Incident, Remediation, Sample, Service
 from pulse.tools.docker_adapter import DockerAdapter
 from pulse.tools.prometheus import Prometheus
@@ -28,9 +29,17 @@ class Runtime:
         self.monitor_task = None
         self.adapter_status = "not_connected"
         self.last_poll = None
+        self.investigation_slots = asyncio.Semaphore(store.settings().agent_max_concurrent)
 
     def spawn(self, key, coro):
         if key in self.tasks and not self.tasks[key].done():
+            coro.close()
+            return
+        if (
+            key.startswith("investigate:")
+            and sum(k.startswith("investigate:") for k in self.tasks)
+            >= self.store.settings().agent_max_pending
+        ):
             coro.close()
             return
         task = asyncio.create_task(coro, name=key)
@@ -52,6 +61,29 @@ class Runtime:
         with self.store.session.begin() as db:
             interrupted = db.scalars(select(Incident).where(Incident.state == "REMEDIATING")).all()
             for incident in interrupted:
+                executed = db.scalar(
+                    select(Remediation)
+                    .where(Remediation.incident_id == incident.id, Remediation.status == "executed")
+                    .order_by(Remediation.created_at.desc())
+                )
+                if (
+                    executed
+                    and executed.outcome
+                    and executed.outcome.get("snapshot", {}).get("action_completed_at")
+                ):
+                    incident.state = "VERIFYING"
+                    db.add(
+                        Event(
+                            incident_id=incident.id,
+                            kind="incident.transition",
+                            payload={
+                                "from": "REMEDIATING",
+                                "to": "VERIFYING",
+                                "reason": "Recorded action completed; resume observations only",
+                            },
+                        )
+                    )
+                    continue
                 # This startup-only transition is equivalent to Store.transition,
                 # performed atomically with the interrupted action updates below.
                 incident.state = "FAILED"
@@ -77,6 +109,9 @@ class Runtime:
                 )
                 incident.verification = {
                     "outcome": "inconclusive",
+                    "result": "INCONCLUSIVE",
+                    "required_evidence": ["confirmed_action_completion"],
+                    "received_evidence": [],
                     "reason": "Worker interrupted during execution; inspect actual container state before a new proposal",
                 }
             db.execute(
@@ -99,12 +134,12 @@ class Runtime:
             if action and action.outcome:
                 self.spawn(
                     f"verify:{incident.id}",
-                    self.remediator.verify(incident.id, service, action.outcome["snapshot"]),
+                    self.remediator.verify(
+                        incident.id, service, action.outcome["snapshot"], resume=True
+                    ),
                 )
             else:
-                self.store.transition(
-                    incident.id, State.FAILED, {"reason": "Missing verification baseline"}
-                )
+                self.remediator.missing_baseline(incident.id)
         if self.config.monitor_enabled:
             self.monitor_task = asyncio.create_task(self.monitor(), name="monitor")
 
@@ -117,22 +152,36 @@ class Runtime:
         await self.prometheus.close()
 
     async def monitor(self):
+        failures = 0
         while True:
             try:
                 await self.poll()
                 self.adapter_status = "connected"
                 self.last_poll = time.time()
+                failures = 0
             except asyncio.CancelledError:
                 raise
             except Exception as error:
                 if self.adapter_status != "unavailable":
                     log.warning("Telemetry poll failed", extra={"error_type": type(error).__name__})
                 self.adapter_status = "unavailable"
-            await asyncio.sleep(self.store.settings().interval_seconds)
+                failures += 1
+                self.store.event(
+                    "telemetry.failed",
+                    {
+                        "source": "docker_gateway",
+                        "error_type": type(error).__name__,
+                        "at": time.time(),
+                    },
+                )
+            await asyncio.sleep(
+                min(60, self.store.settings().interval_seconds * 2 ** min(failures, 4))
+            )
 
     async def poll(self):
         snapshots = await self.adapter.discover()
         settings = self.store.settings()
+        self.prometheus.max_age_seconds = settings.telemetry_max_age_seconds
         for snapshot in snapshots:
             with self.store.session.begin() as db:
                 service = db.scalar(
@@ -151,13 +200,31 @@ class Runtime:
                 data = {**snapshot, **await self.adapter.metrics(service.container_id)}
             except Exception:
                 data = {**snapshot, "available": False}
+            data["observed_at"] = time.time()
+            if (
+                not finite(data.get("at"))
+                or time.time() - data["at"] > settings.telemetry_max_age_seconds
+            ):
+                data["available"] = False
+                data["telemetry_error"] = "missing_or_stale_docker_sample"
             name = snapshot.get("labels", {}).get("com.docker.compose.service", service.name)
-            for metric, key in [("latency", "latency_ms"), ("error_rate", "error_rate")]:
-                try:
-                    data[key] = (
-                        await self.prometheus.query(metric, name, settings.window_seconds)
-                    )["value"]
-                except Exception:
+            queries = [
+                ("latency", "latency_ms"),
+                ("error_rate", "error_rate"),
+                ("request_count", "request_count"),
+            ]
+            measured_values = await asyncio.gather(
+                *(
+                    self.prometheus.query(metric, name, settings.window_seconds)
+                    for metric, _ in queries
+                ),
+                return_exceptions=True,
+            )
+            for (metric, key), measured in zip(queries, measured_values, strict=True):
+                if isinstance(measured, dict):
+                    data[key] = measured["value"]
+                    data.setdefault("prometheus", {})[metric] = measured
+                else:
                     data[key] = None
             with self.store.session.begin() as db:
                 db.add(Sample(service_id=service.id, data=data))
@@ -174,9 +241,20 @@ class Runtime:
                 self.spawn(f"investigate:{iid}", self.investigate(iid))
         with self.store.session.begin() as db:
             db.execute(delete(Sample).where(Sample.at < time.time() - 86400))
+            queued = db.scalars(
+                select(Incident.id)
+                .where(Incident.state == "DETECTED")
+                .limit(settings.agent_max_pending)
+            ).all()
+        for incident_id in queued:
+            self.spawn(f"investigate:{incident_id}", self.investigate(incident_id))
         self.store.event("telemetry.updated", {"services": len(snapshots), "at": time.time()})
 
     async def investigate(self, incident_id, question="", resume=False):
+        async with self.investigation_slots:
+            return await self._investigate(incident_id, question, resume)
+
+    async def _investigate(self, incident_id, question="", resume=False):
         try:
             with self.store.session() as db:
                 incident = db.get(Incident, incident_id)
@@ -201,7 +279,7 @@ class Runtime:
                 action = self.remediator.propose(
                     incident, service, ActionProposal.model_validate(result["action"])
                 )
-                if action.kind in ("start", "restart"):
+                if action.kind in MUTATING_ACTIONS:
                     self.store.transition(incident_id, State.AWAITING_APPROVAL)
             return result
         except asyncio.CancelledError:

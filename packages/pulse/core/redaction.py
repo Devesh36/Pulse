@@ -1,4 +1,5 @@
 import re
+from typing import Any, overload
 
 SECRET = re.compile(
     r'(?i)(authorization\s*[:=]\s*(?:bearer\s+)?|(?:api[_-]?key|password|passwd|secret|token)\s*["\x27]?\s*[:=]\s*["\x27]?)([^\s,"\x27;}]+)'
@@ -7,7 +8,15 @@ KNOWN = re.compile(r"\b(?:sk-[A-Za-z0-9_-]{10,}|AKIA[A-Z0-9]{16})\b")
 URL_CREDENTIALS = re.compile(r"(https?://)[^/\s:@]+:[^/\s@]+@")
 
 
-def redact(value):
+@overload
+def redact(value: str) -> str: ...
+
+
+@overload
+def redact(value: Any) -> Any: ...
+
+
+def redact(value: Any) -> Any:
     if isinstance(value, str):
         return URL_CREDENTIALS.sub(
             r"\1[REDACTED]@", KNOWN.sub("[REDACTED]", SECRET.sub(r"\1[REDACTED]", value))
@@ -16,6 +25,9 @@ def redact(value):
         return {
             k: "[REDACTED]"
             if re.search(r"(?i)key|password|secret|token|authorization", k)
+            and not (
+                k in {"tokens_used", "token_budget", "agent_token_budget"} and isinstance(v, int)
+            )
             else redact(v)
             for k, v in value.items()
         }

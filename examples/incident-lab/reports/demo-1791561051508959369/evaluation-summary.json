@@ -1,0 +1,179 @@
+{
+  "generated_at": 1791561093.6022289,
+  "mode": "mock-model",
+  "configured_targets": {
+    "detection_rate": 1.0,
+    "false_positive_count": 0,
+    "root_cause_accuracy": 1.0,
+    "approval_enforcement": 1.0,
+    "verification_accuracy": 1.0
+  },
+  "healthy_baselines": [
+    {
+      "started_at": 1791561051.9475226,
+      "duration_seconds": 14.06773066520691,
+      "unexpected_incidents": [],
+      "false_positive_count": 0
+    }
+  ],
+  "incident_persistence_after_api_restart": true,
+  "measurements": {
+    "scenario_count": 1,
+    "passed": 1,
+    "detection_rate": 1.0,
+    "root_cause_accuracy": 1.0,
+    "false_positive_count": 0,
+    "remediation_recovery_rate": 1.0,
+    "verification_accuracy": 1.0
+  },
+  "scenarios": [
+    {
+      "scenario": "container-crash",
+      "status": "PASS",
+      "started_at": 1791561066.0155199,
+      "mode": "mock-model",
+      "configured_targets": {
+        "detection_deadline_seconds": 30,
+        "expected_verification": "RECOVERED"
+      },
+      "incident_id": "74351367-7be9-4702-bb0f-7da068efccb4",
+      "detection_latency_seconds": 1.3015484809875488,
+      "incident_created_at": 1791561067.3170705,
+      "diagnosis": {
+        "category": "container_crash",
+        "category_correct": true,
+        "validated_citations": 2,
+        "tool_calls": 5,
+        "successful_tool_calls": 5,
+        "required_tools_present": true,
+        "manual_review_required": "References and numeric observations are checked; truth of every free-text statement is not mechanically proven."
+      },
+      "time_to_diagnosis_seconds": 0.417954683303833,
+      "actual_investigation_mode": "mock-model",
+      "investigation_cost": {
+        "tokens_used": 0,
+        "tool_calls": 5,
+        "estimated_provider_cost_usd": 0,
+        "cost_note": "No provider calls in deterministic/mock mode; live pricing estimate unavailable."
+      },
+      "remediation": {
+        "id": "73d55560-d1b6-439c-a68e-810b1532e2cc",
+        "incident_id": "74351367-7be9-4702-bb0f-7da068efccb4",
+        "service_id": "e2c287db-0ba7-4e56-a7b2-6ba1dbf9d7b9",
+        "container_id": "0bb223985b905042282c78cc8330bdd95350fac75b8c808841ff2a337b11aa02",
+        "kind": "start",
+        "reason": "Start the stopped development container, then observe health and restart stability. The underlying cause may recur.",
+        "digest": "2844100e504ea52f61c38f0805c685d7c8a968da676598bbac9f5ffffe8532a5",
+        "status": "executed",
+        "created_at": 1791561067.7394023,
+        "expires_at": 1791561967.7394025,
+        "outcome": {
+          "snapshot": {
+            "container_id": "0bb223985b905042282c78cc8330bdd95350fac75b8c808841ff2a337b11aa02",
+            "name": "pulse-lab-demo-worker-1",
+            "status": "running",
+            "health": "starting",
+            "health_log": [
+              {
+                "Start": "2026-10-09T15:51:00.428973237Z",
+                "End": "2026-10-09T15:51:01.026291579Z",
+                "ExitCode": 0,
+                "Output": ""
+              },
+              {
+                "Start": "2026-10-09T15:51:03.027207224Z",
+                "End": "2026-10-09T15:51:03.615534119Z",
+                "ExitCode": 0,
+                "Output": ""
+              },
+              {
+                "Start": "2026-10-09T15:51:05.617163375Z",
+                "End": "2026-10-09T15:51:06.33369689Z",
+                "ExitCode": 0,
+                "Output": ""
+              }
+            ],
+            "restart_count": 0,
+            "exit_code": 0,
+            "oom_killed": false,
+            "error": "",
+            "started_at": "2026-10-09T15:51:08.307193405Z",
+            "finished_at": "2026-10-09T15:51:06.339050238Z",
+            "created_at": "2026-10-09T15:49:33.14502576Z",
+            "image": "pulse-lab-demo",
+            "labels": {
+              "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+              "com.docker.compose.project": "pulse-lab",
+              "com.docker.compose.service": "demo-worker",
+              "pulse.environment": "development",
+              "pulse.lab": "pulse-lab",
+              "pulse.monitor": "true",
+              "pulse.remediate": "true"
+            },
+            "observed_at": 1791561068.4512284,
+            "action_completed_at": 1791561068.4648287
+          },
+          "pre_action": {
+            "snapshot": {
+              "container_id": "0bb223985b905042282c78cc8330bdd95350fac75b8c808841ff2a337b11aa02",
+              "name": "pulse-lab-demo-worker-1",
+              "status": "exited",
+              "health": "unhealthy",
+              "health_log": [
+                {
+                  "Start": "2026-10-09T15:51:00.428973237Z",
+                  "End": "2026-10-09T15:51:01.026291579Z",
+                  "ExitCode": 0,
+                  "Output": ""
+                },
+                {
+                  "Start": "2026-10-09T15:51:03.027207224Z",
+                  "End": "2026-10-09T15:51:03.615534119Z",
+                  "ExitCode": 0,
+                  "Output": ""
+                },
+                {
+                  "Start": "2026-10-09T15:51:05.617163375Z",
+                  "End": "2026-10-09T15:51:06.33369689Z",
+                  "ExitCode": 0,
+                  "Output": ""
+                }
+              ],
+              "restart_count": 0,
+              "exit_code": 42,
+              "oom_killed": false,
+              "error": "",
+              "started_at": "2026-10-09T15:49:35.508201157Z",
+              "finished_at": "2026-10-09T15:51:06.339050238Z",
+              "created_at": "2026-10-09T15:49:33.14502576Z",
+              "image": "pulse-lab-demo",
+              "labels": {
+                "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+                "com.docker.compose.project": "pulse-lab",
+                "com.docker.compose.service": "demo-worker",
+                "pulse.environment": "development",
+                "pulse.lab": "pulse-lab",
+                "pulse.monitor": "true",
+                "pulse.remediate": "true"
+              },
+              "observed_at": 1791561068.2656481
+            },
+            "at": 1791561068.2836328
+          }
+        }
+      },
+      "final_state": "RESOLVED",
+      "approval_enforced": true,
+      "duplicate_rejected": true,
+      "verification_correct": true,
+      "remediation_recovered": true,
+      "completed_at": 1791561086.5349772,
+      "reset_succeeded": true
+    }
+  ],
+  "limitations": [
+    "Deterministic evidence analysis is not live-model reasoning accuracy.",
+    "False-positive exposure is limited to the measured healthy baseline durations.",
+    "Resource removal is verified by pulse lab down, independently of scenario reset."
+  ]
+}

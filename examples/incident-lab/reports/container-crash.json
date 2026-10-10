@@ -1,0 +1,1106 @@
+{
+  "scenario": "container-crash",
+  "status": "PASS",
+  "started_at": 1791553443.4294808,
+  "mode": "mock-model",
+  "configured_targets": {
+    "detection_deadline_seconds": 30,
+    "expected_verification": "RECOVERED"
+  },
+  "incident_id": "d01bb28d-5e1f-48c8-88a5-b651f5e7adc9",
+  "detection_latency_seconds": 1.547576665878296,
+  "incident_created_at": 1791553444.9770591,
+  "diagnosis": {
+    "category": "container_crash",
+    "category_correct": true,
+    "validated_citations": 2,
+    "tool_calls": 5,
+    "successful_tool_calls": 5,
+    "required_tools_present": true,
+    "manual_review_required": "References and numeric observations are checked; truth of every free-text statement is not mechanically proven."
+  },
+  "detection": {
+    "sample": {
+      "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+      "name": "pulse-lab-demo-worker-1",
+      "status": "exited",
+      "health": "unhealthy",
+      "health_log": [
+        {
+          "Start": "2026-10-09T13:43:56.82153585Z",
+          "End": "2026-10-09T13:43:57.407616627Z",
+          "ExitCode": 0,
+          "Output": ""
+        },
+        {
+          "Start": "2026-10-09T13:43:59.408183423Z",
+          "End": "2026-10-09T13:44:00.106741768Z",
+          "ExitCode": 0,
+          "Output": ""
+        },
+        {
+          "Start": "2026-10-09T13:44:02.10756677Z",
+          "End": "2026-10-09T13:44:02.694264619Z",
+          "ExitCode": 0,
+          "Output": ""
+        }
+      ],
+      "restart_count": 0,
+      "exit_code": 42,
+      "oom_killed": false,
+      "error": "",
+      "started_at": "2026-10-09T13:43:35.719430886Z",
+      "finished_at": "2026-10-09T13:44:03.745277051Z",
+      "created_at": "2026-10-09T13:43:25.585279837Z",
+      "image": "pulse-lab-demo",
+      "labels": {
+        "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+        "com.docker.compose.project": "pulse-lab",
+        "com.docker.compose.service": "demo-worker",
+        "pulse.environment": "development",
+        "pulse.lab": "pulse-lab",
+        "pulse.monitor": "true",
+        "pulse.remediate": "true"
+      },
+      "observed_at": 1791553444.9601345,
+      "available": false,
+      "reason": "container is exited",
+      "latency_ms": null,
+      "prometheus": {
+        "latency": {
+          "query": "histogram_quantile(0.95, sum by (le) (rate(demo_http_duration_seconds_bucket{service=\"demo-worker\"}[10s]))) * 1000",
+          "value": null,
+          "result": [
+            {
+              "metric": {},
+              "value": [
+                1791553444.961,
+                "9.895833333333334"
+              ]
+            }
+          ],
+          "source": "prometheus",
+          "sample_at": null,
+          "observed_at": 1791553444.9696608,
+          "available": false,
+          "window_seconds": 10
+        },
+        "error_rate": {
+          "query": "sum(rate(demo_http_requests_total{service=\"demo-worker\",status=~\"5..\"}[10s])) / sum(rate(demo_http_requests_total{service=\"demo-worker\"}[10s]))",
+          "value": null,
+          "result": [
+            {
+              "metric": {},
+              "value": [
+                1791553444.967,
+                "0"
+              ]
+            }
+          ],
+          "source": "prometheus",
+          "sample_at": null,
+          "observed_at": 1791553444.9702857,
+          "available": false,
+          "window_seconds": 10
+        },
+        "request_count": {
+          "query": "sum(increase(demo_http_requests_total{service=\"demo-worker\"}[10s]))",
+          "value": null,
+          "result": [
+            {
+              "metric": {},
+              "value": [
+                1791553444.962,
+                "166.66666666666669"
+              ]
+            }
+          ],
+          "source": "prometheus",
+          "sample_at": null,
+          "observed_at": 1791553444.966923,
+          "available": false,
+          "window_seconds": 10
+        }
+      },
+      "error_rate": null,
+      "request_count": null
+    },
+    "thresholds": {
+      "interval_seconds": 2.0,
+      "cpu_threshold": 85.0,
+      "memory_threshold": 60.0,
+      "latency_threshold_ms": 1500.0,
+      "error_rate_threshold": 0.2,
+      "restart_threshold": 3,
+      "window_seconds": 10,
+      "min_samples": 2,
+      "cooldown_seconds": 0,
+      "verification_seconds": 6.0,
+      "recovery_grace_seconds": 8.0,
+      "agent_max_iterations": 6,
+      "agent_token_budget": 12000,
+      "agent_max_tool_calls": 25,
+      "agent_max_seconds": 180.0,
+      "agent_max_concurrent": 3,
+      "agent_max_pending": 32,
+      "telemetry_max_age_seconds": 30.0,
+      "http_min_requests": 5,
+      "memory_recovery_threshold": 40.0,
+      "latency_recovery_ms": 200.0,
+      "error_recovery_rate": 0.05,
+      "remediation_disabled": false
+    }
+  },
+  "evidence": [
+    {
+      "id": "2027b81b-128d-41cf-9029-7d67c23e2118",
+      "incident_id": "d01bb28d-5e1f-48c8-88a5-b651f5e7adc9",
+      "service_id": "e187f9db-03ef-4aff-bf7a-0b43517b91a3",
+      "name": "inspect_container",
+      "args": {
+        "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+        "service_id": null,
+        "since": 1800,
+        "limit": 100,
+        "query": "latency"
+      },
+      "result": {
+        "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+        "name": "pulse-lab-demo-worker-1",
+        "status": "exited",
+        "health": "unhealthy",
+        "health_log": [
+          {
+            "Start": "2026-10-09T13:43:56.82153585Z",
+            "End": "2026-10-09T13:43:57.407616627Z",
+            "ExitCode": 0,
+            "Output": ""
+          },
+          {
+            "Start": "2026-10-09T13:43:59.408183423Z",
+            "End": "2026-10-09T13:44:00.106741768Z",
+            "ExitCode": 0,
+            "Output": ""
+          },
+          {
+            "Start": "2026-10-09T13:44:02.10756677Z",
+            "End": "2026-10-09T13:44:02.694264619Z",
+            "ExitCode": 0,
+            "Output": ""
+          }
+        ],
+        "restart_count": 0,
+        "exit_code": 42,
+        "oom_killed": false,
+        "error": "",
+        "started_at": "2026-10-09T13:43:35.719430886Z",
+        "finished_at": "2026-10-09T13:44:03.745277051Z",
+        "created_at": "2026-10-09T13:43:25.585279837Z",
+        "image": "pulse-lab-demo",
+        "labels": {
+          "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+          "com.docker.compose.project": "pulse-lab",
+          "com.docker.compose.service": "demo-worker",
+          "pulse.environment": "development",
+          "pulse.lab": "pulse-lab",
+          "pulse.monitor": "true",
+          "pulse.remediate": "true"
+        },
+        "observed_at": 1791553445.069828
+      },
+      "success": true,
+      "duration_ms": 9.09,
+      "at": 1791553445.074115
+    },
+    {
+      "id": "22e7597c-8b93-4b3e-8b97-27dfe9ed0e43",
+      "incident_id": "d01bb28d-5e1f-48c8-88a5-b651f5e7adc9",
+      "service_id": "e187f9db-03ef-4aff-bf7a-0b43517b91a3",
+      "name": "get_container_metrics",
+      "args": {
+        "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+        "service_id": null,
+        "since": 1800,
+        "limit": 100,
+        "query": "latency"
+      },
+      "result": {
+        "available": false,
+        "reason": "container is exited",
+        "history": [
+          {
+            "at": 1791553428.8569007,
+            "available": true,
+            "memory_percent": 18.10455322265625,
+            "cpu_percent": 3.8345691382765534,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791553441.9138126,
+            "available": true,
+            "memory_percent": 18.2891845703125,
+            "cpu_percent": 4.615230460921844,
+            "source": "persisted_docker_sample"
+          },
+          {
+            "at": 1791553444.971022,
+            "available": false,
+            "memory_percent": null,
+            "cpu_percent": null,
+            "source": "persisted_docker_sample"
+          }
+        ]
+      },
+      "success": true,
+      "duration_ms": 12.26,
+      "at": 1791553445.089577
+    },
+    {
+      "id": "cfc6622c-161f-43bd-bebb-ede5ed03193e",
+      "incident_id": "d01bb28d-5e1f-48c8-88a5-b651f5e7adc9",
+      "service_id": "e187f9db-03ef-4aff-bf7a-0b43517b91a3",
+      "name": "get_container_logs",
+      "args": {
+        "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+        "service_id": null,
+        "since": 1800,
+        "limit": 100,
+        "query": "latency"
+      },
+      "result": {
+        "lines": [
+          "2026-10-09T13:43:57.778500320Z {\"at\": 1791553437.7783635, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.12}",
+          "2026-10-09T13:43:57.886440638Z {\"at\": 1791553437.8861477, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.19}",
+          "2026-10-09T13:43:57.893383325Z {\"at\": 1791553437.8932264, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.2}",
+          "2026-10-09T13:43:58.001480636Z {\"at\": 1791553438.001232, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.16}",
+          "2026-10-09T13:43:58.008419908Z {\"at\": 1791553438.008273, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.13}",
+          "2026-10-09T13:43:58.116533594Z {\"at\": 1791553438.116284, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.15}",
+          "2026-10-09T13:43:58.123850017Z {\"at\": 1791553438.123677, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.25}",
+          "2026-10-09T13:43:58.231722768Z {\"at\": 1791553438.231549, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.16}",
+          "2026-10-09T13:43:58.238964320Z {\"at\": 1791553438.2387772, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.13}",
+          "2026-10-09T13:43:58.348049226Z {\"at\": 1791553438.347635, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.25}",
+          "2026-10-09T13:43:58.355120103Z {\"at\": 1791553438.3548915, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.16}",
+          "2026-10-09T13:43:58.463276783Z {\"at\": 1791553438.463015, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.21}",
+          "2026-10-09T13:43:58.470465491Z {\"at\": 1791553438.4702575, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.17}",
+          "2026-10-09T13:43:58.578718283Z {\"at\": 1791553438.5785174, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.17}",
+          "2026-10-09T13:43:58.585869801Z {\"at\": 1791553438.5856342, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.18}",
+          "2026-10-09T13:43:58.694469364Z {\"at\": 1791553438.6942635, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.24}",
+          "2026-10-09T13:43:58.701810474Z {\"at\": 1791553438.7016418, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.19}",
+          "2026-10-09T13:43:58.810840798Z {\"at\": 1791553438.8103998, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.18}",
+          "2026-10-09T13:43:58.818283815Z {\"at\": 1791553438.8180437, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.23}",
+          "2026-10-09T13:43:58.927887912Z {\"at\": 1791553438.9276953, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.26}",
+          "2026-10-09T13:43:58.934745382Z {\"at\": 1791553438.9345388, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.17}",
+          "2026-10-09T13:43:59.043258307Z {\"at\": 1791553439.0429575, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.44}",
+          "2026-10-09T13:43:59.051048009Z {\"at\": 1791553439.0506666, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.23}",
+          "2026-10-09T13:43:59.161379198Z {\"at\": 1791553439.1611443, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.31}",
+          "2026-10-09T13:43:59.169147243Z {\"at\": 1791553439.1688921, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.19}",
+          "2026-10-09T13:43:59.281451092Z {\"at\": 1791553439.2812552, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.21}",
+          "2026-10-09T13:43:59.292207306Z {\"at\": 1791553439.2920427, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 8.87}",
+          "2026-10-09T13:43:59.400442910Z {\"at\": 1791553439.4000964, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.19}",
+          "2026-10-09T13:43:59.408396400Z {\"at\": 1791553439.4079309, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.13}",
+          "2026-10-09T13:43:59.522440859Z {\"at\": 1791553439.5196683, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.23}",
+          "2026-10-09T13:43:59.531990323Z {\"at\": 1791553439.5274582, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.16}",
+          "2026-10-09T13:43:59.692056923Z {\"at\": 1791553439.6899598, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 54.14}",
+          "2026-10-09T13:43:59.698134559Z {\"at\": 1791553439.6979072, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.17}",
+          "2026-10-09T13:43:59.810622157Z {\"at\": 1791553439.810304, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 6.03}",
+          "2026-10-09T13:43:59.819033434Z {\"at\": 1791553439.8187912, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.23}",
+          "2026-10-09T13:43:59.933278030Z {\"at\": 1791553439.932975, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 7.42}",
+          "2026-10-09T13:43:59.990314831Z {\"at\": 1791553439.9900365, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 54.48}",
+          "2026-10-09T13:44:00.100011858Z {\"at\": 1791553440.09889, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.19}",
+          "2026-10-09T13:44:00.107968533Z {\"at\": 1791553440.107019, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.19}",
+          "2026-10-09T13:44:00.215954785Z {\"at\": 1791553440.2157612, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.19}",
+          "2026-10-09T13:44:00.224563986Z {\"at\": 1791553440.223486, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.19}",
+          "2026-10-09T13:44:00.332035532Z {\"at\": 1791553440.33179, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.19}",
+          "2026-10-09T13:44:00.339262172Z {\"at\": 1791553440.3391106, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.18}",
+          "2026-10-09T13:44:00.448127957Z {\"at\": 1791553440.4477468, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.19}",
+          "2026-10-09T13:44:00.455680862Z {\"at\": 1791553440.4554036, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.17}",
+          "2026-10-09T13:44:00.564270657Z {\"at\": 1791553440.5640297, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.3}",
+          "2026-10-09T13:44:00.572018993Z {\"at\": 1791553440.5717473, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.19}",
+          "2026-10-09T13:44:00.681396965Z {\"at\": 1791553440.6810236, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.24}",
+          "2026-10-09T13:44:00.688911012Z {\"at\": 1791553440.6887498, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.17}",
+          "2026-10-09T13:44:00.798343240Z {\"at\": 1791553440.7981217, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.24}",
+          "2026-10-09T13:44:00.806701753Z {\"at\": 1791553440.8065178, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.58}",
+          "2026-10-09T13:44:00.914925443Z {\"at\": 1791553440.9146886, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.21}",
+          "2026-10-09T13:44:00.922898202Z {\"at\": 1791553440.922708, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.17}",
+          "2026-10-09T13:44:01.031137406Z {\"at\": 1791553441.0308368, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.17}",
+          "2026-10-09T13:44:01.038226120Z {\"at\": 1791553441.0380416, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.17}",
+          "2026-10-09T13:44:01.146779631Z {\"at\": 1791553441.1464317, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.16}",
+          "2026-10-09T13:44:01.154078678Z {\"at\": 1791553441.153846, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.18}",
+          "2026-10-09T13:44:01.262279273Z {\"at\": 1791553441.2620053, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.19}",
+          "2026-10-09T13:44:01.269131476Z {\"at\": 1791553441.268904, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.15}",
+          "2026-10-09T13:44:01.377319834Z {\"at\": 1791553441.377155, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.22}",
+          "2026-10-09T13:44:01.384362730Z {\"at\": 1791553441.3841734, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.22}",
+          "2026-10-09T13:44:01.493185281Z {\"at\": 1791553441.4928622, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.48}",
+          "2026-10-09T13:44:01.500223860Z {\"at\": 1791553441.4997916, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.21}",
+          "2026-10-09T13:44:01.608782690Z {\"at\": 1791553441.6085906, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.29}",
+          "2026-10-09T13:44:01.615907478Z {\"at\": 1791553441.6157076, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.49}",
+          "2026-10-09T13:44:01.724184888Z {\"at\": 1791553441.7239985, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.19}",
+          "2026-10-09T13:44:01.731369906Z {\"at\": 1791553441.7312067, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.73}",
+          "2026-10-09T13:44:01.841158701Z {\"at\": 1791553441.8398712, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.17}",
+          "2026-10-09T13:44:01.846661496Z {\"at\": 1791553441.8465273, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.13}",
+          "2026-10-09T13:44:01.954805212Z {\"at\": 1791553441.9544115, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.19}",
+          "2026-10-09T13:44:01.961893566Z {\"at\": 1791553441.9616277, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.13}",
+          "2026-10-09T13:44:02.070108037Z {\"at\": 1791553442.0698373, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.23}",
+          "2026-10-09T13:44:02.078374252Z {\"at\": 1791553442.0779908, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.18}",
+          "2026-10-09T13:44:02.188064193Z {\"at\": 1791553442.1866064, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.22}",
+          "2026-10-09T13:44:02.197825763Z {\"at\": 1791553442.1964452, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.15}",
+          "2026-10-09T13:44:02.308078461Z {\"at\": 1791553442.3079152, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 7.94}",
+          "2026-10-09T13:44:02.315499184Z {\"at\": 1791553442.31531, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.26}",
+          "2026-10-09T13:44:02.423777896Z {\"at\": 1791553442.423629, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.15}",
+          "2026-10-09T13:44:02.431089012Z {\"at\": 1791553442.4309518, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.13}",
+          "2026-10-09T13:44:02.592733950Z {\"at\": 1791553442.5900319, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 55.44}",
+          "2026-10-09T13:44:02.598824965Z {\"at\": 1791553442.5977483, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.18}",
+          "2026-10-09T13:44:02.706629732Z {\"at\": 1791553442.706468, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.14}",
+          "2026-10-09T13:44:02.713530136Z {\"at\": 1791553442.7133942, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.12}",
+          "2026-10-09T13:44:02.822649599Z {\"at\": 1791553442.8223553, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.29}",
+          "2026-10-09T13:44:02.830230987Z {\"at\": 1791553442.8300178, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.15}",
+          "2026-10-09T13:44:02.938330047Z {\"at\": 1791553442.9381456, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.2}",
+          "2026-10-09T13:44:02.945516626Z {\"at\": 1791553442.945368, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.12}",
+          "2026-10-09T13:44:03.055926654Z {\"at\": 1791553443.0542843, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.17}",
+          "2026-10-09T13:44:03.061758779Z {\"at\": 1791553443.0616171, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.14}",
+          "2026-10-09T13:44:03.171917312Z {\"at\": 1791553443.1694965, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.17}",
+          "2026-10-09T13:44:03.177094558Z {\"at\": 1791553443.176959, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.13}",
+          "2026-10-09T13:44:03.285295049Z {\"at\": 1791553443.2850268, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.26}",
+          "2026-10-09T13:44:03.292742557Z {\"at\": 1791553443.292572, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.15}",
+          "2026-10-09T13:44:03.400681979Z {\"at\": 1791553443.4004834, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.18}",
+          "2026-10-09T13:44:03.407558673Z {\"at\": 1791553443.4074168, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.12}",
+          "2026-10-09T13:44:03.439435814Z {\"at\": 1791553443.4390662, \"service\": \"demo-worker\", \"event\": \"application_crash\", \"exit_code\": 42, \"last_job\": \"synthetic-job\"}",
+          "2026-10-09T13:44:03.515897930Z {\"at\": 1791553443.5156875, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.15}",
+          "2026-10-09T13:44:03.522497277Z {\"at\": 1791553443.522362, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.12}",
+          "2026-10-09T13:44:03.631154622Z {\"at\": 1791553443.6308272, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"orders\", \"status\": 200, \"duration_ms\": 5.29}",
+          "2026-10-09T13:44:03.637987987Z {\"at\": 1791553443.6378577, \"service\": \"demo-worker\", \"event\": \"request_completed\", \"endpoint\": \"search\", \"status\": 200, \"duration_ms\": 5.14}"
+        ],
+        "truncated": false
+      },
+      "success": true,
+      "duration_ms": 32.25,
+      "at": 1791553445.1300244
+    },
+    {
+      "id": "7f4c263d-5c9a-497b-953c-0f13de9bf2f6",
+      "incident_id": "d01bb28d-5e1f-48c8-88a5-b651f5e7adc9",
+      "service_id": "e187f9db-03ef-4aff-bf7a-0b43517b91a3",
+      "name": "get_container_restart_history",
+      "args": {
+        "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+        "service_id": null,
+        "since": 1800,
+        "limit": 100,
+        "query": "latency"
+      },
+      "result": {
+        "samples": [
+          {
+            "at": 1791553444.971022,
+            "restart_count": 0,
+            "status": "exited",
+            "started_at": "2026-10-09T13:43:35.719430886Z",
+            "finished_at": "2026-10-09T13:44:03.745277051Z"
+          },
+          {
+            "at": 1791553441.9138126,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-09T13:43:35.719430886Z",
+            "finished_at": "0001-01-01T00:00:00Z"
+          },
+          {
+            "at": 1791553428.8569007,
+            "restart_count": 0,
+            "status": "running",
+            "started_at": "2026-10-09T13:43:35.719430886Z",
+            "finished_at": "0001-01-01T00:00:00Z"
+          }
+        ],
+        "source": "observed samples, not a complete Docker event history"
+      },
+      "success": true,
+      "duration_ms": 3.73,
+      "at": 1791553445.1397316
+    },
+    {
+      "id": "857e5491-a91c-480e-a8a5-de38f2f4a496",
+      "incident_id": "d01bb28d-5e1f-48c8-88a5-b651f5e7adc9",
+      "service_id": "e187f9db-03ef-4aff-bf7a-0b43517b91a3",
+      "name": "get_recent_service_events",
+      "args": {
+        "container_id": null,
+        "service_id": null,
+        "since": 1800,
+        "limit": 100,
+        "query": "latency"
+      },
+      "result": {
+        "events": [
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "create",
+            "at": 1791553409,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "start",
+            "at": 1791553415,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791553420,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791553420,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "exec_die",
+            "at": 1791553421,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "health_status: healthy",
+            "at": 1791553421,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791553423,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791553423,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "exec_die",
+            "at": 1791553424,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791553426,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791553426,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "exec_die",
+            "at": 1791553427,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791553429,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791553429,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "exec_die",
+            "at": 1791553429,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791553431,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791553431,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "exec_die",
+            "at": 1791553432,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791553434,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791553434,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "exec_die",
+            "at": 1791553434,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791553436,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791553436,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "exec_die",
+            "at": 1791553437,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791553439,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791553439,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "exec_die",
+            "at": 1791553440,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "exec_create: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791553442,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "exec_start: python -c import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2)",
+            "at": 1791553442,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "exec_die",
+            "at": 1791553442,
+            "source": "docker_events"
+          },
+          {
+            "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+            "action": "die",
+            "at": 1791553443,
+            "source": "docker_events"
+          }
+        ],
+        "source": "docker_events",
+        "observed_at": 1791553445.1524184,
+        "truncated": false
+      },
+      "success": true,
+      "duration_ms": 16.82,
+      "at": 1791553445.1587064
+    }
+  ],
+  "time_to_diagnosis_seconds": 0.24858617782592773,
+  "actual_investigation_mode": "mock-model",
+  "investigation_cost": {
+    "tokens_used": 0,
+    "tool_calls": 5,
+    "estimated_provider_cost_usd": 0,
+    "cost_note": "No provider calls in deterministic/mock mode; live pricing estimate unavailable."
+  },
+  "verification": {
+    "outcome": "confirmed",
+    "result": "RECOVERED",
+    "observation_seconds": 16.475539922999815,
+    "required_stable_seconds": 6.0,
+    "baseline": {
+      "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+      "name": "pulse-lab-demo-worker-1",
+      "status": "running",
+      "health": "starting",
+      "health_log": [
+        {
+          "Start": "2026-10-09T13:43:56.82153585Z",
+          "End": "2026-10-09T13:43:57.407616627Z",
+          "ExitCode": 0,
+          "Output": ""
+        },
+        {
+          "Start": "2026-10-09T13:43:59.408183423Z",
+          "End": "2026-10-09T13:44:00.106741768Z",
+          "ExitCode": 0,
+          "Output": ""
+        },
+        {
+          "Start": "2026-10-09T13:44:02.10756677Z",
+          "End": "2026-10-09T13:44:02.694264619Z",
+          "ExitCode": 0,
+          "Output": ""
+        }
+      ],
+      "restart_count": 0,
+      "exit_code": 0,
+      "oom_killed": false,
+      "error": "",
+      "started_at": "2026-10-09T13:44:05.547608379Z",
+      "finished_at": "2026-10-09T13:44:03.745277051Z",
+      "created_at": "2026-10-09T13:43:25.585279837Z",
+      "image": "pulse-lab-demo",
+      "labels": {
+        "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+        "com.docker.compose.project": "pulse-lab",
+        "com.docker.compose.service": "demo-worker",
+        "pulse.environment": "development",
+        "pulse.lab": "pulse-lab",
+        "pulse.monitor": "true",
+        "pulse.remediate": "true"
+      },
+      "observed_at": 1791553445.6431575,
+      "action_completed_at": 1791553445.6466298
+    },
+    "samples": [
+      {
+        "at": 1791553445.6561413,
+        "missing_evidence": false,
+        "snapshot": {
+          "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+          "name": "pulse-lab-demo-worker-1",
+          "status": "running",
+          "health": "starting",
+          "health_log": [
+            {
+              "Start": "2026-10-09T13:43:56.82153585Z",
+              "End": "2026-10-09T13:43:57.407616627Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-09T13:43:59.408183423Z",
+              "End": "2026-10-09T13:44:00.106741768Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-09T13:44:02.10756677Z",
+              "End": "2026-10-09T13:44:02.694264619Z",
+              "ExitCode": 0,
+              "Output": ""
+            }
+          ],
+          "restart_count": 0,
+          "exit_code": 0,
+          "oom_killed": false,
+          "error": "",
+          "started_at": "2026-10-09T13:44:05.547608379Z",
+          "finished_at": "2026-10-09T13:44:03.745277051Z",
+          "created_at": "2026-10-09T13:43:25.585279837Z",
+          "image": "pulse-lab-demo",
+          "labels": {
+            "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+            "com.docker.compose.project": "pulse-lab",
+            "com.docker.compose.service": "demo-worker",
+            "pulse.environment": "development",
+            "pulse.lab": "pulse-lab",
+            "pulse.monitor": "true",
+            "pulse.remediate": "true"
+          },
+          "observed_at": 1791553445.6645308
+        },
+        "metrics": {
+          "available": true,
+          "cpu_percent": 50.77469512195122,
+          "memory_bytes": 29872128,
+          "memory_limit_bytes": 268435456,
+          "memory_percent": 11.12823486328125,
+          "at": 1791553446.9486172,
+          "source": "docker",
+          "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1"
+        },
+        "healthy": false,
+        "error": "ConnectError"
+      },
+      {
+        "at": 1791553448.9742448,
+        "missing_evidence": false,
+        "snapshot": {
+          "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+          "name": "pulse-lab-demo-worker-1",
+          "status": "running",
+          "health": "starting",
+          "health_log": [
+            {
+              "Start": "2026-10-09T13:43:56.82153585Z",
+              "End": "2026-10-09T13:43:57.407616627Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-09T13:43:59.408183423Z",
+              "End": "2026-10-09T13:44:00.106741768Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-09T13:44:02.10756677Z",
+              "End": "2026-10-09T13:44:02.694264619Z",
+              "ExitCode": 0,
+              "Output": ""
+            }
+          ],
+          "restart_count": 0,
+          "exit_code": 0,
+          "oom_killed": false,
+          "error": "",
+          "started_at": "2026-10-09T13:44:05.547608379Z",
+          "finished_at": "2026-10-09T13:44:03.745277051Z",
+          "created_at": "2026-10-09T13:43:25.585279837Z",
+          "image": "pulse-lab-demo",
+          "labels": {
+            "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+            "com.docker.compose.project": "pulse-lab",
+            "com.docker.compose.service": "demo-worker",
+            "pulse.environment": "development",
+            "pulse.lab": "pulse-lab",
+            "pulse.monitor": "true",
+            "pulse.remediate": "true"
+          },
+          "observed_at": 1791553448.9784403
+        },
+        "metrics": {
+          "available": true,
+          "cpu_percent": 23.05302419354839,
+          "memory_bytes": 61431808,
+          "memory_limit_bytes": 268435456,
+          "memory_percent": 22.8851318359375,
+          "at": 1791553450.9584742,
+          "source": "docker",
+          "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1"
+        },
+        "http_status": 200,
+        "healthy": false
+      },
+      {
+        "at": 1791553453.0195634,
+        "missing_evidence": false,
+        "snapshot": {
+          "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+          "name": "pulse-lab-demo-worker-1",
+          "status": "running",
+          "health": "healthy",
+          "health_log": [
+            {
+              "Start": "2026-10-09T13:43:59.408183423Z",
+              "End": "2026-10-09T13:44:00.106741768Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-09T13:44:02.10756677Z",
+              "End": "2026-10-09T13:44:02.694264619Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-09T13:44:10.641513765Z",
+              "End": "2026-10-09T13:44:11.128235376Z",
+              "ExitCode": 0,
+              "Output": ""
+            }
+          ],
+          "restart_count": 0,
+          "exit_code": 0,
+          "oom_killed": false,
+          "error": "",
+          "started_at": "2026-10-09T13:44:05.547608379Z",
+          "finished_at": "2026-10-09T13:44:03.745277051Z",
+          "created_at": "2026-10-09T13:43:25.585279837Z",
+          "image": "pulse-lab-demo",
+          "labels": {
+            "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+            "com.docker.compose.project": "pulse-lab",
+            "com.docker.compose.service": "demo-worker",
+            "pulse.environment": "development",
+            "pulse.lab": "pulse-lab",
+            "pulse.monitor": "true",
+            "pulse.remediate": "true"
+          },
+          "observed_at": 1791553453.0227046
+        },
+        "metrics": {
+          "available": true,
+          "cpu_percent": 5.008630952380953,
+          "memory_bytes": 48455680,
+          "memory_limit_bytes": 268435456,
+          "memory_percent": 18.0511474609375,
+          "at": 1791553455.023273,
+          "source": "docker",
+          "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1"
+        },
+        "http_status": 200,
+        "healthy": true
+      },
+      {
+        "at": 1791553457.057858,
+        "missing_evidence": false,
+        "snapshot": {
+          "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+          "name": "pulse-lab-demo-worker-1",
+          "status": "running",
+          "health": "healthy",
+          "health_log": [
+            {
+              "Start": "2026-10-09T13:44:10.641513765Z",
+              "End": "2026-10-09T13:44:11.128235376Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-09T13:44:13.129146778Z",
+              "End": "2026-10-09T13:44:13.64717586Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-09T13:44:15.648288017Z",
+              "End": "2026-10-09T13:44:16.232076217Z",
+              "ExitCode": 0,
+              "Output": ""
+            }
+          ],
+          "restart_count": 0,
+          "exit_code": 0,
+          "oom_killed": false,
+          "error": "",
+          "started_at": "2026-10-09T13:44:05.547608379Z",
+          "finished_at": "2026-10-09T13:44:03.745277051Z",
+          "created_at": "2026-10-09T13:43:25.585279837Z",
+          "image": "pulse-lab-demo",
+          "labels": {
+            "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+            "com.docker.compose.project": "pulse-lab",
+            "com.docker.compose.service": "demo-worker",
+            "pulse.environment": "development",
+            "pulse.lab": "pulse-lab",
+            "pulse.monitor": "true",
+            "pulse.remediate": "true"
+          },
+          "observed_at": 1791553457.062368
+        },
+        "metrics": {
+          "available": true,
+          "cpu_percent": 4.695774647887324,
+          "memory_bytes": 48254976,
+          "memory_limit_bytes": 268435456,
+          "memory_percent": 17.97637939453125,
+          "at": 1791553458.072389,
+          "source": "docker",
+          "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1"
+        },
+        "http_status": 200,
+        "healthy": true
+      },
+      {
+        "at": 1791553460.1068556,
+        "missing_evidence": false,
+        "snapshot": {
+          "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+          "name": "pulse-lab-demo-worker-1",
+          "status": "running",
+          "health": "healthy",
+          "health_log": [
+            {
+              "Start": "2026-10-09T13:44:13.129146778Z",
+              "End": "2026-10-09T13:44:13.64717586Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-09T13:44:15.648288017Z",
+              "End": "2026-10-09T13:44:16.232076217Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-09T13:44:18.23587137Z",
+              "End": "2026-10-09T13:44:18.727238884Z",
+              "ExitCode": 0,
+              "Output": ""
+            }
+          ],
+          "restart_count": 0,
+          "exit_code": 0,
+          "oom_killed": false,
+          "error": "",
+          "started_at": "2026-10-09T13:44:05.547608379Z",
+          "finished_at": "2026-10-09T13:44:03.745277051Z",
+          "created_at": "2026-10-09T13:43:25.585279837Z",
+          "image": "pulse-lab-demo",
+          "labels": {
+            "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+            "com.docker.compose.project": "pulse-lab",
+            "com.docker.compose.service": "demo-worker",
+            "pulse.environment": "development",
+            "pulse.lab": "pulse-lab",
+            "pulse.monitor": "true",
+            "pulse.remediate": "true"
+          },
+          "observed_at": 1791553460.1112287
+        },
+        "metrics": {
+          "available": true,
+          "cpu_percent": 14.453313253012048,
+          "memory_bytes": 48955392,
+          "memory_limit_bytes": 268435456,
+          "memory_percent": 18.2373046875,
+          "at": 1791553462.0898862,
+          "source": "docker",
+          "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1"
+        },
+        "http_status": 200,
+        "healthy": true
+      }
+    ],
+    "conditions": "Running, health acceptable, restart stability, metrics available, incident threshold recovered, configured HTTP probe successful"
+  },
+  "remediation": {
+    "id": "032462af-7cdb-44b1-9f70-59745a101ec4",
+    "incident_id": "d01bb28d-5e1f-48c8-88a5-b651f5e7adc9",
+    "service_id": "e187f9db-03ef-4aff-bf7a-0b43517b91a3",
+    "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+    "kind": "start",
+    "reason": "Start the stopped development container, then observe health and restart stability. The underlying cause may recur.",
+    "digest": "514cecff27828e96e24e6f224226a116b52af0914022c69573a31aa76d91dfc7",
+    "status": "executed",
+    "created_at": 1791553445.227036,
+    "expires_at": 1791554345.2270362,
+    "outcome": {
+      "snapshot": {
+        "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+        "name": "pulse-lab-demo-worker-1",
+        "status": "running",
+        "health": "starting",
+        "health_log": [
+          {
+            "Start": "2026-10-09T13:43:56.82153585Z",
+            "End": "2026-10-09T13:43:57.407616627Z",
+            "ExitCode": 0,
+            "Output": ""
+          },
+          {
+            "Start": "2026-10-09T13:43:59.408183423Z",
+            "End": "2026-10-09T13:44:00.106741768Z",
+            "ExitCode": 0,
+            "Output": ""
+          },
+          {
+            "Start": "2026-10-09T13:44:02.10756677Z",
+            "End": "2026-10-09T13:44:02.694264619Z",
+            "ExitCode": 0,
+            "Output": ""
+          }
+        ],
+        "restart_count": 0,
+        "exit_code": 0,
+        "oom_killed": false,
+        "error": "",
+        "started_at": "2026-10-09T13:44:05.547608379Z",
+        "finished_at": "2026-10-09T13:44:03.745277051Z",
+        "created_at": "2026-10-09T13:43:25.585279837Z",
+        "image": "pulse-lab-demo",
+        "labels": {
+          "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+          "com.docker.compose.project": "pulse-lab",
+          "com.docker.compose.service": "demo-worker",
+          "pulse.environment": "development",
+          "pulse.lab": "pulse-lab",
+          "pulse.monitor": "true",
+          "pulse.remediate": "true"
+        },
+        "observed_at": 1791553445.6431575,
+        "action_completed_at": 1791553445.6466298
+      },
+      "pre_action": {
+        "snapshot": {
+          "container_id": "5c9bb7736c62e4721525d84dcfeceb3396d3083ce5297b48626d5fec311758d1",
+          "name": "pulse-lab-demo-worker-1",
+          "status": "exited",
+          "health": "unhealthy",
+          "health_log": [
+            {
+              "Start": "2026-10-09T13:43:56.82153585Z",
+              "End": "2026-10-09T13:43:57.407616627Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-09T13:43:59.408183423Z",
+              "End": "2026-10-09T13:44:00.106741768Z",
+              "ExitCode": 0,
+              "Output": ""
+            },
+            {
+              "Start": "2026-10-09T13:44:02.10756677Z",
+              "End": "2026-10-09T13:44:02.694264619Z",
+              "ExitCode": 0,
+              "Output": ""
+            }
+          ],
+          "restart_count": 0,
+          "exit_code": 42,
+          "oom_killed": false,
+          "error": "",
+          "started_at": "2026-10-09T13:43:35.719430886Z",
+          "finished_at": "2026-10-09T13:44:03.745277051Z",
+          "created_at": "2026-10-09T13:43:25.585279837Z",
+          "image": "pulse-lab-demo",
+          "labels": {
+            "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+            "com.docker.compose.project": "pulse-lab",
+            "com.docker.compose.service": "demo-worker",
+            "pulse.environment": "development",
+            "pulse.lab": "pulse-lab",
+            "pulse.monitor": "true",
+            "pulse.remediate": "true"
+          },
+          "observed_at": 1791553445.5270033
+        },
+        "at": 1791553445.5348327
+      }
+    }
+  },
+  "final_state": "RESOLVED",
+  "approval_enforced": true,
+  "duplicate_rejected": true,
+  "verification_correct": true,
+  "remediation_recovered": true,
+  "completed_at": 1791553463.685696,
+  "reset_succeeded": true
+}

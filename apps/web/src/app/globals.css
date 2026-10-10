@@ -2542,3 +2542,34 @@ tbody tr:hover {
     transition: none !important;
   }
 }
+
+.lab-grid {
+  display: grid;
+  gap: 20px;
+}
+.lab-grid > .panel {
+  padding: 24px;
+}
+.lab-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border, #24262d);
+}
+.lab-row:last-child {
+  border-bottom: none;
+}
+.lab-row h3 {
+  text-transform: capitalize;
+}
+.lab-row p {
+  margin: 6px 0;
+}
+@media (max-width: 700px) {
+  .lab-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

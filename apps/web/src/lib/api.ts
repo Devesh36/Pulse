@@ -36,6 +36,11 @@ export interface Finding {
   contradicting_evidence_ids: string[];
 }
 export interface Diagnosis {
+  incident_id?: string;
+  category?: string;
+  likely_root_cause?: string;
+  observed_evidence?: string[];
+  recommended_remediation?: string;
   summary: string;
   affected_service: string;
   symptoms: string[];
@@ -74,9 +79,14 @@ export interface Incident {
   diagnosis?: Diagnosis;
   verification?: {
     outcome: string;
+    result?: string;
     samples?: Json[];
     observation_seconds?: number;
     reason?: string;
+    required_evidence?: string[];
+    deadline_at?: number;
+    sample_count?: number;
+    resume_count?: number;
   };
   actions?: Action[];
   tools?: Tool[];
@@ -102,6 +112,16 @@ export interface RuntimeSettings {
   recovery_grace_seconds: number;
   agent_max_iterations: number;
   agent_token_budget: number;
+  agent_max_tool_calls: number;
+  agent_max_seconds: number;
+  agent_max_concurrent: number;
+  agent_max_pending: number;
+  telemetry_max_age_seconds: number;
+  verification_max_gap_seconds?: number | null;
+  http_min_requests: number;
+  memory_recovery_threshold: number;
+  latency_recovery_ms: number;
+  error_recovery_rate: number;
   remediation_disabled: boolean;
 }
 export interface Settings {

@@ -23,7 +23,7 @@ TRANSITIONS = {
     State.AWAITING_APPROVAL: {State.REMEDIATING, State.DISMISSED, State.INVESTIGATING},
     State.REMEDIATING: {State.VERIFYING, State.FAILED},
     State.VERIFYING: {State.RESOLVED, State.FAILED},
-    State.FAILED: {State.INVESTIGATING, State.DISMISSED},
+    State.FAILED: {State.INVESTIGATING, State.DISMISSED, State.VERIFYING},
     State.RESOLVED: set(),
     State.DISMISSED: set(),
 }
@@ -44,6 +44,16 @@ class Settings(BaseModel):
     recovery_grace_seconds: float = Field(default=15, ge=0, le=120)
     agent_max_iterations: int = Field(default=6, ge=1, le=15)
     agent_token_budget: int = Field(default=12000, ge=512, le=64000)
+    agent_max_tool_calls: int = Field(default=25, ge=5, le=100)
+    agent_max_seconds: float = Field(default=180, ge=1, le=600)
+    agent_max_concurrent: int = Field(default=3, ge=1, le=10)
+    agent_max_pending: int = Field(default=32, ge=3, le=256)
+    telemetry_max_age_seconds: float = Field(default=30, ge=2, le=300)
+    verification_max_gap_seconds: float | None = Field(default=None, ge=0.1, le=600)
+    http_min_requests: int = Field(default=5, ge=1, le=10000)
+    memory_recovery_threshold: float = Field(default=50, ge=1, le=100)
+    latency_recovery_ms: float = Field(default=200, ge=1, le=60000)
+    error_recovery_rate: float = Field(default=0.05, ge=0, le=1)
     remediation_disabled: bool = False
 
 
@@ -114,10 +124,23 @@ class Diagnosis(BaseModel):
     confidence: Literal["low", "medium", "high"]
     uncertainty: str
     next_steps: list[str] = Field(max_length=15)
+    incident_id: str = ""
+    category: str = "unknown"
+    observed_evidence: list[str] = Field(default_factory=list, max_length=100)
+    likely_root_cause: str = "Insufficient evidence"
+    recommended_remediation: str | None = None
 
 
 class ActionProposal(BaseModel):
-    kind: Literal["restart", "start", "collect_diagnostics", "configuration_recommendation"]
+    kind: Literal[
+        "restart",
+        "start",
+        "reset_memory",
+        "reset_errors",
+        "reset_latency",
+        "collect_diagnostics",
+        "configuration_recommendation",
+    ]
     reason: str = Field(min_length=1, max_length=2000)
 
 

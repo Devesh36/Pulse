@@ -1,6 +1,8 @@
 import time
+from typing import cast
 
 from sqlalchemy import create_engine, select, update
+from sqlalchemy.engine import CursorResult
 from sqlalchemy.orm import sessionmaker
 
 from pulse.core.schemas import TRANSITIONS, Settings, State
@@ -44,7 +46,7 @@ class Store:
                 .where(Incident.id == incident_id, Incident.state == old.value)
                 .values(**values)
             )
-            if changed.rowcount != 1:
+            if cast(CursorResult, changed).rowcount != 1:
                 raise ValueError("Incident changed concurrently")
             db.add(
                 Event(

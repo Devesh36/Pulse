@@ -4,7 +4,69 @@
 
 Pulse discovers opted-in containers, detects operational incidents, investigates with audited read-only tools, proposes a recovery action, requires your approval, and observes the service before declaring recovery. The dashboard contains live backend data; it does not seed fabricated incidents or metrics.
 
+## About Pulse
+
+Pulse connects monitoring, investigation, human-approved recovery and verification
+in one local workspace. It is built for trusted Docker development environments,
+with a Next.js dashboard, Python API, PostgreSQL incident history and Prometheus
+telemetry. The guided incident lab lets you try the full workflow on selected demo
+resources using real measurements and deterministic reasoning, without a model API key.
+
+Recovery is reported as **RECOVERED**, **NOT_RECOVERED** or **INCONCLUSIVE**. Missing
+telemetry never counts as healthy; a read-only recheck after restoration observes
+the service without replaying the action. Monitoring and remediation permissions
+are separate, and each Start/Restart still needs an exact, expiring, one-time approval.
+
+### See the product
+
+These are actual captures of the existing local development overview and a retained
+incident-lab investigation. They show recorded backend measurements, not a live feed.
+The lab diagnosis uses deterministic mock reasoning; no live LLM was evaluated.
+
+![Pulse overview with discovered Docker services and measured resource charts](apps/web/public/screenshots/overview.png)
+
+![Pulse investigation with its recorded lifecycle and evidence-backed diagnosis](apps/web/public/screenshots/investigation.png)
+
+## Documentation
+
+The Next.js website includes a dedicated **Docs** page at `/docs`, linked from the
+landing page and available without an API connection. It explains what Pulse does,
+how it runs, the first demo, REPL commands, dashboard login, verdicts, data storage
+and troubleshooting, with full-size product screenshots. **About** on the landing
+page describes the product, architecture and approval model.
+
+- [Install and use Pulse](docs/getting-started.md)
+- [Deploy the landing page and Docs on Vercel](docs/vercel-landing.md)
+- [Architecture](docs/architecture.md) and [API reference](docs/api.md)
+- [Recovery verification](docs/recovery-verification.md) and [real telemetry-loss results](docs/verification-telemetry-results.md)
+- [Security and approvals](docs/security.md) and [troubleshooting](docs/troubleshooting.md)
+
+The Vercel configuration builds only the public Next.js landing page, Docs and
+screenshots. It excludes the dashboard and API routes. The full product continues
+to run locally through Docker and the REPL.
+
 ## Quick start
+
+Install the preview and open its guided demo:
+
+```bash
+uv tool install --from git+https://github.com/Devesh36/Pulse.git@work pulse-sre
+pulse repl
+```
+
+Choose **1 / Demo**, confirm the scoped lab action, and follow the real crash/recovery
+run. `Pulse Repl` is also supported. Type `telemetry` for missing-evidence verification,
+`reports` for results, or `stop` to preserve history and stop the lab. Docker with
+Compose is required for demos; no LLM API key is needed. Homebrew users can install
+the included preview formula: [installation and menu guide](docs/getting-started.md).
+
+After installation, start Docker Desktop/Engine, run `pulse repl`, type `demo` and
+confirm `y`. Then type `dashboard` to open http://localhost:3100/lab; sign in with
+`PULSE_ADMIN_TOKEN` from the credential file path printed by the REPL. Type `reports`
+for measured outcomes, `stop` and confirm `y` to preserve the database and reports,
+then `exit` to leave the menu. The first build can take several minutes.
+
+### Development checkout
 
 Requirements: Docker Engine with a working daemon, Docker Compose v2, and `uv` with Python 3.12+. Node 22+ is needed only for frontend development outside Compose.
 
@@ -16,11 +78,34 @@ uv run python scripts/setup-env.py
 docker compose --profile demo up --build -d
 ```
 
-Open **http://localhost:3000**. Sign in with `PULSE_ADMIN_TOKEN` from your local `.env` (do not share it). API health: http://localhost:8000/api/v1/health; interactive API docs: http://localhost:8000/docs. Prometheus is bound to http://localhost:9090. All published ports bind to localhost; the Docker gateway has **no published port**.
+Open **http://localhost:3000** for the product landing page, then **Open workspace**
+(http://localhost:3000/dashboard). Sign in with `PULSE_ADMIN_TOKEN` from your local `.env` (do not share it). API health: http://localhost:8000/api/v1/health; interactive API docs: http://localhost:8000/docs. Prometheus is bound to http://localhost:9090. All published ports bind to localhost; the Docker gateway has **no published port**.
+
+The website's product guide is **http://localhost:3000/docs**. The separate API
+schema reference remains on port 8000 at `/docs`.
 
 `setup-env.py` generates distinct administrator, Docker adapter, demo, and database secrets without printing them, preserves existing settings, and writes `.env` with mode `0600`. Compose rejects empty required secrets. Do not commit `.env`.
 
 To run without the fault demo, omit `--profile demo`. To stop, run `docker compose --profile demo down`. Named volumes preserve PostgreSQL, Prometheus, and the gateway's one-time execution journal. **`down -v` destroys that history.**
+
+## Phase 2 incident laboratory
+
+Run the five real fault scenarios in a separate disposable `pulse-lab` project:
+
+```bash
+uv sync --frozen
+uv run --no-sync pulse lab up --dashboard
+uv run --no-sync pulse lab evaluate --all --approve
+uv run --no-sync pulse lab report --format markdown
+uv run --no-sync pulse lab down
+```
+
+`--approve` explicitly authorizes only the evaluator's scoped lab actions through the real
+approval API. For manual approvals, use the **Incident Lab** dashboard on loopback port 3100.
+Fault endpoints stay internal; the lab creates distinct local credentials and bounded
+workloads. Teardown deletes the disposable lab history while retaining host reports.
+See [run instructions](examples/incident-lab/README.md), [evaluation methodology](docs/evaluation-methodology.md),
+and [actual Phase 2 results](docs/phase2-results.md). Deterministic/mock results are not live-model accuracy.
 
 ## What is implemented
 
@@ -181,7 +266,11 @@ Detailed results: [verification record](docs/verification.md).
 
 Verified during implementation: backend tests including real PostgreSQL persistence/checkpoints and recovery against an isolated test adapter; migration/schema agreement; frontend production compilation and TypeScript checks; Compose configuration validation; API/dashboard startup.
 
-**A real Docker acceptance run was not completed on the development host.** Its Docker Desktop installation is absent, its Compose plugin symlink is broken, and its Colima/Lima installation fails under Rosetta. Docker integration remains opt-in; the real acceptance script and CI workflow are included. Do not treat the adapter-backed recovery test as proof of Docker runtime behavior.
+The original MVP validation record above predates the cloud incident lab. Current
+real Docker, PostgreSQL and Prometheus measurements are in the [Phase 2 results](docs/phase2-results.md),
+[telemetry verification results](docs/verification-telemetry-results.md), and
+[installed CLI/REPL validation](docs/onboarding-results.md). Mock reasoning and
+fixture-backed checks are identified separately from real telemetry.
 
 Other deliberate MVP limits:
 
@@ -194,7 +283,9 @@ Other deliberate MVP limits:
 - Diagnostics are collected during investigations; `collect_diagnostics` and configuration recommendations are advisory proposals, with no separate one-click execution control. No automated config editing.
 - No real external provider calls were made during tests; provider access and model compatibility must be validated with your configuration.
 
-Next milestones: run the real acceptance demo on a working Docker host, validate your chosen provider, add application metric adapters and richer deployment/event feeds, then introduce multi-user authorization and out-of-process worker ownership before considering remote infrastructure.
+Next milestones: validate your chosen live provider, add application metric adapters
+and richer deployment/event feeds, then introduce multi-user authorization and
+out-of-process worker ownership before considering remote infrastructure.
 
 ## License
 

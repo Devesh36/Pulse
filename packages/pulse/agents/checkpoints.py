@@ -1,3 +1,4 @@
+from langchain_core.runnables import RunnableConfig
 from langgraph.checkpoint.base import WRITES_IDX_MAP, BaseCheckpointSaver, CheckpointTuple
 from sqlalchemy import select
 
@@ -12,7 +13,7 @@ class DatabaseSaver(BaseCheckpointSaver):
         self.store = store
 
     @staticmethod
-    def config(thread, namespace, checkpoint):
+    def config(thread, namespace, checkpoint) -> RunnableConfig:
         return {
             "configurable": {
                 "thread_id": thread,
@@ -51,7 +52,7 @@ class DatabaseSaver(BaseCheckpointSaver):
         )
 
     def get_tuple(self, config):
-        conf = config["configurable"]
+        conf = config.get("configurable", {})
         with self.store.session() as db:
             query = select(Checkpoint).where(
                 Checkpoint.thread_id == conf["thread_id"],
@@ -66,14 +67,14 @@ class DatabaseSaver(BaseCheckpointSaver):
         with self.store.session() as db:
             query = select(Checkpoint)
             if config:
-                conf = config["configurable"]
+                conf = config.get("configurable", {})
                 query = query.where(
                     Checkpoint.thread_id == conf["thread_id"],
                     Checkpoint.checkpoint_ns == conf.get("checkpoint_ns", ""),
                 )
             if before:
                 query = query.where(
-                    Checkpoint.checkpoint_id < before["configurable"]["checkpoint_id"]
+                    Checkpoint.checkpoint_id < before.get("configurable", {})["checkpoint_id"]
                 )
             count = 0
             for row in db.scalars(query.order_by(Checkpoint.checkpoint_id.desc())):
@@ -85,8 +86,8 @@ class DatabaseSaver(BaseCheckpointSaver):
                 if limit and count >= limit:
                     break
 
-    def put(self, config, checkpoint, metadata, new_versions):
-        conf = config["configurable"]
+    def put(self, config, checkpoint, metadata, new_versions) -> RunnableConfig:
+        conf = config.get("configurable", {})
         ctype, cblob = self.serde.dumps_typed(checkpoint)
         mtype, mblob = self.serde.dumps_typed(metadata)
         with self.store.session.begin() as db:
@@ -105,7 +106,7 @@ class DatabaseSaver(BaseCheckpointSaver):
         return self.config(conf["thread_id"], conf.get("checkpoint_ns", ""), checkpoint["id"])
 
     def put_writes(self, config, writes, task_id, task_path=""):
-        conf = config["configurable"]
+        conf = config.get("configurable", {})
         with self.store.session.begin() as db:
             for i, (channel, value) in enumerate(writes):
                 idx = WRITES_IDX_MAP.get(channel, i)
