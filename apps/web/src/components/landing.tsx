@@ -221,28 +221,28 @@ function Walkthrough() {
 export function Landing({ siteOnly = false }: { siteOnly?: boolean }) {
   return (
     <main className={styles.page}>
-      <div className={styles.gridGlow} aria-hidden="true" />
       <ProductNav siteOnly={siteOnly} />
       <section className={styles.hero}>
         <div className={styles.heroCopy}>
           <div className={styles.eyebrow}>
-            <span /> LOCAL INFRASTRUCTURE. HUMAN CONTROL.
+            <span /> INCIDENT RESPONSE. HUMAN CONTROL.
           </div>
           <h1>
-            When things break,
+            Keep a pulse
             <br />
-            <em>follow the evidence.</em>
+            <em>on your stack.</em>
           </h1>
           <p>
-            Pulse investigates your Docker incidents, explains what happened,
-            and helps you recover—with your approval and a verification trail.
+            Catch the incident. Understand the cause. Recover with confidence.
+            Pulse connects your Docker telemetry to a clear next step—always
+            with your approval.
           </p>
           <div className={styles.heroActions}>
             <a href="#get-started" className={styles.primary}>
-              Start with Pulse <ArrowRight size={17} />
+              Install Pulse <ArrowRight size={17} />
             </a>
             <a href="#demo" className={styles.secondary}>
-              <Play size={15} /> See how it works
+              <Play size={15} /> Explore the demo
             </a>
           </div>
           <div className={styles.heroNotes}>
@@ -253,13 +253,20 @@ export function Landing({ siteOnly = false }: { siteOnly?: boolean }) {
               <CheckCircle2 size={14} /> Runs locally
             </span>
             <span>
-              <CheckCircle2 size={14} /> No API key needed for the demo
+              <CheckCircle2 size={14} /> Demo without an API key
             </span>
           </div>
         </div>
         <div className={styles.heroVisual}>
           <div className={styles.visualCaption}>
-            <Activity size={14} /> FROM SIGNAL TO VERIFIED RECOVERY
+            <span>
+              <Activity size={17} /> THE INCIDENT LOOP
+            </span>
+            <span className={styles.illustrationLabel}>Illustration</span>
+          </div>
+          <div className={styles.signalHeading}>
+            <strong>Every signal tells a story.</strong>
+            <span>Docker state · Metrics · Logs</span>
           </div>
           <div className={styles.signal} aria-hidden="true">
             <svg viewBox="0 0 480 110">
@@ -267,7 +274,7 @@ export function Landing({ siteOnly = false }: { siteOnly?: boolean }) {
                 className={styles.signalBaseline}
                 d={pulseTrace}
                 fill="none"
-                strokeWidth="2"
+                strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
@@ -276,7 +283,7 @@ export function Landing({ siteOnly = false }: { siteOnly?: boolean }) {
                 d={pulseTrace}
                 pathLength="1"
                 fill="none"
-                strokeWidth="2.5"
+                strokeWidth="3.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
@@ -290,9 +297,8 @@ export function Landing({ siteOnly = false }: { siteOnly?: boolean }) {
               </span>
               <span>
                 <strong>Incident detected</strong>
-                <small>State, metrics, logs, lifecycle events</small>
+                <small>Observe what changed in your stack.</small>
               </span>
-              <span className={styles.stackTag}>Observe</span>
             </div>
             <div>
               <span className={styles.iconSquare}>
@@ -300,9 +306,8 @@ export function Landing({ siteOnly = false }: { siteOnly?: boolean }) {
               </span>
               <span>
                 <strong>Cause explained</strong>
-                <small>Read-only investigation with citations</small>
+                <small>Trace the diagnosis back to evidence.</small>
               </span>
-              <span className={styles.stackTag}>Explain</span>
             </div>
             <div>
               <span className={styles.iconSquare}>
@@ -310,13 +315,12 @@ export function Landing({ siteOnly = false }: { siteOnly?: boolean }) {
               </span>
               <span>
                 <strong>You approve the action</strong>
-                <small>Exact resource. Expiring approval. Once.</small>
+                <small>One scoped action. Then verify recovery.</small>
               </span>
-              <span className={styles.stackTag}>Control</span>
             </div>
           </div>
           <div className={styles.visualFooter}>
-            <CheckCircle2 size={16} /> Recovery is observed, never assumed.
+            <ShieldCheck size={16} /> Recovery is measured, never assumed.
           </div>
         </div>
       </section>

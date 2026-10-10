@@ -45,7 +45,6 @@ const commands = [
 export function ProductDocs({ siteOnly = false }: { siteOnly?: boolean }) {
   return (
     <main className={styles.page}>
-      <div className={styles.gridGlow} aria-hidden="true" />
       <ProductNav siteOnly={siteOnly} />
       <header className={`${styles.section} ${styles.docsHero}`}>
         <div className={styles.eyebrow}>
