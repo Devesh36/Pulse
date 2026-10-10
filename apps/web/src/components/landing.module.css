@@ -1,17 +1,18 @@
 .publicDocument:root {
-  --background: #ffffff;
-  --foreground: #202124;
-  color-scheme: light;
+  --background: #08090b;
+  --foreground: #f4f4f5;
+  color-scheme: dark;
 }
 .page {
-  --pulse-paper: #ffffff;
-  --pulse-ink: #202124;
-  --pulse-muted: #5d6068;
-  --pulse-red: #d52535;
+  --pulse-paper: #08090b;
+  --pulse-ink: #f4f4f5;
+  --pulse-muted: #aaabb4;
+  --pulse-red: #ff4d5f;
+  --pulse-action: #d52535;
   --pulse-red-strong: #b51d2b;
-  --pulse-border: #e7e7e9;
-  --pulse-surface: #f8f9fa;
-  --pulse-soft: #fff2f2;
+  --pulse-border: #28292f;
+  --pulse-surface: #111216;
+  --pulse-soft: #211217;
   --border: var(--pulse-border);
   --accent: var(--pulse-red);
   position: relative;
@@ -19,7 +20,7 @@
   overflow: hidden;
   background: var(--pulse-paper);
   color: var(--pulse-ink);
-  color-scheme: light;
+  color-scheme: dark;
   font-size: 16px;
   line-height: 1.6;
 }
@@ -150,7 +151,7 @@
   transition: background 160ms ease;
 }
 .primary {
-  background: var(--pulse-red);
+  background: var(--pulse-action);
   color: #ffffff;
 }
 .primary:hover {
@@ -182,13 +183,13 @@
 }
 .heroVisual {
   min-width: 0;
-  background: var(--pulse-paper);
+  background: var(--pulse-surface);
   border: 1px solid var(--pulse-border);
   border-radius: 16px;
   overflow: hidden;
   box-shadow:
-    0 8px 30px #20212408,
-    0 32px 70px #20212406;
+    0 8px 30px #00000030,
+    0 32px 70px #00000040;
 }
 .visualCaption {
   display: flex;
@@ -232,19 +233,19 @@
 .signal {
   position: relative;
   height: 155px;
-  background-color: #fffcfc;
+  background-color: #100b0e;
   background-image:
-    linear-gradient(#d5253509 1px, transparent 1px),
-    linear-gradient(90deg, #d5253509 1px, transparent 1px),
-    linear-gradient(#d5253514 1px, transparent 1px),
-    linear-gradient(90deg, #d5253514 1px, transparent 1px);
+    linear-gradient(#ff4d5f0a 1px, transparent 1px),
+    linear-gradient(90deg, #ff4d5f0a 1px, transparent 1px),
+    linear-gradient(#ff4d5f18 1px, transparent 1px),
+    linear-gradient(90deg, #ff4d5f18 1px, transparent 1px);
   background-size:
     10px 10px,
     10px 10px,
     50px 50px,
     50px 50px;
-  border-top: 1px solid #d5253514;
-  border-bottom: 1px solid #d5253514;
+  border-top: 1px solid #ff4d5f18;
+  border-bottom: 1px solid #ff4d5f18;
 }
 .signal svg {
   width: 100%;
@@ -257,7 +258,7 @@
 .signalTrace {
   stroke-dasharray: 0.15 0.85;
   stroke-dashoffset: 0;
-  filter: drop-shadow(0 0 3px #d5253530);
+  filter: drop-shadow(0 0 5px #ff4d5f55);
   animation: tracePulse 6s linear infinite;
 }
 @keyframes tracePulse {
@@ -414,7 +415,7 @@
   border: 1px solid var(--pulse-border);
   background: var(--pulse-paper);
   border-radius: 12px;
-  box-shadow: 0 20px 90px #35142012;
+  box-shadow: 0 20px 90px #00000040;
 }
 .windowBar {
   display: flex;
@@ -438,17 +439,17 @@
 .windowDots i {
   width: 7px;
   height: 7px;
-  background: #d3c7cb;
+  background: #62636d;
   border-radius: 50%;
 }
 .windowDots i:first-child {
-  background: #c72443;
+  background: var(--pulse-red);
 }
 .windowDots i:nth-child(2) {
-  background: #e1bcc4;
+  background: #ab5963;
 }
 .windowDots i:last-child {
-  background: #d3c7cb;
+  background: #62636d;
 }
 .example {
   margin-left: auto;
@@ -482,8 +483,8 @@
   background: var(--pulse-red);
 }
 .verdict {
-  background: #f2f0f2;
-  color: #4a414b;
+  background: #1c1e24;
+  color: #d0d2d8;
   border: 1px solid var(--pulse-border);
   border-radius: 4px;
   font-size: 9px;
@@ -491,9 +492,9 @@
   padding: 3px 8px;
 }
 .warning {
-  color: #9a5c12;
-  background: #fff6e8;
-  border-color: #ead4b3;
+  color: #f4bf72;
+  background: #241c11;
+  border-color: #493720;
 }
 .tourBody > h3 {
   font-size: 23px;
@@ -626,16 +627,16 @@
   display: inline-block;
   width: 8px;
   height: 8px;
-  background: #514650;
+  background: #a0a3ae;
   border-radius: 50%;
   margin-bottom: 13px;
-  box-shadow: 0 0 14px #ca23420a;
+  box-shadow: 0 0 14px #ff4d5f0a;
 }
 .failedDot {
-  background: #bf213b;
+  background: var(--pulse-red);
 }
 .unknownDot {
-  background: #9a5c12;
+  background: #f4bf72;
 }
 .outcomes h3 {
   font-size: 17px;
@@ -1061,14 +1062,14 @@
 .verdictList > div {
   margin: 14px 0;
   padding: 18px 20px;
-  border-left: 2px solid #514650;
+  border-left: 2px solid #a0a3ae;
   background: var(--pulse-surface);
 }
 .verdictList > div:nth-child(2) {
-  border-color: #bf213b;
+  border-color: var(--pulse-red);
 }
 .verdictList > div:nth-child(3) {
-  border-color: #9a5c12;
+  border-color: #f4bf72;
 }
 .verdictList dt {
   font-size: 11px;

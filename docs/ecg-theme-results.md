@@ -91,3 +91,43 @@ not inspected; account access is unavailable and the environment's network
 allowlist does not include its domain. Existing operational screenshots,
 databases and reports were preserved. Only the temporary production server
 started for these checks was stopped.
+
+## Black and red theme — 2026-10-10
+
+The user's latest palette replaces white with near-black `#08090b`, dark panels
+and bright red `#ff4d5f` ECG/heading accents throughout the landing page and Docs.
+Solid action buttons retain deeper red `#d52535` for readable white labels.
+Status labels use dark backgrounds; inconclusive remains explicitly labeled
+with an amber accent. The refined layout and existing product screenshots are
+preserved. Only `apps/web/src/components/landing.module.css` and this report
+changed.
+
+Commands run from the repository root:
+
+```bash
+NEXT_TELEMETRY_DISABLED=1 npm run build:site --prefix apps/web
+npm run typecheck --prefix apps/web
+npm run format:check --prefix apps/web
+PORT=3200 NEXT_TELEMETRY_DISABLED=1 npm run start --prefix apps/web
+node apps/web/scripts/check-site.mjs http://127.0.0.1:3200
+UV_CACHE_DIR=/workspace/.cache/uv uv run --no-project --with playwright python /workspace/pulse-black-red-check.py
+git diff --check
+```
+
+All passed. Chromium verified both public pages at 1920, 1440, 1024, 768, 390 and
+320 pixels, with both light and dark OS preferences. Body/main backgrounds
+measure `rgb(8, 9, 11)`, with a dark color scheme and red branding
+`rgb(255, 77, 95)`. Minimum sampled text contrast is **5.07:1**; samples include
+headlines, descriptions, button labels, navigation, hero details and Docs text.
+The inconclusive badge also passes 4.5:1. Installation tabs/clipboard, reduced
+motion, the verification walkthrough, disclosures, images and navigation passed.
+No horizontal overflow, JavaScript errors or backend API calls were observed.
+The HTTP check confirms public pages/screenshots load and the eight checked
+operational paths return 404. Desktop and mobile captures were visually inspected.
+
+The local browser driver is outside the checkout; screenshots and measurements
+are retained in `/workspace/pulse-ui-results/black-red/`. No real-telemetry
+incident scenario was rerun for this CSS change. Backend/Python, migration,
+Compose and full dashboard checks were not rerun; no backend or deployment
+configuration changed. Live Vercel verification remains unavailable for the
+reasons above. Only the temporary server started for validation was stopped.
