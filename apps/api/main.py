@@ -30,6 +30,7 @@ from pulse.db.models import (
 )
 from pulse.db.store import Store, serialize
 from pulse.lab.catalog import SCENARIOS
+from pulse.lab.quality import quality_review
 from pydantic import BaseModel, Field
 from sqlalchemy import func, select, update
 from sqlalchemy.engine import CursorResult
@@ -435,6 +436,22 @@ def create_app(config: Config | None = None, store=None, runtime=None):
             db.flush()
         store.audit("lab.evaluation_recorded", row.id, {"scenario": body.scenario})
         return serialize(row)
+
+    @app.get("/api/v1/lab/quality", dependencies=auth)
+    async def lab_quality():
+        # Bound each scenario independently so a busy scenario cannot hide others.
+        with store.session() as db:
+            records = [
+                serialize(row)
+                for scenario in SCENARIOS
+                for row in db.scalars(
+                    select(LabEvaluation)
+                    .where(LabEvaluation.scenario == scenario)
+                    .order_by(LabEvaluation.at.desc(), LabEvaluation.id.desc())
+                    .limit(2)
+                )
+            ]
+        return quality_review(records)
 
     @app.post("/api/v1/incidents/{iid}/cancel", dependencies=auth)
     async def cancel_investigation(iid: str):

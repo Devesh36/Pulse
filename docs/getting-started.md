@@ -55,6 +55,7 @@ The first build can take several minutes; later runs reuse images and data.
 | `status` or `4` | Show fresh lab discoveries; no credentials are created by this command |
 | `reports` or `5` | Show measured verdicts, citations, actions and actionable explanations |
 | `stop` or `6` | Stop the lab while preserving its database, credentials, volumes and reports |
+| `quality` or `7` | Review retained evaluations, compatible baselines and improvement steps offline; no resource changes |
 | `exit` or `0` | Leave the REPL; the lab remains available |
 
 The dashboard uses the existing administrator login. The REPL prints the local

@@ -36,6 +36,17 @@ jobs:
             uv run --no-sync pulse lab evaluate --all --approve
           fi
       - if: always()
+        name: Export continuous improvement review
+        run: |
+          if uv run --no-sync pulse lab quality --reports-dir examples/incident-lab/reports --format json --fail-on-regression > "$RUNNER_TEMP/pulse-quality.json"; then
+            pulse_quality_status=0
+          else
+            pulse_quality_status=$?
+          fi
+          mkdir -p examples/incident-lab/reports/quality-${{ github.run_id }}-${{ github.run_attempt }}
+          cp "$RUNNER_TEMP/pulse-quality.json" examples/incident-lab/reports/quality-${{ github.run_id }}-${{ github.run_attempt }}/review.json
+          exit "$pulse_quality_status"
+      - if: always()
         uses: actions/upload-artifact@v4
         with:
           name: incident-lab-evaluation

@@ -35,6 +35,32 @@ interface Evaluation {
     verification?: { result: string };
   };
 }
+interface QualityReview {
+  status: string;
+  summary: { failed: number; regressed: number; needs_evidence: number };
+  scenarios: {
+    scenario: string;
+    status: string;
+    comparison: string;
+    comparison_reason: string;
+    current: {
+      id: string;
+      at: number;
+      mode: string;
+      verdict: string | null;
+      incident_id: string | null;
+    } | null;
+    baseline: { id: string; at: number } | null;
+    issues: { code: string; explanation: string; follow_up: string }[];
+    latency_changes: {
+      metric: string;
+      baseline_seconds: number;
+      current_seconds: number;
+      direction: string;
+    }[];
+  }[];
+  limitations: string[];
+}
 
 export function IncidentLab({
   services,
@@ -52,6 +78,11 @@ export function IncidentLab({
   const history = useQuery({
     queryKey: ["lab-evaluations"],
     queryFn: () => api<Evaluation[]>("/lab/evaluations"),
+    refetchInterval: 10000,
+  });
+  const quality = useQuery({
+    queryKey: ["lab-quality"],
+    queryFn: () => api<QualityReview>("/lab/quality"),
     refetchInterval: 10000,
   });
   const command = useMutation({
@@ -221,6 +252,76 @@ export function IncidentLab({
         })}
         {!current.length && (
           <p className="muted">No active lab investigation.</p>
+        )}
+      </section>
+      <section className="panel">
+        <div className="panel-heading">
+          <h2>Continuous improvement</h2>
+          <span className="muted">Read-only evaluation review</span>
+        </div>
+        {quality.isPending && (
+          <p className="muted">Loading quality evidence…</p>
+        )}
+        {quality.error && (
+          <p role="alert">
+            Quality review unavailable: {quality.error.message}
+          </p>
+        )}
+        {quality.data && (
+          <>
+            <p>
+              <strong>{quality.data.status.replaceAll("_", " ")}</strong> ·{" "}
+              {quality.data.summary.failed} failed ·{" "}
+              {quality.data.summary.regressed} regression flags ·{" "}
+              {quality.data.summary.needs_evidence} need evidence or a
+              compatible baseline
+            </p>
+            {quality.data.scenarios.map((row) => (
+              <div className="lab-row" key={row.scenario}>
+                <div>
+                  <strong>{row.scenario}</strong>
+                  <p>
+                    {row.status.replaceAll("_", " ")} ·{" "}
+                    {row.comparison.replaceAll("_", " ")}
+                  </p>
+                  <p className="muted">{row.comparison_reason}</p>
+                  {row.current && (
+                    <p className="muted">
+                      Latest {date(row.current.at)} · {row.current.mode} ·{" "}
+                      {row.current.verdict || "verdict unavailable"}
+                    </p>
+                  )}
+                  {row.baseline && (
+                    <p className="muted">Baseline {date(row.baseline.at)}</p>
+                  )}
+                  {row.current?.incident_id && (
+                    <Link href={`/incidents/${row.current.incident_id}`}>
+                      Review incident evidence
+                    </Link>
+                  )}
+                  {row.issues.map((issue) => (
+                    <p key={issue.code}>
+                      {issue.explanation}{" "}
+                      <span className="muted">{issue.follow_up}</span>
+                    </p>
+                  ))}
+                  {row.latency_changes.map((change) => (
+                    <p className="muted" key={change.metric}>
+                      {change.metric.replaceAll("_", " ")}:{" "}
+                      {change.baseline_seconds.toFixed(2)} s →{" "}
+                      {change.current_seconds.toFixed(2)} s (
+                      {change.direction.toLowerCase()})
+                    </p>
+                  ))}
+                </div>
+              </div>
+            ))}
+            {quality.data.limitations.map((limitation) => (
+              <p className="muted" key={limitation}>
+                {limitation}
+              </p>
+            ))}
+          </>
         )}
       </section>
       <section className="panel">

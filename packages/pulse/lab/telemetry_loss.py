@@ -3,11 +3,19 @@
 import json
 import subprocess
 import time
+import uuid
 
 import httpx
 
 from pulse.lab.cli import LAB, ROOT, compose, request, reset, wait_for
-from pulse.lab.evaluate import detail, evaluate_diagnosis, healthy_baseline, run_scenario
+from pulse.lab.evaluate import (
+    detail,
+    evaluate_diagnosis,
+    healthy_baseline,
+    record_report,
+    run_scenario,
+    write_quality,
+)
 
 
 def scrape(service):
@@ -77,6 +85,16 @@ def run_loss(http, native):
             diagnosis=evaluate_diagnosis(initial, spec),
             evidence=initial["tools"],
         )
+        timeline = request(http, "GET", f"/incidents/{iid}/timeline")
+        report["time_to_diagnosis_seconds"] = (
+            next(e["at"] for e in reversed(timeline) if e["kind"] == "investigation.diagnosed")
+            - incident["created_at"]
+        )
+        report["configured_targets"] = {
+            "detection_deadline_seconds": 60,
+            "expected_verification": "RECOVERED",
+            "initial_verification": "INCONCLUSIVE",
+        }
         action = next(a for a in initial["actions"] if a["status"] == "proposed")
         assert action["kind"] == "reset_errors"
         with httpx.Client(trust_env=False, timeout=10) as anonymous:
@@ -248,6 +266,7 @@ def run_loss(http, native):
     except Exception as error:
         report["error"] = f"{type(error).__name__}: {error}"
     finally:
+        report["completed_at"] = time.time()
         if sid:
             request(http, "POST", f"/lab/telemetry/{sid}", json={"enabled": True})
     return report
@@ -271,7 +290,8 @@ def evaluate_telemetry_loss(http, native=False):
         "http_min_requests": 5,
         "verification_max_gap_seconds": 5,
     }
-    folder = LAB / "reports" / ("verification-" + time.strftime("%Y%m%dT%H%M%SZ", time.gmtime()))
+    run_id = str(uuid.uuid4())
+    folder = LAB / "reports" / ("verification-" + run_id)
     folder.mkdir(parents=True)
     reports, baselines = [], []
     failure = None
@@ -286,16 +306,33 @@ def evaluate_telemetry_loss(http, native=False):
         ):
             baseline = healthy_baseline(http)
             baselines.append(baseline)
-            assert baseline["false_positive_count"] == 0
-            print(f"Real verification evaluation: {scenario}", flush=True)
-            result = (
-                run_loss(http, native)
-                if scenario == "telemetry-loss"
-                else run_scenario(http, scenario, mock=True)
+            if baseline["false_positive_count"]:
+                result = {
+                    "scenario": scenario,
+                    "status": "FAIL",
+                    "mode": "mock-model",
+                    "started_at": baseline["started_at"],
+                    "completed_at": time.time(),
+                    "error": "Unexpected incidents during healthy baseline; evaluation stopped",
+                }
+            else:
+                print(f"Real verification evaluation: {scenario}", flush=True)
+                result = (
+                    run_loss(http, native)
+                    if scenario == "telemetry-loss"
+                    else run_scenario(http, scenario, mock=True)
+                )
+            result.update(
+                run_id=run_id,
+                evaluation_context={
+                    "version": 1,
+                    "suite": "telemetry-restoration",
+                    "runtime": settings,
+                },
+                healthy_baseline=baseline,
             )
             reports.append(result)
-            (folder / f"{scenario}.json").write_text(json.dumps(result, indent=2) + "\n")
-            request(http, "POST", "/lab/evaluations", json={"scenario": scenario, "report": result})
+            record_report(http, folder, result)
             assert result["status"] == "PASS", result.get("error", "Scenario failed")
             outcome = (
                 "INCONCLUSIVE -> RECOVERED"
@@ -312,6 +349,7 @@ def evaluate_telemetry_loss(http, native=False):
     finally:
         request(http, "PATCH", "/settings", json=original)
         summary = {
+            "run_id": run_id,
             "mode": "mock-model / real Docker and Prometheus",
             "reports": reports,
             "healthy_baselines": baselines,
@@ -352,4 +390,6 @@ def evaluate_telemetry_loss(http, native=False):
         if failure:
             lines += ["", "Evaluation failed: " + failure]
         (folder / "summary.md").write_text("\n".join(lines) + "\n")
+        if reports:
+            write_quality(http, folder)
         print(f"Preserved evaluation reports: {folder}", flush=True)

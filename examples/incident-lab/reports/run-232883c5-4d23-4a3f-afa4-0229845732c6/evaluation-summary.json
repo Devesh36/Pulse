@@ -1,0 +1,247 @@
+{
+  "run_id": "232883c5-4d23-4a3f-afa4-0229845732c6",
+  "evaluation_context": {
+    "version": 1,
+    "suite": "standard",
+    "runtime": {
+      "interval_seconds": 2,
+      "cpu_threshold": 85.0,
+      "memory_threshold": 60,
+      "latency_threshold_ms": 1500,
+      "error_rate_threshold": 0.2,
+      "restart_threshold": 3,
+      "window_seconds": 10,
+      "min_samples": 2,
+      "cooldown_seconds": 0,
+      "verification_seconds": 6,
+      "recovery_grace_seconds": 15,
+      "agent_max_iterations": 6,
+      "agent_token_budget": 12000,
+      "agent_max_tool_calls": 25,
+      "agent_max_seconds": 180.0,
+      "agent_max_concurrent": 3,
+      "agent_max_pending": 32,
+      "telemetry_max_age_seconds": 30.0,
+      "verification_max_gap_seconds": null,
+      "http_min_requests": 5,
+      "memory_recovery_threshold": 40,
+      "latency_recovery_ms": 200,
+      "error_recovery_rate": 0.05,
+      "remediation_disabled": false
+    }
+  },
+  "generated_at": 1791617576.5056508,
+  "mode": "mock-model",
+  "configured_targets": {
+    "detection_rate": 1.0,
+    "false_positive_count": 0,
+    "root_cause_accuracy": 1.0,
+    "approval_enforcement": 1.0,
+    "verification_accuracy": 1.0
+  },
+  "healthy_baselines": [
+    {
+      "started_at": 1791617536.7951024,
+      "duration_seconds": 14.048267602920532,
+      "unexpected_incidents": [],
+      "false_positive_count": 0
+    }
+  ],
+  "incident_persistence_after_api_restart": true,
+  "measurements": {
+    "scenario_count": 1,
+    "passed": 1,
+    "detection_rate": 1.0,
+    "root_cause_accuracy": 1.0,
+    "false_positive_count": 0,
+    "remediation_recovery_rate": 1.0,
+    "verification_accuracy": 1.0
+  },
+  "scenarios": [
+    {
+      "scenario": "container-crash",
+      "status": "PASS",
+      "started_at": 1791617550.8437417,
+      "mode": "mock-model",
+      "configured_targets": {
+        "detection_deadline_seconds": 30,
+        "expected_verification": "RECOVERED"
+      },
+      "incident_id": "fb896082-04ce-4db6-abbc-692e376ef2d4",
+      "detection_latency_seconds": 3.4744162559509277,
+      "incident_created_at": 1791617554.3181593,
+      "diagnosis": {
+        "category": "container_crash",
+        "category_correct": true,
+        "validated_citations": 2,
+        "tool_calls": 5,
+        "successful_tool_calls": 5,
+        "required_tools_present": true,
+        "manual_review_required": "References and numeric observations are checked; truth of every free-text statement is not mechanically proven."
+      },
+      "time_to_diagnosis_seconds": 0.3191337585449219,
+      "actual_investigation_mode": "mock-model",
+      "investigation_cost": {
+        "tokens_used": 0,
+        "tool_calls": 5,
+        "estimated_provider_cost_usd": 0,
+        "cost_note": "No provider calls in deterministic/mock mode; live pricing estimate unavailable."
+      },
+      "remediation": {
+        "id": "e874a6b6-9272-42ac-98b9-f92d01707ae9",
+        "incident_id": "fb896082-04ce-4db6-abbc-692e376ef2d4",
+        "service_id": "0e32f2ac-b8f2-47bc-b6c7-96233481d60d",
+        "container_id": "685ca3560d13747d9d2de2584e0fde1321c144670d7801dbab0764815b843120",
+        "kind": "start",
+        "reason": "Start the stopped development container, then observe health and restart stability. The underlying cause may recur.",
+        "digest": "dc7075ca067f1dff292effeeb610aafe2a820981ac0b06dea99e5ca7e5e49da1",
+        "status": "executed",
+        "created_at": 1791617554.6390848,
+        "expires_at": 1791618454.6390848,
+        "outcome": {
+          "snapshot": {
+            "container_id": "685ca3560d13747d9d2de2584e0fde1321c144670d7801dbab0764815b843120",
+            "name": "pulse-lab-demo-worker-1",
+            "status": "running",
+            "health": "starting",
+            "health_log": [
+              {
+                "Start": "2026-10-10T07:32:25.461680089Z",
+                "End": "2026-10-10T07:32:26.003060038Z",
+                "ExitCode": 0,
+                "Output": ""
+              },
+              {
+                "Start": "2026-10-10T07:32:28.003597728Z",
+                "End": "2026-10-10T07:32:28.487196883Z",
+                "ExitCode": 0,
+                "Output": ""
+              },
+              {
+                "Start": "2026-10-10T07:32:30.488110437Z",
+                "End": "2026-10-10T07:32:30.967598394Z",
+                "ExitCode": 0,
+                "Output": ""
+              }
+            ],
+            "restart_count": 0,
+            "exit_code": 0,
+            "oom_killed": false,
+            "error": "",
+            "started_at": "2026-10-10T07:32:35.123909783Z",
+            "finished_at": "2026-10-10T07:32:31.162928232Z",
+            "created_at": "2026-10-10T07:25:52.890489477Z",
+            "image": "pulse-lab-demo",
+            "labels": {
+              "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+              "com.docker.compose.project": "pulse-lab",
+              "com.docker.compose.service": "demo-worker",
+              "pulse.environment": "development",
+              "pulse.lab": "pulse-lab",
+              "pulse.monitor": "true",
+              "pulse.remediate": "true"
+            },
+            "observed_at": 1791617555.2512918,
+            "action_completed_at": 1791617555.2557857
+          },
+          "pre_action": {
+            "snapshot": {
+              "container_id": "685ca3560d13747d9d2de2584e0fde1321c144670d7801dbab0764815b843120",
+              "name": "pulse-lab-demo-worker-1",
+              "status": "exited",
+              "health": "unhealthy",
+              "health_log": [
+                {
+                  "Start": "2026-10-10T07:32:25.461680089Z",
+                  "End": "2026-10-10T07:32:26.003060038Z",
+                  "ExitCode": 0,
+                  "Output": ""
+                },
+                {
+                  "Start": "2026-10-10T07:32:28.003597728Z",
+                  "End": "2026-10-10T07:32:28.487196883Z",
+                  "ExitCode": 0,
+                  "Output": ""
+                },
+                {
+                  "Start": "2026-10-10T07:32:30.488110437Z",
+                  "End": "2026-10-10T07:32:30.967598394Z",
+                  "ExitCode": 0,
+                  "Output": ""
+                }
+              ],
+              "restart_count": 0,
+              "exit_code": 42,
+              "oom_killed": false,
+              "error": "",
+              "started_at": "2026-10-10T07:30:55.728689932Z",
+              "finished_at": "2026-10-10T07:32:31.162928232Z",
+              "created_at": "2026-10-10T07:25:52.890489477Z",
+              "image": "pulse-lab-demo",
+              "labels": {
+                "com.docker.compose.config-hash": "54e42ce6cb60f3a7a9e75b474b78d7c2c388e39ce2a7a0b94c8e5dfe9d497f09",
+                "com.docker.compose.project": "pulse-lab",
+                "com.docker.compose.service": "demo-worker",
+                "pulse.environment": "development",
+                "pulse.lab": "pulse-lab",
+                "pulse.monitor": "true",
+                "pulse.remediate": "true"
+              },
+              "observed_at": 1791617555.077948
+            },
+            "at": 1791617555.087538
+          }
+        }
+      },
+      "final_state": "RESOLVED",
+      "approval_enforced": true,
+      "duplicate_rejected": true,
+      "verification_correct": true,
+      "remediation_recovered": true,
+      "completed_at": 1791617571.2628233,
+      "reset_succeeded": true,
+      "run_id": "232883c5-4d23-4a3f-afa4-0229845732c6",
+      "evaluation_context": {
+        "version": 1,
+        "suite": "standard",
+        "runtime": {
+          "interval_seconds": 2,
+          "cpu_threshold": 85.0,
+          "memory_threshold": 60,
+          "latency_threshold_ms": 1500,
+          "error_rate_threshold": 0.2,
+          "restart_threshold": 3,
+          "window_seconds": 10,
+          "min_samples": 2,
+          "cooldown_seconds": 0,
+          "verification_seconds": 6,
+          "recovery_grace_seconds": 15,
+          "agent_max_iterations": 6,
+          "agent_token_budget": 12000,
+          "agent_max_tool_calls": 25,
+          "agent_max_seconds": 180.0,
+          "agent_max_concurrent": 3,
+          "agent_max_pending": 32,
+          "telemetry_max_age_seconds": 30.0,
+          "verification_max_gap_seconds": null,
+          "http_min_requests": 5,
+          "memory_recovery_threshold": 40,
+          "latency_recovery_ms": 200,
+          "error_recovery_rate": 0.05,
+          "remediation_disabled": false
+        }
+      },
+      "healthy_baseline": {
+        "started_at": 1791617536.7951024,
+        "duration_seconds": 14.048267602920532,
+        "unexpected_incidents": [],
+        "false_positive_count": 0
+      }
+    }
+  ],
+  "limitations": [
+    "Deterministic evidence analysis is not live-model reasoning accuracy.",
+    "False-positive exposure is limited to the measured healthy baseline durations.",
+    "Resource removal is verified by pulse lab down, independently of scenario reset."
+  ]
+}

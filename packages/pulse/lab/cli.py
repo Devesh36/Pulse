@@ -197,6 +197,25 @@ def main(argv=None):
     up = commands.add_parser("up")
     up.add_argument("--dashboard", action="store_true")
     commands.add_parser("status")
+    quality = commands.add_parser(
+        "quality", help="Review recorded evaluations without changing resources"
+    )
+    quality.add_argument("--format", choices=["json", "markdown"], default="markdown")
+    quality.add_argument(
+        "--reports-dir",
+        type=Path,
+        help="Review retained JSON reports offline; no Docker or API connection",
+    )
+    quality.add_argument(
+        "--check",
+        action="store_true",
+        help="Exit 2 unless every scenario has complete, compatible evidence without regressions",
+    )
+    quality.add_argument(
+        "--fail-on-regression",
+        action="store_true",
+        help="Exit 2 for observed failures or regression flags; missing baselines remain explicit",
+    )
     run = commands.add_parser("run")
     run.add_argument("scenario", choices=SCENARIOS)
     run.add_argument(
@@ -218,6 +237,11 @@ def main(argv=None):
         help="Explicitly authorize reviewed lab actions through the real approval API",
     )
     evaluate.add_argument("--live-model", action="store_true")
+    evaluate.add_argument(
+        "--native-api",
+        action="store_true",
+        help="Restart only the scoped native verification-session API",
+    )
     report = commands.add_parser("report")
     report.add_argument("--format", choices=["json", "markdown"], default="json")
     report.add_argument(
@@ -228,7 +252,28 @@ def main(argv=None):
     commands.add_parser("down")
     args = parser.parse_args(argv)
     try:
-        if args.command == "up":
+        if args.command == "quality":
+            from pulse.lab.quality import from_reports, markdown
+
+            if args.reports_dir:
+                if not args.reports_dir.is_dir():
+                    raise RuntimeError("Report directory does not exist")
+                review = from_reports(args.reports_dir)
+            else:
+                if not (LAB / ".env").exists():
+                    raise RuntimeError(
+                        "No lab credentials; use --reports-dir for an offline quality review"
+                    )
+                with client() as http:
+                    review = request(http, "GET", "/lab/quality")
+            print(json.dumps(review, indent=2) if args.format == "json" else markdown(review))
+            return (
+                2
+                if (args.check and review["status"] != "NO_REGRESSIONS_OBSERVED")
+                or (args.fail_on_regression and review["status"] == "ATTENTION_REQUIRED")
+                else 0
+            )
+        elif args.command == "up":
             compose(
                 "build",
                 "api",
@@ -312,14 +357,19 @@ def main(argv=None):
         elif args.command == "report":
             extension = "json" if args.format == "json" else "md"
             if args.verification:
-                candidates = sorted((LAB / "reports").glob(f"verification-*/summary.{extension}"))
+                candidates = list((LAB / "reports").glob(f"verification-*/summary.{extension}"))
                 if not candidates:
                     raise RuntimeError(
                         "No recovery evidence report; run pulse lab run telemetry-loss --approve first"
                     )
-                path = candidates[-1]
+                path = max(candidates, key=lambda item: item.stat().st_mtime)
             else:
-                path = LAB / "reports" / f"evaluation-summary.{extension}"
+                candidates = list((LAB / "reports").rglob(f"evaluation-summary.{extension}"))
+                path = (
+                    max(candidates, key=lambda item: item.stat().st_mtime)
+                    if candidates
+                    else LAB / "reports" / f"evaluation-summary.{extension}"
+                )
             if not path.exists():
                 raise RuntimeError(
                     "No evaluation report; run pulse lab evaluate --all --approve first"
@@ -354,6 +404,7 @@ def main(argv=None):
                         if args.command == "evaluate"
                         else [args.scenario],
                         live=args.live_model,
+                        native=args.native_api,
                     )
     except (AssertionError, RuntimeError, httpx.HTTPError, OSError) as error:
         print(f"Lab operation failed: {error}", file=sys.stderr)

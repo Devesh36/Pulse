@@ -58,3 +58,12 @@ GET `/events?after=0`, authenticated with the same session or Bearer credential.
 The dashboard stores its last cursor for the browser session and invalidates relevant cached state on actual events. Backend events cover detection, transitions, evidence/tool completion, diagnosis, proposals, settings/permission changes, and recovery observations/results. State fetches provide reconnection synchronization; periodic REST refetch is a fallback.
 
 Validation failures use 422; missing resources 404; unauthenticated requests 401; denied resource/origin operations 403; stale/duplicate approvals 409; unavailable Docker logs/revalidation 503; rate limits 429. API rate limiting is process-local (180 requests/minute/IP and 5 login attempts/minute/IP), designed for the localhost installation.
+
+## Continuous quality feedback
+
+Authenticated GET `/api/v1/lab/quality` reviews the latest two persisted evaluations
+per known scenario. It returns an overall status, failure/regression/evidence counts,
+scenario assessments, current/baseline references, measured latency changes and
+actionable explanations. Missing or incompatible evidence remains explicit; this is
+a read-only report, not a remediation or live-health endpoint. The CLI and dashboard
+use the same comparison rules. See [Phase 3](continuous-improvement.md).

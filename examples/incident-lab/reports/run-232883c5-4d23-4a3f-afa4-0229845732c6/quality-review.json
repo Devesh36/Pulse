@@ -1,0 +1,203 @@
+{
+  "generated_at": 1791617628.85449,
+  "status": "INSUFFICIENT_EVIDENCE",
+  "summary": {
+    "scenario_count": 6,
+    "failed": 0,
+    "regressed": 0,
+    "needs_evidence": 5
+  },
+  "scenarios": [
+    {
+      "scenario": "telemetry-loss",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "issues": [
+        {
+          "code": "missing_context",
+          "explanation": "Evaluation settings or suite version are unavailable.",
+          "follow_up": "Run the current evaluator to record comparable settings; preserve this historical report."
+        },
+        {
+          "code": "missing_run",
+          "explanation": "No evaluation run identity was recorded.",
+          "follow_up": "Run the current evaluator; do not infer a baseline from file names."
+        },
+        {
+          "code": "invalid_timestamps",
+          "explanation": "Evaluation timestamps are missing, reversed or in the future.",
+          "follow_up": "Check the evaluator clock and record a completed, ordered run."
+        },
+        {
+          "code": "verification_missing",
+          "explanation": "An expected or observed verification verdict is unavailable.",
+          "follow_up": "Record the scenario's expected outcome and completed verification evidence."
+        },
+        {
+          "code": "time_to_diagnosis_seconds",
+          "explanation": "A required latency measurement is unavailable or invalid.",
+          "follow_up": "Record measured detection and diagnosis timestamps; never substitute zero."
+        },
+        {
+          "code": "detection_target",
+          "explanation": "A configured detection deadline is unavailable.",
+          "follow_up": "Record the scenario fixture's original detection deadline."
+        },
+        {
+          "code": "healthy_baseline",
+          "explanation": "Healthy baseline exposure or false-positive measurements are missing.",
+          "follow_up": "Record at least fourteen seconds of healthy baseline exposure before injecting a fault."
+        }
+      ],
+      "comparison": "INCOMPARABLE",
+      "comparison_reason": "Settings, suite, targets or reasoning mode differ, or run identity/time ordering is unavailable. Record a new compatible baseline.",
+      "latency_changes": [],
+      "current": {
+        "id": "f96d20f8-60dc-467d-9db8-55edeac4f0c8",
+        "at": 1791558335.191473,
+        "run_id": null,
+        "mode": "mock-model",
+        "verdict": "RECOVERED"
+      },
+      "baseline": {
+        "id": "08c3003d-65f2-488d-a0bd-f1a1ba1201a1",
+        "at": 1791557769.3392365,
+        "run_id": null,
+        "mode": "mock-model",
+        "verdict": "RECOVERED"
+      }
+    },
+    {
+      "scenario": "container-crash",
+      "status": "PASS",
+      "issues": [],
+      "comparison": "STABLE",
+      "comparison_reason": "Both compatible evaluations passed; no latency change exceeded the review threshold.",
+      "latency_changes": [
+        {
+          "metric": "detection_latency_seconds",
+          "baseline_seconds": 4.520956993103027,
+          "current_seconds": 3.4744162559509277,
+          "delta_seconds": -1.0465407371520996,
+          "threshold_seconds": 1.1302392482757568,
+          "direction": "STABLE"
+        },
+        {
+          "metric": "time_to_diagnosis_seconds",
+          "baseline_seconds": 0.28554201126098633,
+          "current_seconds": 0.3191337585449219,
+          "delta_seconds": 0.03359174728393555,
+          "threshold_seconds": 1.0,
+          "direction": "STABLE"
+        }
+      ],
+      "current": {
+        "id": "ec78a8ab-eee5-4512-99ae-b122e403b30f",
+        "at": 1791617571.7288504,
+        "run_id": "232883c5-4d23-4a3f-afa4-0229845732c6",
+        "mode": "mock-model",
+        "verdict": "RECOVERED"
+      },
+      "baseline": {
+        "id": "b55f9a40-ebe5-4487-be1c-cc7586b0b7ff",
+        "at": 1791617301.4002728,
+        "run_id": "136bf12f-e514-4a72-bc37-c42c683531a1",
+        "mode": "mock-model",
+        "verdict": "RECOVERED"
+      }
+    },
+    {
+      "scenario": "memory-pressure",
+      "status": "PASS",
+      "issues": [],
+      "comparison": "INCOMPARABLE",
+      "comparison_reason": "Settings, suite, targets or reasoning mode differ, or run identity/time ordering is unavailable. Record a new compatible baseline.",
+      "latency_changes": [],
+      "current": {
+        "id": "2fa954a5-050c-4a76-9dc5-b96a36d222a2",
+        "at": 1791617336.321125,
+        "run_id": "136bf12f-e514-4a72-bc37-c42c683531a1",
+        "mode": "mock-model",
+        "verdict": "RECOVERED"
+      },
+      "baseline": {
+        "id": "15bf6189-0a6d-4bc1-a9bc-e3c37c3cbc07",
+        "at": 1791557905.039996,
+        "run_id": null,
+        "mode": "mock-model",
+        "verdict": "RECOVERED"
+      }
+    },
+    {
+      "scenario": "api-failure",
+      "status": "PASS",
+      "issues": [],
+      "comparison": "INCOMPARABLE",
+      "comparison_reason": "Settings, suite, targets or reasoning mode differ, or run identity/time ordering is unavailable. Record a new compatible baseline.",
+      "latency_changes": [],
+      "current": {
+        "id": "9ad55aff-3a5c-4202-9405-a504178a05b4",
+        "at": 1791617381.453465,
+        "run_id": "136bf12f-e514-4a72-bc37-c42c683531a1",
+        "mode": "mock-model",
+        "verdict": "RECOVERED"
+      },
+      "baseline": {
+        "id": "42c1c73b-fddc-435c-8518-3d8ce95220cc",
+        "at": 1791558193.2600944,
+        "run_id": null,
+        "mode": "mock-model",
+        "verdict": "RECOVERED"
+      }
+    },
+    {
+      "scenario": "slow-response",
+      "status": "PASS",
+      "issues": [],
+      "comparison": "INCOMPARABLE",
+      "comparison_reason": "Settings, suite, targets or reasoning mode differ, or run identity/time ordering is unavailable. Record a new compatible baseline.",
+      "latency_changes": [],
+      "current": {
+        "id": "98e5f041-96d0-43b9-80fd-8f754c2a3236",
+        "at": 1791617430.6901307,
+        "run_id": "136bf12f-e514-4a72-bc37-c42c683531a1",
+        "mode": "mock-model",
+        "verdict": "RECOVERED"
+      },
+      "baseline": {
+        "id": "1f9d7de7-5bda-4b1d-9b3c-85edd5680501",
+        "at": 1791557993.2961316,
+        "run_id": null,
+        "mode": "mock-model",
+        "verdict": "RECOVERED"
+      }
+    },
+    {
+      "scenario": "recovery-verification",
+      "status": "PASS",
+      "issues": [],
+      "comparison": "INCOMPARABLE",
+      "comparison_reason": "Settings, suite, targets or reasoning mode differ, or run identity/time ordering is unavailable. Record a new compatible baseline.",
+      "latency_changes": [],
+      "current": {
+        "id": "fb70ac31-a3e2-4039-9139-c15ac0cf6c36",
+        "at": 1791617485.7158887,
+        "run_id": "136bf12f-e514-4a72-bc37-c42c683531a1",
+        "mode": "mock-model",
+        "verdict": "NOT_RECOVERED"
+      },
+      "baseline": {
+        "id": "e47d793d-a9c9-492c-8170-a1ae27ce6fed",
+        "at": 1791558248.6664574,
+        "run_id": null,
+        "mode": "mock-model",
+        "verdict": "NOT_RECOVERED"
+      }
+    }
+  ],
+  "limitations": [
+    "Reviews describe recorded lab evaluations, not current service health or live-model accuracy.",
+    "Missing scenarios or incompatible baselines prevent a complete-suite improvement claim.",
+    "Latency thresholds are review heuristics; two runs do not prove a statistical performance change.",
+    "Follow-up work is advisory. No settings, approvals or resources are modified."
+  ]
+}

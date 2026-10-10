@@ -1,0 +1,156 @@
+{
+  "generated_at": 1791617844.8161664,
+  "status": "INSUFFICIENT_EVIDENCE",
+  "summary": {
+    "scenario_count": 6,
+    "failed": 0,
+    "regressed": 0,
+    "needs_evidence": 6
+  },
+  "scenarios": [
+    {
+      "scenario": "telemetry-loss",
+      "status": "INSUFFICIENT_EVIDENCE",
+      "issues": [
+        {
+          "code": "invalid_timestamps",
+          "explanation": "Evaluation timestamps are missing, reversed or in the future.",
+          "follow_up": "Check the evaluator clock and record a completed, ordered run."
+        }
+      ],
+      "comparison": "INCOMPARABLE",
+      "comparison_reason": "Settings, suite, targets or reasoning mode differ, or run identity/time ordering is unavailable. Record a new compatible baseline.",
+      "latency_changes": [],
+      "current": {
+        "id": "62edb682-f1e4-42fa-be69-d8660537f3ef",
+        "at": 1791617844.630395,
+        "run_id": "cd77b647-1ef6-46e9-ba51-2b528da7ab2e",
+        "mode": "mock-model",
+        "verdict": "RECOVERED"
+      },
+      "baseline": {
+        "id": "f96d20f8-60dc-467d-9db8-55edeac4f0c8",
+        "at": 1791558335.191473,
+        "run_id": null,
+        "mode": "mock-model",
+        "verdict": "RECOVERED"
+      }
+    },
+    {
+      "scenario": "container-crash",
+      "status": "PASS",
+      "issues": [],
+      "comparison": "INCOMPARABLE",
+      "comparison_reason": "Settings, suite, targets or reasoning mode differ, or run identity/time ordering is unavailable. Record a new compatible baseline.",
+      "latency_changes": [],
+      "current": {
+        "id": "419c9cb7-4585-423e-b6b8-f9d2fafe6f3b",
+        "at": 1791617663.9315405,
+        "run_id": "cd77b647-1ef6-46e9-ba51-2b528da7ab2e",
+        "mode": "mock-model",
+        "verdict": "RECOVERED"
+      },
+      "baseline": {
+        "id": "ec78a8ab-eee5-4512-99ae-b122e403b30f",
+        "at": 1791617571.7288504,
+        "run_id": "232883c5-4d23-4a3f-afa4-0229845732c6",
+        "mode": "mock-model",
+        "verdict": "RECOVERED"
+      }
+    },
+    {
+      "scenario": "memory-pressure",
+      "status": "PASS",
+      "issues": [],
+      "comparison": "INCOMPARABLE",
+      "comparison_reason": "Settings, suite, targets or reasoning mode differ, or run identity/time ordering is unavailable. Record a new compatible baseline.",
+      "latency_changes": [],
+      "current": {
+        "id": "2fa954a5-050c-4a76-9dc5-b96a36d222a2",
+        "at": 1791617336.321125,
+        "run_id": "136bf12f-e514-4a72-bc37-c42c683531a1",
+        "mode": "mock-model",
+        "verdict": "RECOVERED"
+      },
+      "baseline": {
+        "id": "15bf6189-0a6d-4bc1-a9bc-e3c37c3cbc07",
+        "at": 1791557905.039996,
+        "run_id": null,
+        "mode": "mock-model",
+        "verdict": "RECOVERED"
+      }
+    },
+    {
+      "scenario": "api-failure",
+      "status": "PASS",
+      "issues": [],
+      "comparison": "INCOMPARABLE",
+      "comparison_reason": "Settings, suite, targets or reasoning mode differ, or run identity/time ordering is unavailable. Record a new compatible baseline.",
+      "latency_changes": [],
+      "current": {
+        "id": "af49eb65-3319-4ffb-a18c-594498931c53",
+        "at": 1791617707.0524523,
+        "run_id": "cd77b647-1ef6-46e9-ba51-2b528da7ab2e",
+        "mode": "mock-model",
+        "verdict": "RECOVERED"
+      },
+      "baseline": {
+        "id": "9ad55aff-3a5c-4202-9405-a504178a05b4",
+        "at": 1791617381.453465,
+        "run_id": "136bf12f-e514-4a72-bc37-c42c683531a1",
+        "mode": "mock-model",
+        "verdict": "RECOVERED"
+      }
+    },
+    {
+      "scenario": "slow-response",
+      "status": "PASS",
+      "issues": [],
+      "comparison": "INCOMPARABLE",
+      "comparison_reason": "Settings, suite, targets or reasoning mode differ, or run identity/time ordering is unavailable. Record a new compatible baseline.",
+      "latency_changes": [],
+      "current": {
+        "id": "98e5f041-96d0-43b9-80fd-8f754c2a3236",
+        "at": 1791617430.6901307,
+        "run_id": "136bf12f-e514-4a72-bc37-c42c683531a1",
+        "mode": "mock-model",
+        "verdict": "RECOVERED"
+      },
+      "baseline": {
+        "id": "1f9d7de7-5bda-4b1d-9b3c-85edd5680501",
+        "at": 1791557993.2961316,
+        "run_id": null,
+        "mode": "mock-model",
+        "verdict": "RECOVERED"
+      }
+    },
+    {
+      "scenario": "recovery-verification",
+      "status": "PASS",
+      "issues": [],
+      "comparison": "INCOMPARABLE",
+      "comparison_reason": "Settings, suite, targets or reasoning mode differ, or run identity/time ordering is unavailable. Record a new compatible baseline.",
+      "latency_changes": [],
+      "current": {
+        "id": "abbb5786-2fcf-47a0-88f6-81c7df3c798f",
+        "at": 1791617762.3927774,
+        "run_id": "cd77b647-1ef6-46e9-ba51-2b528da7ab2e",
+        "mode": "mock-model",
+        "verdict": "NOT_RECOVERED"
+      },
+      "baseline": {
+        "id": "fb70ac31-a3e2-4039-9139-c15ac0cf6c36",
+        "at": 1791617485.7158887,
+        "run_id": "136bf12f-e514-4a72-bc37-c42c683531a1",
+        "mode": "mock-model",
+        "verdict": "NOT_RECOVERED"
+      }
+    }
+  ],
+  "limitations": [
+    "Reviews describe recorded lab evaluations, not current service health or live-model accuracy.",
+    "Missing scenarios or incompatible baselines prevent a complete-suite improvement claim.",
+    "Latency thresholds are review heuristics; two runs do not prove a statistical performance change.",
+    "Follow-up work is advisory. No settings, approvals or resources are modified."
+  ]
+}

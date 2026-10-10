@@ -107,6 +107,26 @@ workloads. Teardown deletes the disposable lab history while retaining host repo
 See [run instructions](examples/incident-lab/README.md), [evaluation methodology](docs/evaluation-methodology.md),
 and [actual Phase 2 results](docs/phase2-results.md). Deterministic/mock results are not live-model accuracy.
 
+## Phase 3: continuous quality feedback
+
+Type **quality / 7** in `pulse repl` to review retained measurements without starting
+or changing the lab. The local Incident Lab dashboard shows current evaluation
+failures, compatible-baseline comparisons and actionable follow-up steps.
+
+```bash
+pulse lab quality
+pulse lab quality --reports-dir examples/incident-lab/reports --format json
+pulse lab quality --reports-dir examples/incident-lab/reports --fail-on-regression
+```
+
+New runs preserve prior reports in unique folders and record settings, reasoning
+mode, timestamps and run identity. Missing evidence, replayed runs or changed settings
+cannot establish improvement. Expected ineffective remediation remains a valid
+NOT_RECOVERED test; missing evidence cannot conceal an observed failure. The weekly
+lab workflow exports a read-only quality review with its artifact. See
+[comparison rules, gates and the improvement loop](docs/continuous-improvement.md).
+Local checks and measured outcomes are recorded in [Phase 3 results](docs/phase3-results.md).
+
 ## What is implemented
 
 - Label-scoped Docker discovery; container state, health-check output, exit/OOM metadata, restart counts, deployment labels, bounded logs, real CPU and memory measurements.

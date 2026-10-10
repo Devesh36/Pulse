@@ -31,7 +31,7 @@ def mock_mode():
 class PulseRepl(cmd.Cmd):
     prompt = "pulse › "
     intro = "\nPulse — evidence before action.\nType demo for a guided real lab run, help for commands, or exit.\n"
-    MENU = "1 / demo       Guided crash → investigation → approved recovery\n2 / telemetry  Missing evidence → inconclusive → restored recovery\n3 / dashboard  Open the local incident workspace\n4 / status     Check the lab\n5 / reports    Show the latest measured results\n6 / stop       Stop the lab; keep its data\n0 / exit       Leave the REPL"
+    MENU = "1 / demo       Guided crash → investigation → approved recovery\n2 / telemetry  Missing evidence → inconclusive → restored recovery\n3 / dashboard  Open the local incident workspace\n4 / status     Check the lab\n5 / reports    Show the latest measured results\n6 / stop       Stop the lab; keep its data\n7 / quality    Review retained results and improvement steps\n0 / exit       Leave the REPL"
 
     def preloop(self):
         self.stdout.write(self.MENU + "\n\n")
@@ -44,6 +44,7 @@ class PulseRepl(cmd.Cmd):
             "4": "status",
             "5": "reports",
             "6": "stop",
+            "7": "quality",
             "0": "exit",
         }
         return aliases.get(line.strip(), line.lower())
@@ -208,10 +209,8 @@ class PulseRepl(cmd.Cmd):
         """Show the most recent measured evaluation, including failure reasons."""
         from pulse.lab.cli import LAB
 
-        candidates = (
-            list((LAB / "reports").glob("verification-*/summary.json"))
-            + list((LAB / "reports").glob("evaluation-summary.json"))
-            + list((LAB / "reports").glob("demo-*/evaluation-summary.json"))
+        candidates = list((LAB / "reports").glob("verification-*/summary.json")) + list(
+            (LAB / "reports").rglob("evaluation-summary.json")
         )
         if not candidates:
             self.stdout.write("No demo report yet. Type demo or telemetry.\n")
@@ -241,6 +240,19 @@ class PulseRepl(cmd.Cmd):
                     "Initial INCONCLUSIVE: " + details["inconclusive_verification"]["reason"] + "\n"
                 )
         self.stdout.write(f"Full evidence: {path}\n")
+
+    def do_quality(self, arg):
+        """Review retained lab measurements offline; never start or change the lab."""
+        from pulse.lab.cli import LAB
+        from pulse.lab.quality import from_reports, markdown
+
+        try:
+            review = from_reports(LAB / "reports")
+            self.stdout.write(markdown(review))
+        except (RuntimeError, OSError) as error:
+            self.stdout.write(
+                f"Quality review unavailable: {type(error).__name__}. Inspect retained reports locally.\n"
+            )
 
     def do_stop(self, arg):
         """Stop only the lab; retain volumes and reports."""

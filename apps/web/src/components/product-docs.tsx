@@ -39,6 +39,10 @@ const commands = [
     "stop / 6",
     "Confirm and stop the lab; keep credentials, volumes, database and reports.",
   ],
+  [
+    "quality / 7",
+    "Review retained evaluations, comparable baselines and actionable regression flags without starting or changing the lab.",
+  ],
   ["exit / 0", "Leave the REPL. Running lab services stay available."],
 ];
 
