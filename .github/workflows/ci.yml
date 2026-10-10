@@ -35,6 +35,12 @@ jobs:
         run: npm run build:site --prefix apps/web
         env:
           NEXT_TELEMETRY_DISABLED: '1'
+      - name: Vercel default build also excludes operational routes
+        run: npm run build --prefix apps/web && node apps/web/scripts/check-site.mjs
+        env:
+          VERCEL: '1'
+          PULSE_PUBLIC_SITE: '0'
+          NEXT_TELEMETRY_DISABLED: '1'
       - name: Compose and migration validation
         run: |
           uv run --no-sync python scripts/setup-env.py

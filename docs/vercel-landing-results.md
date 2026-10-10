@@ -106,3 +106,69 @@ and schema hosts were denied by the environment's network policy; the installed
 Vercel CLI accepted and exercised the configuration locally. Database migrations,
 backend integration suites and incident scenarios were not rerun for this
 frontend-only increment. No databases, reports or credentials were deleted or changed.
+
+## 2026-10-10: standalone import and default Vercel build
+
+Investigation of the reported public-site mismatch established the following:
+
+- `git ls-remote --heads origin main work` confirmed `main` at
+  `3b04a551cfb5d487afcf12c1cff0ac338ce8c841`, and the previously pushed website on
+  `work` at `c638bdc1f8184b5146d5ff8ab3332731bcee1c2b`.
+- `git show 3b04a551cfb5d487afcf12c1cff0ac338ce8c841:apps/web/src/app/page.tsx`
+  showed `return <Dashboard view="overview" />`. That branch has no landing-page
+  component or public build script. The earlier import screenshot selected `main`.
+- A request to `https://web-nine-delta-xhemr4gt8b.vercel.app/` was blocked by the
+  environment proxy: CONNECT returned 403, curl exited 56 and reported HTTP `000`.
+  This is an environment access denial, not a response from the deployed website.
+  The live page and its deployed commit could not be inspected.
+- No Vercel credential or linked project was available. Private project settings
+  and deployment logs were not read or changed.
+
+The follow-up adds `apps/web/vercel.json`, so standalone imports automatically
+select the public build/install commands. `VERCEL=1` now independently selects
+the public route profile, including when Vercel uses the default build command.
+CI checks that behavior with `PULSE_PUBLIC_SITE=0`. The guide explains which
+branch contains the website and both supported root directory choices.
+
+| Follow-up command | Result |
+| --- | --- |
+| `VERCEL=1 PULSE_PUBLIC_SITE=0 NEXT_TELEMETRY_DISABLED=1 npm run build --prefix apps/web` | Passed; default Vercel build contains only `/`, `/docs` and framework error handling. |
+| `node apps/web/scripts/check-site.mjs` | Passed against that manifest. |
+| `npm run typecheck --prefix apps/web` | Passed. |
+| `npm run format:check --prefix apps/web` | Passed. |
+| `PORT=3200 NEXT_TELEMETRY_DISABLED=1 npm run start --prefix apps/web` | Automatic Vercel-profile production server started. |
+| `cd apps/web && node scripts/check-site.mjs http://127.0.0.1:3200` | Passed; public pages/screenshots load and all eight operational/API paths return 404. |
+| `python /workspace/pulse-standalone-import-check.py` | Passed; frontend Vercel configuration and real HTTP behavior checked in standalone mode, with the parent Services configuration restored afterward. |
+| `VERCEL=0 PULSE_PUBLIC_SITE=0 NEXT_TELEMETRY_DISABLED=1 npm run build --prefix apps/web` | Passed; normal local dashboard, lab and API proxy remain compiled. |
+| `NEXT_TELEMETRY_DISABLED=1 npm run build:site --prefix apps/web` | Passed; explicit public profile still compiles only the public routes. |
+| `cd apps/web && npx --no-install prettier --check vercel.json` | Passed. |
+| `git diff --check` | Passed. |
+
+The normal-build manifest was checked with this command from `apps/web`:
+
+```bash
+node --input-type=module -e 'import assert from "node:assert/strict"; import { readFile } from "node:fs/promises"; const routes = JSON.parse(await readFile(".next/server/app-paths-manifest.json")); for (const path of ["/dashboard/page", "/lab/page", "/api/[...path]/route", "/page", "/docs/page"]) assert.ok(path in routes, path); console.log("PASS: normal local build retains the operational product.");'
+```
+
+The standalone helper launches this command from `apps/web`, with the same XDG,
+proxy and telemetry settings used above:
+
+```bash
+/workspace/.cache/npm/_npx/cf16195db335a816/node_modules/.bin/vercel \
+  dev --local --local-config /workspace/Pulse/apps/web/vercel.json \
+  --listen 127.0.0.1:3199 --non-interactive
+```
+
+The unlinked CLI initially ascended to the parent repository's Services project;
+forcing the frontend configuration there served a directory listing and the HTTP
+assertion failed. The helper isolates the standalone configuration by temporarily
+moving only the parent `vercel.json`, then restores it in `finally` after stopping
+the test process. In standalone mode the CLI ran `dev:site`, and the full HTTP
+check passed. An initial helper backup under `/tmp` failed with a cross-filesystem
+rename; using a backup in the same directory resolved that setup issue.
+
+These measurements verify local production and standalone import behavior. They
+do not establish which commit the inaccessible live URL serves. Switching the
+Vercel deployment to the website branch is still required if it currently uses
+the old `main` commit. No main-branch merge, cloud deployment or project-settings
+mutation was performed. No Docker stack, database or incident engine was changed.

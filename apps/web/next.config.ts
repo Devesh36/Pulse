@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
-const siteOnly = process.env.PULSE_PUBLIC_SITE === "1";
+// Vercel hosts the public website. The operational product runs locally.
+const siteOnly =
+  process.env.VERCEL === "1" || process.env.PULSE_PUBLIC_SITE === "1";
 const config: NextConfig = {
   output: "standalone",
   ...(siteOnly ? { pageExtensions: ["site.tsx"] } : {}),
