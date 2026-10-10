@@ -23,6 +23,8 @@ import { ProductNav } from "./product-nav";
 import { ProductScreenshots } from "./product-screenshots";
 
 const repository = "https://github.com/Devesh36/Pulse/tree/work";
+const pulseTrace =
+  "M0 66H70q8-12 16 0h28l7 9 9-52 11 73 9-30h18q12-24 24 0h59q8-12 16 0h28l7 9 9-52 11 73 9-30h18q12-24 24 0H480";
 const installs = {
   uv: "uv tool install --from git+https://github.com/Devesh36/Pulse.git@work pulse-sre\npulse repl",
   brew: "curl -fsSL https://raw.githubusercontent.com/Devesh36/Pulse/work/scripts/install-homebrew.sh | bash\npulse repl",
@@ -261,19 +263,22 @@ export function Landing({ siteOnly = false }: { siteOnly?: boolean }) {
           </div>
           <div className={styles.signal} aria-hidden="true">
             <svg viewBox="0 0 480 110">
-              <defs>
-                <linearGradient id="pulse-signal">
-                  <stop stopColor="#42575d" />
-                  <stop offset=".5" stopColor="#8ceccb" />
-                  <stop offset="1" stopColor="#42575d" />
-                </linearGradient>
-              </defs>
               <path
-                d="M0 64H125l12-13 11 13h17l16-45 22 76 20-50 13 19h244"
+                className={styles.signalBaseline}
+                d={pulseTrace}
                 fill="none"
-                stroke="url(#pulse-signal)"
-                strokeWidth="3"
+                strokeWidth="2"
                 strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                className={styles.signalTrace}
+                d={pulseTrace}
+                pathLength="1"
+                fill="none"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
             <span className={styles.signalDot} />
