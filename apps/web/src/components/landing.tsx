@@ -216,11 +216,11 @@ function Walkthrough() {
   );
 }
 
-export function Landing() {
+export function Landing({ siteOnly = false }: { siteOnly?: boolean }) {
   return (
     <main className={styles.page}>
       <div className={styles.gridGlow} aria-hidden="true" />
-      <ProductNav />
+      <ProductNav siteOnly={siteOnly} />
       <section className={styles.hero}>
         <div className={styles.heroCopy}>
           <div className={styles.eyebrow}>

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Activity, ArrowRight } from "lucide-react";
 import styles from "./landing.module.css";
 
-export function ProductNav() {
+export function ProductNav({ siteOnly = false }: { siteOnly?: boolean }) {
   return (
     <nav className={styles.nav} aria-label="Product navigation">
       <Link href="/" className={styles.brand} aria-label="Pulse home">
@@ -15,8 +15,11 @@ export function ProductNav() {
         <Link href="/docs">Docs</Link>
         <Link href="/#about">About</Link>
       </div>
-      <Link href="/dashboard" className={styles.workspaceLink}>
-        Open workspace <ArrowRight size={15} />
+      <Link
+        href={siteOnly ? "/#get-started" : "/dashboard"}
+        className={styles.workspaceLink}
+      >
+        {siteOnly ? "Install Pulse" : "Open workspace"} <ArrowRight size={15} />
       </Link>
     </nav>
   );

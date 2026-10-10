@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev --hostname 127.0.0.1",
     "build": "next build",
+    "build:site": "node scripts/site.mjs build && node scripts/check-site.mjs",
+    "dev:site": "node scripts/site.mjs dev",
     "start": "node scripts/start.mjs",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write src next.config.ts",

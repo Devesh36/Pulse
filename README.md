@@ -36,9 +36,14 @@ and troubleshooting, with full-size product screenshots. **About** on the landin
 page describes the product, architecture and approval model.
 
 - [Install and use Pulse](docs/getting-started.md)
+- [Deploy the landing page and Docs on Vercel](docs/vercel-landing.md)
 - [Architecture](docs/architecture.md) and [API reference](docs/api.md)
 - [Recovery verification](docs/recovery-verification.md) and [real telemetry-loss results](docs/verification-telemetry-results.md)
 - [Security and approvals](docs/security.md) and [troubleshooting](docs/troubleshooting.md)
+
+The Vercel configuration builds only the public Next.js landing page, Docs and
+screenshots. It excludes the dashboard and API routes. The full product continues
+to run locally through Docker and the REPL.
 
 ## Quick start
 

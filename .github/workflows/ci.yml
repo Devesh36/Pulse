@@ -31,6 +31,10 @@ jobs:
       - run: npm ci --prefix apps/web && npm run format:check --prefix apps/web && npm run typecheck --prefix apps/web && npm run build --prefix apps/web
         env:
           NEXT_TELEMETRY_DISABLED: '1'
+      - name: Public website excludes dashboard and API routes
+        run: npm run build:site --prefix apps/web
+        env:
+          NEXT_TELEMETRY_DISABLED: '1'
       - name: Compose and migration validation
         run: |
           uv run --no-sync python scripts/setup-env.py

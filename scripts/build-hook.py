@@ -28,6 +28,8 @@ class CustomBuildHook(BuildHookInterface):
             "apps/web/postcss.config.mjs",
             "apps/web/next-env.d.ts",
             "apps/web/scripts/start.mjs",
+            "apps/web/scripts/site.mjs",
+            "apps/web/scripts/check-site.mjs",
             "examples/incident-lab/docker-compose.yml",
             "examples/incident-lab/services/Dockerfile",
         ]
